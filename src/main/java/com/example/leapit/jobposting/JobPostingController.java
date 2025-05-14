@@ -2,7 +2,6 @@ package com.example.leapit.jobposting;
 
 import com.example.leapit._core.util.Resp;
 import com.example.leapit.user.User;
-import com.example.leapit.user.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class JobPostingController {
     private final JobPostingService jobPostingService;
-    private final UserRepository userRepository;
 
     private final HttpSession session;
 
-    @PostMapping("/company/jobposting/save")
+    @PostMapping("/company/jobposting")
     public ResponseEntity<?> save(@Valid @RequestBody JobPostingRequest.SaveDTO saveDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         JobPostingRequest.SaveDTO reqDTO = jobPostingService.save(saveDTO, sessionUser);
