@@ -22,8 +22,6 @@ public class JobPostingController {
 
     @PostMapping("/company/jobposting/save")
     public ResponseEntity<?> save(@Valid @RequestBody JobPostingRequest.SaveDTO saveDTO, Errors errors) {
-        User user = userRepository.findByUsername("company01");
-        session.setAttribute("sessionUser", user);
         User sessionUser = (User) session.getAttribute("sessionUser");
         JobPostingRequest.SaveDTO reqDTO = jobPostingService.save(saveDTO, sessionUser);
         return Resp.ok(reqDTO);
