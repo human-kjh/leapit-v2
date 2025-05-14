@@ -1,20 +1,20 @@
 -- 1. user_tb
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('ssar', '1234', 'ssar@nate.com', '010-1234-5678', 'PERSONAL', NOW(), '쌀', '2000-01-01');
+VALUES ('ssar', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'ssar@nate.com', '010-1234-5678', 'PERSONAL', NOW(), '쌀', '2000-01-01');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('cos', '1234', 'cos@nate.com', '010-2345-6789', 'PERSONAL', NOW(), '코스', '1999-12-31');
+VALUES ('cos', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'cos@nate.com', '010-2345-6789', 'PERSONAL', NOW(), '코스', '1999-12-31');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('love', '1234', 'love@nate.com', '010-3456-6709', 'PERSONAL', NOW(), '러브', '1999-10-25');
+VALUES ('love', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'love@nate.com', '010-3456-6709', 'PERSONAL', NOW(), '러브', '1999-10-25');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('hana', '1234', 'hana@nate.com', '010-4567-7890', 'PERSONAL', NOW(), '김하나', '2001-03-14');
+VALUES ('hana', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'hana@nate.com', '010-4567-7890', 'PERSONAL', NOW(), '김하나', '2001-03-14');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('minsu', '1234', 'minsu@nate.com', '010-5678-8901', 'PERSONAL', NOW(), '박민수', '1998-07-22');
+VALUES ('minsu', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'minsu@nate.com', '010-5678-8901', 'PERSONAL', NOW(), '박민수', '1998-07-22');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at)
-VALUES ('company01', '1234', 'company01@nate.com', '02-1234-5678', 'COMPANY', NOW());
+VALUES ('company01', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company01@nate.com', '02-1234-5678', 'COMPANY', NOW());
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at)
-VALUES ('company02', '1234', 'company02@nate.com', '02-2345-6789', 'COMPANY', NOW());
+VALUES ('company02', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company02@nate.com', '02-2345-6789', 'COMPANY', NOW());
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at)
-VALUES ('company03', '1234', 'company03@nate.com', '02-3456-7890', 'COMPANY', NOW());
+VALUES ('company03', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company03@nate.com', '02-3456-7890', 'COMPANY', NOW());
 
 -- 2.1 position_type_tb
 INSERT INTO position_type_tb (code)
@@ -53,18 +53,18 @@ INSERT INTO tech_stack_tb (code)
 VALUES ('Django');
 
 -- 2. resume_tb
-INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, is_public, created_at)
-VALUES (1, '쌀의 이력서', NULL, '자바 개발자입니다', '백엔드', '적극적이고 성실합니다', false, now());
-INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, is_public, created_at)
-VALUES (1, '쌀의 이력서2', '이력서 사진4.png', '프론트엔드 자신 있습니다', '프론트엔드', '디자인 감각도 좋아요', true, now());
-INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, is_public, created_at)
-VALUES (2, '파이썬 이력서', '이력서 사진5.png', 'Django와 FastAPI 경험 있음', '백엔드', '데이터 파이프라인 경험', false, now());
-INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, is_public, created_at)
-VALUES (3, '풀스택 도전기', NULL, '다양한 프로젝트 수행 경험 있음', '풀스택', '매일 꾸준히 성장 중', true, now());
-INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, is_public, created_at)
-VALUES (4, '코틀린 마스터', NULL, '안드로이드 개발 경험 풍부', '모바일 앱 개발자', '성능 최적화에 관심 많습니다', true, now());
-INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, is_public, created_at)
-VALUES (5, '데이터 분석가', NULL, 'SQL과 데이터 시각화 강점', 'AI 엔지니어', '통계에 자신 있습니다', false, now());
+INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
+VALUES (1, '쌀의 이력서', NULL, '자바 개발자입니다', '백엔드', '적극적이고 성실합니다', now(), now());
+INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
+VALUES (1, '쌀의 이력서2', '이력서 사진4.png', '프론트엔드 자신 있습니다', '프론트엔드', '디자인 감각도 좋아요',now(), now());
+INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
+VALUES (2, '파이썬 이력서', '이력서 사진5.png', 'Django와 FastAPI 경험 있음', '백엔드', '데이터 파이프라인 경험', now(), now());
+INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
+VALUES (3, '풀스택 도전기', NULL, '다양한 프로젝트 수행 경험 있음', '풀스택', '매일 꾸준히 성장 중', now(), now());
+INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
+VALUES (4, '코틀린 마스터', NULL, '안드로이드 개발 경험 풍부', '모바일 앱 개발자', '성능 최적화에 관심 많습니다', now(), now());
+INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
+VALUES (5, '데이터 분석가', NULL, 'SQL과 데이터 시각화 강점', 'AI 엔지니어', '통계에 자신 있습니다', now(), now());
 
 -- 2.3 resume_tech_stack_tb
 INSERT INTO resume_tech_stack_tb (resume_id, tech_stack)
