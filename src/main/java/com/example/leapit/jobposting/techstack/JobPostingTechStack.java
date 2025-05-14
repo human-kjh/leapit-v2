@@ -3,6 +3,7 @@ package com.example.leapit.jobposting.techstack;
 import com.example.leapit.common.techstack.TechStack;
 import com.example.leapit.jobposting.JobPosting;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,9 @@ public class JobPostingTechStack {
     @JoinColumn(name = "tech_stack_code", referencedColumnName = "code") // 외래 키 설정
     private TechStack techStack;
 
+    @Builder
+    public JobPostingTechStack(JobPosting jobPosting, TechStack techStack) {
+        this.jobPosting = jobPosting;
+        this.techStack = techStack;
+    }
 }

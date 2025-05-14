@@ -5,6 +5,7 @@ import com.example.leapit.jobposting.bookmark.JobPostingBookmark;
 import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import com.example.leapit.user.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -79,4 +80,32 @@ public class JobPosting {
 
     @OneToMany(mappedBy = "jobPosting", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Application> applications;
+
+    @Builder
+    public JobPosting(Integer id, User user, String title, String positionType,
+                      Integer minCareerLevel, Integer maxCareerLevel,
+                      String educationLevel, Integer addressRegionId, Integer addressSubRegionId,
+                      String addressDetail, String serviceIntro, LocalDate deadline,
+                      String responsibility, String qualification, String preference,
+                      String benefit, String additionalInfo) {
+        this.id = id;
+        this.user = user;
+        this.title = title;
+        this.positionType = positionType;
+        this.minCareerLevel = minCareerLevel;
+        this.maxCareerLevel = maxCareerLevel;
+        this.educationLevel = educationLevel;
+        this.addressRegionId = addressRegionId;
+        this.addressSubRegionId = addressSubRegionId;
+        this.addressDetail = addressDetail;
+        this.serviceIntro = serviceIntro;
+        this.deadline = deadline;
+        this.responsibility = responsibility;
+        this.qualification = qualification;
+        this.preference = preference;
+        this.benefit = benefit;
+        this.additionalInfo = additionalInfo;
+        this.viewCount = 0;
+        this.jobPostingTechStacks = null; // 연관관계는 서비스에서 따로 설정
+    }
 }
