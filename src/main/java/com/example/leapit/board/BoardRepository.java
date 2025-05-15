@@ -8,5 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BoardRepository {
     private final EntityManager em;
+
+    public Board save(Board board) {
+        em.persist(board);
+        return board;
+    }
 }
 
