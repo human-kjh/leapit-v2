@@ -14,6 +14,7 @@ public class JwtUtil {
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 일주일
                 .withClaim("id", user.getId())
                 .withClaim("username", user.getUsername())
+                .withClaim("name", user.getName())
                 .sign(Algorithm.HMAC512("metacoding"));
         return jwt;
     }
@@ -24,6 +25,7 @@ public class JwtUtil {
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .withClaim("id", user.getId())
                 .withClaim("username", user.getUsername())
+                .withClaim("name", user.getName())
                 .sign(Algorithm.HMAC512("metacoding"));
         return jwt;
     }
@@ -32,10 +34,12 @@ public class JwtUtil {
         DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512("metacoding")).build().verify(jwt);
         int id = decodedJWT.getClaim("id").asInt();
         String username = decodedJWT.getClaim("username").asString();
+        String name = decodedJWT.getClaim("name").asString();
 
         return User.builder()
                 .id(id)
                 .username(username)
+                .name(name)
                 .build();
     }
 }
