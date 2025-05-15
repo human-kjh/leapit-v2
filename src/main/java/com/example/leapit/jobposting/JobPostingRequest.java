@@ -1,5 +1,6 @@
 package com.example.leapit.jobposting;
 
+import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import com.example.leapit.user.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -14,8 +15,10 @@ public class JobPostingRequest {
     public static class SaveDTO {
         @NotEmpty(message = "제목은 필수입니다.")
         private String title;
+
         @NotEmpty(message = "직무는 필수입니다.")
         private String positionType;
+
         private Integer minCareerLevel;
         private Integer maxCareerLevel;
         private String educationLevel;
@@ -23,20 +26,25 @@ public class JobPostingRequest {
         private Integer addressSubRegionId;
         private String addressDetail;
         private String serviceIntro;
+
         @NotNull(message = "마감일은 필수입니다.")
         private LocalDate deadline;
+
         @NotEmpty(message = "담당 업무는 필수입니다.")
         private String responsibility;
+
         @NotEmpty(message = "자격요건은 필수입니다.")
         private String qualification;
+
         private String preference;
         private String benefit;
         private String additionalInfo;
-        @NotEmpty(message = "기술스택은 필수입니다..")
+
+        @NotEmpty(message = "기술스택은 필수입니다.")
         private List<String> techStackCodes;
 
         public JobPosting toEntity(User user) {
-            return JobPosting.builder()
+            JobPosting jobPosting = JobPosting.builder()
                     .user(user)
                     .title(title)
                     .positionType(positionType)
@@ -54,6 +62,15 @@ public class JobPostingRequest {
                     .benefit(benefit)
                     .additionalInfo(additionalInfo)
                     .build();
+
+            for (String techStackCode : techStackCodes) {
+                JobPostingTechStack jpts = JobPostingTechStack.builder()
+                        .techStack(techStackCode)
+                        .jobPosting(jobPosting)
+                        .build();
+                jobPosting.getJobPostingTechStacks().add(jpts);
+            }
+            return jobPosting;
         }
     }
 }

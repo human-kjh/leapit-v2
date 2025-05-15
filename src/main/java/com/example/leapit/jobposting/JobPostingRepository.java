@@ -1,11 +1,10 @@
 package com.example.leapit.jobposting;
 
-import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -18,10 +17,8 @@ public class JobPostingRepository {
         return jobPosting;
     }
 
-    // 기술 스택 여러 개 저장
-    public void saveAllJobPostingTechStacks(List<JobPostingTechStack> techStacks) {
-        for (JobPostingTechStack techStack : techStacks) {
-            em.persist(techStack);
-        }
+    // 아이디로 채용공고 검색
+    public Optional<JobPosting> findById(Integer id) {
+        return Optional.ofNullable(em.find(JobPosting.class, id));
     }
 }

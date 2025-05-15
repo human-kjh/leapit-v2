@@ -13,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -106,6 +107,6 @@ public class JobPosting {
         this.benefit = benefit;
         this.additionalInfo = additionalInfo;
         this.viewCount = 0;
-        this.jobPostingTechStacks = null; // 연관관계는 서비스에서 따로 설정
+        this.jobPostingTechStacks = new ArrayList<>();
     }
 }
