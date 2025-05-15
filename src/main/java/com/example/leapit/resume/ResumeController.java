@@ -4,6 +4,7 @@ import com.example.leapit._core.util.Resp;
 import com.example.leapit.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,4 +28,7 @@ public class ResumeController {
         resumeService.delete(id, sessionUser.getId());
         return Resp.ok(null);
     }
+
+    @PostMapping("/s/api/personal/resume")
+    public ResponseEntity<?> save(@Valid @RequestBody R)
 }
