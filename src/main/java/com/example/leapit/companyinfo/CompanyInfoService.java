@@ -125,5 +125,15 @@ public class CompanyInfoService {
 
         return new CompanyInfoResponse.DTO(companyInfoPS);
     }
+
+    public CompanyInfoResponse.DTO UpdateAndReturn(Integer id, Integer sessionUserId) {
+        CompanyInfo companyInfoPS = companyInfoRepository.findById(id)
+                .orElseThrow(() -> new ExceptionApi404("기업정보를 찾을 수 없습니다."));
+
+        if (!companyInfoPS.getUser().getId().equals(sessionUserId)) {
+            throw new ExceptionApi403("권한이 없습니다");
+        }
+        return new CompanyInfoResponse.DTO(companyInfoPS);
+    }
 }
 

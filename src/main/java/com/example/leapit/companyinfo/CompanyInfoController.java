@@ -33,4 +33,11 @@ public class CompanyInfoController {
 
         return Resp.ok(respDTO);
     }
+
+    @GetMapping("/s/api/company/info/{id}")
+    public ResponseEntity<?> getCompanyInfoOne(@PathVariable("id") Integer id) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        CompanyInfoResponse.DTO respDTO = companyInfoService.UpdateAndReturn(id, sessionUser.getId());
+        return Resp.ok(respDTO);
+    }
 }
