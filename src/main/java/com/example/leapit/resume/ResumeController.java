@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -29,6 +30,20 @@ public class ResumeController {
         return Resp.ok(null);
     }
 
+    /*
+    public Resp<?> save(@Valid @RequestPart("dto") ResumeRequest.SaveDTO saveDTO, Errors errors,
+                        @RequestPart(value = "photoFile", required = false) MultipartFile photoFile) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) throw new ExceptionApi401("로그인 후 이용");
+
+        resumeService.save(saveDTO, photoFile, sessionUser);
+        return Resp.ok(null);
+    }
+     */
     @PostMapping("/s/api/personal/resume")
-    public ResponseEntity<?> save(@Valid @RequestBody R)
+    public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO reqDTO, Errors errors) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        ResumeResponse.DTO respDTO = resumeService.save(reqDTO, sessionUser);
+        return Resp.ok(respDTO);
+    }
 }

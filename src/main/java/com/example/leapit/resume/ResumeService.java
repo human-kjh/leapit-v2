@@ -45,5 +45,33 @@ public class ResumeService {
         // 4. 이력서 삭제
         resumeRepository.deleteById(resumeId);
     }
+
+    /*
+    @Transactional
+    public void save(ResumeRequest.SaveDTO reqDTO, User sessionUser) {
+        // 이미지
+        String uploadDir = System.getProperty("user.dir") + "/upload/";
+        try {
+            // 디렉토리 없을 경우 생성
+            Files.createDirectories(Paths.get(uploadDir));
+
+            // 대표 이미지 저장
+            if (photoUrlFile != null && !photoUrlFile.isEmpty()) {
+                String imageFilename = UUID.randomUUID() + "_" + photoUrlFile.getOriginalFilename();
+                Path imagePath = Paths.get(uploadDir + imageFilename);
+                Files.write(imagePath, photoUrlFile.getBytes());
+                saveDTO.setPhotoUrl(imageFilename);
+            }
+
+        } catch (Exception e) {
+            throw new Exception400("파일 업로드 실패");
+        }
+
+        Resume resume = reqDTO.toEntity(sessionUser);
+        Resume resumePS = resumeRepository.save(resume);
+        return new ResumeResponse.DTO(resumePS);
+    }
+     */
+
 }
 
