@@ -30,8 +30,7 @@ public class JobPostingController {
 
     @GetMapping("/s/api/company/jobposting/new")
     public ResponseEntity<?> getSaveForm() {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        JobPostingResponse.DTO respDTO = jobPostingService.getSaveForm(sessionUser.getId());
+        JobPostingResponse.SaveDTO respDTO = jobPostingService.getSaveForm();
         return Resp.ok(respDTO);
     }
 }
