@@ -1,6 +1,20 @@
 package com.example.leapit.common.enums;
 
 public enum BookmarkStatus {
-    BOOKMARKED,      // 스크랩된 항목
-    NOT_BOOKMARKED   // 스크랩되지 않은 항목
+    BOOKMARKED("스크랩됨"),
+    NOT_BOOKMARKED("스크랩안됨");
+
+    private final String label;
+
+    BookmarkStatus(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Boolean toBoolean() {
+        return this == BOOKMARKED;
+    }
 }

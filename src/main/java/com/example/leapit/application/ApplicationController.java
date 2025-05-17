@@ -12,24 +12,13 @@ public class ApplicationController {
     private final ApplicationService applicationService;
     private final HttpSession session;
 
+    // 기업 지원자현황 관리
     @GetMapping("/s/company/applicant/list")
     public String applicantList(ApplicationRequest.ApplicantListDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
-        Boolean isViewed = null;
-        if ("열람".equals(isViewedStr)) {
-            isViewed = true;
-        } else if ("미열람".equals(isViewedStr)) {
-            isViewed = false;
-        }
-
-        Boolean isBookmark = null;
-        if ("true".equals(isBookmarkStr)) isBookmark = true;
-
         ApplicationResponse.ApplicantListPageDTO respDTO =
-                applicationService.findApplicantPageWithFilters(sessionUser.getId(), reqDTO.getJobPostingId(), passStatus, isViewed, isBookmark);
-
-        request.setAttribute("models", respDTO);
+                applicationService.applicantList(sessionUser.getId(), reqDTO);
 
         return "company/applicant/list";
     }

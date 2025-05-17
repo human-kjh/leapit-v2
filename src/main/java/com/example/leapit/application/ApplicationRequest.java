@@ -1,5 +1,7 @@
 package com.example.leapit.application;
 
+import com.example.leapit.common.enums.BookmarkStatus;
+import com.example.leapit.common.enums.ViewStatus;
 import lombok.Data;
 
 public class ApplicationRequest {
@@ -9,20 +11,17 @@ public class ApplicationRequest {
         private Integer jobPostingId;
         private String jobPosition;
         private Boolean isClosed;
-        private String isViewedStr;
-        private String isBookmarkStr;
+
+        private ViewStatus viewStatus;           // enum으로 변경
+        private BookmarkStatus bookmarkStatus;   // enum으로 변경
         private String passStatus;
 
         public Boolean getIsViewed() {
-            if ("열람".equals(isViewedStr)) return true;
-            if ("미열람".equals(isViewedStr)) return false;
-            return null;
+            return viewStatus != null ? viewStatus.toBoolean() : null;
         }
 
         public Boolean getIsBookmark() {
-            if ("true".equals(isBookmarkStr)) return true;
-            if ("false".equals(isBookmarkStr)) return false;
-            return null;
+            return bookmarkStatus != null ? bookmarkStatus.toBoolean() : null;
         }
     }
 
