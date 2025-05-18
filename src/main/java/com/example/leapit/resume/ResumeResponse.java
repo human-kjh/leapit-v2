@@ -1,14 +1,22 @@
 package com.example.leapit.resume;
 
+import com.example.leapit.resume.education.Education;
+import com.example.leapit.resume.etc.Etc;
+import com.example.leapit.resume.experience.Experience;
+import com.example.leapit.resume.link.Link;
+import com.example.leapit.resume.project.Project;
+import com.example.leapit.resume.training.Training;
 import com.example.leapit.user.User;
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResumeResponse {
-    
-    /*
+
     @Data
-    public static class DTO { // TODO : 이력서 및 항목 다 보이는 형태여야 한다.
+    public static class DTO { // TODO : 이력서+항목O 유저정보X -> 업데이트 및 저장이 잘 됐는지 확인을 위함
         private Integer id;
         private String title;
         private String photoUrl;
@@ -34,6 +42,146 @@ public class ResumeResponse {
         private List<TrainingDTO> trainings;
         private List<EtcDTO> etcs;
 
+        @Data
+        public static class EducationDTO{
+            private Integer id;
+            private LocalDate graduationDate;
+            private Boolean isDropout;
+            private String educationLevel;
+            private String schoolName;
+            private String major;
+            private String gpa;
+            private String gpaScale;
+
+            public EducationDTO(Education education) {
+                this.id = education.getId();
+                this.graduationDate = education.getGraduationDate();
+                this.isDropout = education.getIsDropout();
+                this.educationLevel = education.getEducationLevel();
+                this.schoolName = education.getSchoolName();
+                this.major = education.getMajor();
+                this.gpa = education.getGpa() != null ? education.getGpa().toString() : null;
+                this.gpaScale = education.getGpaScale() != null ? education.getGpaScale().toString() : null;
+            }
+        }
+
+        @Data
+        public static class ProjectDTO{
+            private Integer id;
+            private LocalDate startDate;
+            private LocalDate endDate;
+            private Boolean isOngoing;
+            private String title;
+            private String summary;
+            private String description;
+            private String repositoryUrl;
+            private List<String> techStacks;
+
+            public ProjectDTO(Project project) {
+                this.id = project.getId();
+                this.startDate = project.getStartDate();
+                this.endDate = project.getEndDate();
+                this.isOngoing = project.getIsOngoing();
+                this.title = project.getTitle();
+                this.summary = project.getSummary();
+                this.description = project.getDescription();
+                this.repositoryUrl = project.getRepositoryUrl();
+                this.techStacks = project.getProjectTechStacks()
+                        .stream()
+                        .map(pts -> pts.getTechStack())
+                        .toList();
+            }
+        }
+
+        @Data
+        public static class ExperienceDTO{
+            private Integer id;
+            private LocalDate startDate;
+            private LocalDate endDate;
+            private Boolean isEmployed;
+            private String companyName;
+            private String summary;
+            private String position;
+            private String responsibility;
+            private List<String> techStacks;
+
+            public ExperienceDTO(Experience experience) {
+                this.id = experience.getId();
+                this.startDate = experience.getStartDate();
+                this.endDate = experience.getEndDate();
+                this.isEmployed = experience.getIsEmployed();
+                this.companyName = experience.getCompanyName();
+                this.summary = experience.getSummary();
+                this.position = experience.getPosition();
+                this.responsibility = experience.getResponsibility();
+                this.techStacks = experience.getExperienceTechStacks()
+                        .stream()
+                        .map(ets -> ets.getTechStack())
+                        .toList();
+            }
+        }
+
+        @Data
+        public static class LinkDTO{
+            private Integer id;
+            private String title;
+            private String url;
+
+            public LinkDTO(Link link) {
+                this.id = link.getId();
+                this.title = link.getTitle();
+                this.url = link.getUrl();
+            }
+        }
+
+        @Data
+        public static class TrainingDTO{
+            private Integer id;
+            private LocalDate startDate;
+            private LocalDate endDate;
+            private Boolean isOngoing;
+            private String courseName;
+            private String institutionName;
+            private String description;
+            private List<String> techStacks;
+
+            public TrainingDTO(Training training) {
+                this.id = training.getId();
+                this.startDate = training.getStartDate();
+                this.endDate = training.getEndDate();
+                this.isOngoing = training.getIsOngoing();
+                this.courseName = training.getCourseName();
+                this.institutionName = training.getInstitutionName();
+                this.description = training.getDescription();
+                this.techStacks = training.getTrainingTechStacks()
+                        .stream()
+                        .map(tts -> tts.getTechStack())
+                        .toList();
+            }
+        }
+
+        @Data
+        public static class EtcDTO{
+            private Integer id;
+            private LocalDate startDate;
+            private LocalDate endDate;
+            private Boolean hasEndDate;
+            private String title;
+            private String etcType;
+            private String institutionName;
+            private String description;
+
+            public EtcDTO(Etc etc) {
+                this.id = etc.getId();
+                this.startDate = etc.getStartDate();
+                this.endDate = etc.getEndDate();
+                this.hasEndDate = etc.getHasEndDate();
+                this.title = etc.getTitle();
+                this.etcType = etc.getEtcType();
+                this.institutionName = etc.getInstitutionName();
+                this.description = etc.getDescription();
+            }
+        }
         public DTO(Resume resume) {
             this.id = resume.getId();
             this.title = resume.getTitle();
@@ -49,19 +197,20 @@ public class ResumeResponse {
             this.selfIntroduction = resume.getSelfIntroduction();
             this.createdAt = resume.getCreatedAt().toString();
             this.updatedAt = resume.getUpdatedAt().toString();
-            this.resumeTechStacks = resume.getResumeTechStacks().stream()
-                    .map(rt -> rt.getTechStack().getCode()).toList();
-            this.educations = educations;
-            this.projects = projects;
-            this.experiences = experiences;
-            this.links = links;
-            this.trainings = trainings;
-            this.etcs = etcs;
+            this.resumeTechStacks = resume.getResumeTechStacks()
+                    .stream()
+                    .map(rt -> rt.getTechStack())
+                    .toList();
+            this.educations = resume.getEducations().stream().map(education -> new EducationDTO(education)).toList();
+            this.projects = resume.getProjects().stream().map(project -> new ProjectDTO(project)).toList();
+            this.experiences = resume.getExperiences().stream().map(experience -> new ExperienceDTO(experience)).toList();
+            this.links = resume.getLinks().stream().map(link -> new LinkDTO(link)).toList();
+            this.trainings = resume.getTrainings().stream().map(train -> new TrainingDTO(train)).toList();
+            this.etcs = resume.getEtcs().stream().map(etc -> new EtcDTO(etc)).toList();
         }
     }
-     */
 
-    // 이력서 목록 return
+    // 이력서 목록
     @Data
     public static class ListDTO{
         private List<ItemDTO> resumes; // TODO : 여기 담기는 DTO는 item이든 뭐든 해서 다르게 내가 원하는 값만 담긴 DTO로 변경해야한다. DTO는 entity 전체와 비슷하기에 불필요한 값까지 주게 된다
@@ -82,7 +231,7 @@ public class ResumeResponse {
             public ItemDTO(Resume resume) {
                 this.id = resume.getId();
                 this.title = resume.getTitle();
-                this.updatedAt = resume.getUpdatedAt().toString();
+                this.updatedAt = resume.getUpdatedAt()!= null? resume.getUpdatedAt().toString().substring(0, 16) : resume.getCreatedAt().toString().substring(0,16);
             }
         }
     }

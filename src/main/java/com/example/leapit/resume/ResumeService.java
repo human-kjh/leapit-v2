@@ -58,9 +58,8 @@ public class ResumeService {
         return new ResumeResponse.SaveDTO(sessionUser, positionTypes, techStacks);
     }
 
-    /*
     @Transactional
-    public void save(ResumeRequest.SaveDTO reqDTO, User sessionUser) {
+    public ResumeResponse.DTO save(ResumeRequest.SaveDTO reqDTO, User sessionUser) {
         // 이미지
         String uploadDir = System.getProperty("user.dir") + "/upload/";
         try {
@@ -83,7 +82,6 @@ public class ResumeService {
         Resume resumePS = resumeRepository.save(resume);
         return new ResumeResponse.DTO(resumePS);
     }
-     */
 
 }
 
