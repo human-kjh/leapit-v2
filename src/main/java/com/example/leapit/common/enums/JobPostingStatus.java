@@ -1,12 +1,13 @@
 package com.example.leapit.common.enums;
 
-public enum BookmarkStatus {
-    BOOKMARKED("스크랩됨"),
-    NOT_BOOKMARKED("스크랩안됨");
+public enum JobPostingStatus {
+    ALL("전체"),
+    OPEN("진행중"),
+    CLOSED("마감");
 
     private final String label;
 
-    BookmarkStatus(String label) {
+    JobPostingStatus(String label) {
         this.label = label;
     }
 

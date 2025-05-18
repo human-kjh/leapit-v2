@@ -1,6 +1,5 @@
 package com.example.leapit.jobposting;
 
-import com.example.leapit.application.ApplicationResponse;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,12 +11,12 @@ import java.util.List;
 public class JobPostingRepository {
     private final EntityManager em;
 
-    public List<ApplicationResponse.IsClosedDTO> findAllWithIsClosedByCompanyUserId(Integer companyUserId) {
+    // 전체 공고 조회
+    public List<JobPostingResponse.ListDTO> findAllByCompanyUserId(Integer companyUserId) {
         String jpql = """
-                    SELECT new com.example.leapit.application.ApplicationResponse$IsClosedDTO(
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
                         jpt.id,
-                        jpt.title,
-                        CASE WHEN jpt.deadline < CURRENT_DATE THEN true ELSE false END
+                        jpt.title
                     )
                     FROM JobPosting jpt
                     JOIN jpt.user u
@@ -25,7 +24,45 @@ public class JobPostingRepository {
                     ORDER BY jpt.createdAt DESC
                 """;
 
-        return em.createQuery(jpql, ApplicationResponse.IsClosedDTO.class)
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
+    }
+
+    // 진행중인 공고 조회
+    public List<JobPostingResponse.ListDTO> findOpenByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                      AND jpt.deadline >= CURRENT_DATE
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
+    }
+
+    // 마감된 공고 조회
+    public List<JobPostingResponse.ListDTO> findClosedByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                      AND jpt.deadline < CURRENT_DATE
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
                 .setParameter("companyUserId", companyUserId)
                 .getResultList();
     }

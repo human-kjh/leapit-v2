@@ -13,16 +13,5 @@ public enum ViewStatus {
     public String getLabel() {
         return label;
     }
-
-    public static ViewStatus fromLabel(String label) {
-        for (ViewStatus status : values()) {
-            if (status.label.equals(label)) return status;
-        }
-        return null;
-    }
-
-    public Boolean toBoolean() {
-        return this == VIEWED;
-    }
 }
 

@@ -1,5 +1,8 @@
 package com.example.leapit.application;
 
+import com.example.leapit.common.enums.BookmarkStatus;
+import com.example.leapit.common.enums.PassStatus;
+import com.example.leapit.common.enums.ViewStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +23,13 @@ public class ApplicationRepository {
         return query.getResultList();
     }
 
-    public List<ApplicationResponse.CompanyeApplicantDto> findAllApplicantsByFilter(
-            Integer companyUserId, Integer jobPostingId, String passStatus, Boolean isViewed, Boolean isBookmark) {
+    // 지원받은 이력서 목록 조회(필터 : 북마크여부, 열람여부, 합불여부)
+    public List<ApplicationResponse.ApplicantListDTO> findAllApplicantsByFilter(
+            Integer companyUserId,
+            Integer jobPostingId,
+            PassStatus passStatus,
+            ViewStatus viewStatus,
+            BookmarkStatus bookmarkStatus) {
 
         String sql = """
                     SELECT
@@ -32,12 +40,12 @@ public class ApplicationRepository {
                         att.applied_date AS appliedDate,
                         CASE WHEN abt.id IS NOT NULL THEN TRUE ELSE FALSE END AS isBookmarked,
                         CASE
-                            WHEN att.is_viewed = false THEN '미열람'
-                            WHEN att.is_viewed = true AND att.is_passed IS NULL THEN '열람'
-                            WHEN att.is_passed = true THEN '합격'
-                            WHEN att.is_passed = false THEN '불합격'
+                            WHEN att.view_status = 'UNVIEWED' THEN '미열람'
+                            WHEN att.view_status = 'VIEWED' AND att.pass_status = 'WAITING' THEN '열람'
+                            WHEN att.pass_status = 'PASS' THEN '합격'
+                            WHEN att.pass_status = 'FAIL' THEN '불합격'
                         END AS evaluationStatus,
-                        att.is_viewed AS isViewed
+                        att.view_status AS viewStatus
                     FROM APPLICATION_TB att
                     JOIN RESUME_TB rt ON att.resume_id = rt.id
                     JOIN USER_TB ut ON rt.user_id = ut.id
@@ -52,18 +60,20 @@ public class ApplicationRepository {
             sql += " AND jpt.id = :jobPostingId";
         }
 
-        if ("합격".equals(passStatus)) {
-            sql += " AND att.is_passed = true";
-        } else if ("불합격".equals(passStatus)) {
-            sql += " AND att.is_passed = false";
+        if (viewStatus != null) {
+            sql += " AND att.view_status = '" + viewStatus.name() + "'";
         }
 
-        if (isViewed != null) {
-            sql += " AND att.is_viewed = " + (isViewed ? "true" : "false");
+        if (passStatus != null) {
+            sql += " AND att.pass_status = '" + passStatus.name() + "'";
         }
 
-        if (Boolean.TRUE.equals(isBookmark)) {
-            sql += " AND abt.id IS NOT NULL";
+        if (bookmarkStatus != null) {
+            if (bookmarkStatus == BookmarkStatus.BOOKMARKED) {
+                sql += " AND abt.id IS NOT NULL";
+            } else if (bookmarkStatus == BookmarkStatus.NOT_BOOKMARKED) {
+                sql += " AND abt.id IS NULL";
+            }
         }
 
         sql += " ORDER BY att.applied_date DESC";
@@ -72,25 +82,33 @@ public class ApplicationRepository {
         query.setParameter("companyUserId", companyUserId);
         if (jobPostingId != null) query.setParameter("jobPostingId", jobPostingId);
 
-        List<Object[]> objects = query.getResultList();
-        List<ApplicationResponse.CompanyeApplicantDto> object = new ArrayList<>();
+        List<Object[]> resultList = query.getResultList();
+        List<ApplicationResponse.ApplicantListDTO> dtoList = new ArrayList<>();
 
-        for (Object[] obs : objects) {
-            Integer applicationId = ((int) obs[0]);
-            Integer resumeId = ((int) obs[1]);
-            String applicantName = (String) obs[2];
-            String jobTitle = (String) obs[3];
-            LocalDate appliedDate = ((java.sql.Date) obs[4]).toLocalDate();
-            Boolean isBookmarked = (Boolean) obs[5];
-            String evaluationStatus = (String) obs[6];
-            Boolean isViewedResult = (Boolean) obs[7];
+        for (Object[] row : resultList) {
+            Integer applicationId = (Integer) row[0];
+            Integer resumeId = (Integer) row[1];
+            String applicantName = (String) row[2];
+            String jobTitle = (String) row[3];
+            LocalDate appliedDate = ((java.sql.Date) row[4]).toLocalDate();
 
-            ApplicationResponse.CompanyeApplicantDto dto = new ApplicationResponse.CompanyeApplicantDto(
-                    applicationId, resumeId, applicantName, jobTitle, appliedDate,
-                    isBookmarked, evaluationStatus, isViewedResult
-            );
-            object.add(dto);
+            BookmarkStatus resultBookmarkStatus = Boolean.TRUE.equals(row[5])
+                    ? BookmarkStatus.BOOKMARKED
+                    : BookmarkStatus.NOT_BOOKMARKED;
+
+            ViewStatus resultViewStatus = ViewStatus.valueOf((String) row[7]);
+
+            dtoList.add(new ApplicationResponse.ApplicantListDTO(
+                    applicationId,
+                    resumeId,
+                    applicantName,
+                    jobTitle,
+                    appliedDate,
+                    resultBookmarkStatus,
+                    resultViewStatus
+            ));
         }
-        return object;
+        return dtoList;
     }
+
 }
