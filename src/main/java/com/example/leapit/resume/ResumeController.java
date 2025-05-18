@@ -30,16 +30,13 @@ public class ResumeController {
         return Resp.ok(null);
     }
 
-    /*
-    public Resp<?> save(@Valid @RequestPart("dto") ResumeRequest.SaveDTO saveDTO, Errors errors,
-                        @RequestPart(value = "photoFile", required = false) MultipartFile photoFile) {
+    @GetMapping("/s/api/personal/resume/new")
+    public ResponseEntity<?> getSaveForm(){
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) throw new ExceptionApi401("로그인 후 이용");
-
-        resumeService.save(saveDTO, photoFile, sessionUser);
-        return Resp.ok(null);
+        ResumeResponse.SaveDTO respDTO = resumeService.getSaveForm(sessionUser);
+        return Resp.ok(respDTO);
     }
-     */
+
     @PostMapping("/s/api/personal/resume")
     public ResponseEntity<?> save(@Valid @RequestBody ResumeRequest.SaveDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");

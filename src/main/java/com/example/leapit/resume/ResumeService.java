@@ -5,6 +5,9 @@ import com.example.leapit._core.error.ex.ExceptionApi403;
 import com.example.leapit._core.error.ex.ExceptionApi404;
 import com.example.leapit.application.Application;
 import com.example.leapit.application.ApplicationRepository;
+import com.example.leapit.common.positiontype.PositionType;
+import com.example.leapit.common.positiontype.PositionTypeRepository;
+import com.example.leapit.common.techstack.TechStackRepository;
 import com.example.leapit.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ import java.util.List;
 public class ResumeService {
     private final ResumeRepository resumeRepository;
     private final ApplicationRepository applicationRepository;
+    private final PositionTypeRepository positionTypeRepository;
+    private final TechStackRepository techStackRepository;
 
     public ResumeResponse.ListDTO getList(Integer userId) {
         List<Resume> resumes = resumeRepository.findAllByUserId(userId);
@@ -44,6 +49,13 @@ public class ResumeService {
 
         // 4. 이력서 삭제
         resumeRepository.deleteById(resumeId);
+    }
+
+    public ResumeResponse.SaveDTO getSaveForm(User sessionUser) {
+        // TODO : CareerLevel 추가
+        List<String> positionTypes = positionTypeRepository.findAll();
+        List<String> techStacks = techStackRepository.findAll();
+        return new ResumeResponse.SaveDTO(sessionUser, positionTypes, techStacks);
     }
 
     /*
