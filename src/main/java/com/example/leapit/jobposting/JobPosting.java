@@ -1,6 +1,7 @@
 package com.example.leapit.jobposting;
 
 import com.example.leapit.application.Application;
+import com.example.leapit.common.enums.CareerLevel;
 import com.example.leapit.jobposting.bookmark.JobPostingBookmark;
 import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import com.example.leapit.user.User;
@@ -34,8 +35,12 @@ public class JobPosting {
     @Column(nullable = false)
     private String positionType;
 
-    private Integer minCareerLevel;
-    private Integer maxCareerLevel;
+    @Column(nullable = false)
+    private CareerLevel minCareerLevel;
+
+    @Column(nullable = false)
+    private CareerLevel maxCareerLevel;
+
     private String educationLevel;
     private Integer addressRegionId;
     private Integer addressSubRegionId;

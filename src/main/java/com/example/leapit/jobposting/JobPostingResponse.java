@@ -1,4 +1,119 @@
 package com.example.leapit.jobposting;
 
+import com.example.leapit.common.enums.CareerLevel;
+import com.example.leapit.common.region.RegionResponse;
+import com.example.leapit.common.region.SubRegion;
+import com.example.leapit.companyinfo.CompanyInfoResponse;
+import com.example.leapit.jobposting.techstack.JobPostingTechStack;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class JobPostingResponse {
+
+    @Data
+    public static class RegionDTO {
+        private Integer id;
+        private String name;
+        private List<SubRegionDTO> subRegions;
+
+        public RegionDTO(Integer id, String name, List<SubRegion> subRegions) {
+            this.id = id;
+            this.name = name;
+            this.subRegions = subRegions.stream()
+                    .map(sr -> new SubRegionDTO(sr.getId(), sr.getName()))
+                    .toList();
+        }
+    }
+
+    @Data
+    public static class SubRegionDTO {
+        private Integer id;
+        private String name;
+
+        public SubRegionDTO(Integer id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+
+    // 구직자 - 채용공고 목록
+    @Data
+    public static class JobPostingDTO {
+        private Integer id;
+        private String companyName;
+        private String title;
+        private LocalDate deadline;
+        private int dDay;
+        private String career;
+        private String address; // ← 외부에서 주입
+        private String image;
+        private boolean isBookmarked;
+        private List<CompanyInfoResponse.TechStackDTO> techStacks;
+
+        // address는 외부에서 전달받음
+        public JobPostingDTO(JobPosting jobPostings, List<JobPostingTechStack> techStacks, String address, String image, String companyName, boolean isBookmarked) {
+            this.id = jobPostings.getId();
+            this.title = jobPostings.getTitle();
+            this.deadline = jobPostings.getDeadline();
+            this.dDay = calculateDDay(deadline);
+            this.career = formatCareer(jobPostings.getMinCareerLevel(), jobPostings.getMaxCareerLevel());
+            this.address = address;
+            this.image = image;
+            this.companyName = companyName;
+            this.techStacks = techStacks.stream()
+                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack().getCode()))
+                    .collect(Collectors.toList());
+
+            this.isBookmarked = isBookmarked;
+        }
+
+        public JobPostingDTO(JobPosting jobPostings, List<JobPostingTechStack> techStacks, String address, String image, String companyName) {
+            this.id = jobPostings.getId();
+            this.title = jobPostings.getTitle();
+            this.deadline = jobPostings.getDeadline();
+            this.dDay = calculateDDay(deadline);
+            this.career = formatCareer(jobPostings.getMinCareerLevel(), jobPostings.getMaxCareerLevel());
+            this.address = address;
+            this.image = image;
+            this.companyName = companyName;
+            this.techStacks = techStacks.stream()
+                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack().getCode()))
+                    .collect(Collectors.toList());
+        }
+
+        private int calculateDDay(LocalDate deadline) {
+            return (int) java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), deadline);
+        }
+
+        private String formatCareer(CareerLevel min, CareerLevel max) {
+            if (min == null || max == null) return "경력무관";
+            if (min.getValue() == 0 && max.getValue() == 0) return "신입";
+            if (min.getValue() > max.getValue()) return "경력 정보 오류";
+            if (min == max) {
+                return min.getLabel();
+            } else {
+                return min.getLabel() + " ~ " + max.getLabel();
+            }
+        }
+    }
+
+    @Data
+    public static class JobPostingListFilterDTO {
+        private List<String> positions;
+        private List<String> techStacks;
+        private List<RegionResponse.RegionDTO> regions;
+        private List<CareerLevel> careerLevels;
+        private List<JobPostingResponse.JobPostingDTO> jobPostingList;
+
+        public JobPostingListFilterDTO(List<String> positions, List<String> techStacks, List<RegionResponse.RegionDTO> regions, List<CareerLevel> careerLevels, List<JobPostingDTO> jobPostingList) {
+            this.positions = positions;
+            this.techStacks = techStacks;
+            this.regions = regions;
+            this.careerLevels = careerLevels;
+            this.jobPostingList = jobPostingList;
+        }
+    }
 }
