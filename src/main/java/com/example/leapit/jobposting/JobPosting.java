@@ -2,6 +2,7 @@ package com.example.leapit.jobposting;
 
 import com.example.leapit.application.Application;
 import com.example.leapit.common.enums.CareerLevel;
+import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.jobposting.bookmark.JobPostingBookmark;
 import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import com.example.leapit.user.User;
@@ -45,7 +46,10 @@ public class JobPosting {
     @Column(nullable = false)
     private CareerLevel maxCareerLevel;
 
-    private String educationLevel;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EducationLevel educationLevel;
+
     private Integer addressRegionId;
     private Integer addressSubRegionId;
     private String addressDetail;
@@ -92,7 +96,7 @@ public class JobPosting {
     @Builder
     public JobPosting(Integer id, User user, String title, String positionType,
                       CareerLevel minCareerLevel, CareerLevel maxCareerLevel,
-                      String educationLevel, Integer addressRegionId, Integer addressSubRegionId,
+                      EducationLevel educationLevel, Integer addressRegionId, Integer addressSubRegionId,
                       String addressDetail, String serviceIntro, LocalDate deadline,
                       String responsibility, String qualification, String preference,
                       String benefit, String additionalInfo) {

@@ -1,7 +1,9 @@
 package com.example.leapit.jobposting;
 
 import com.example.leapit.common.enums.CareerLevel;
+import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.common.region.SubRegion;
+import com.example.leapit.companyinfo.CompanyInfo;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -26,12 +28,14 @@ public class JobPostingResponse {
         private List<String> techStackCodes;
         private List<RegionDTO> regions;
         private List<CareerLevel> careerLevels;
+        private List<EducationLevel> educationLevels;
 
-        public SaveDTO(List<String> positionTypes, List<String> techStackCodes, List<RegionDTO> regions, List<CareerLevel> careerLevels) {
+        public SaveDTO(List<String> positionTypes, List<String> techStackCodes, List<RegionDTO> regions, List<CareerLevel> careerLevels, List<EducationLevel> educationLevels) {
             this.positionTypes = positionTypes;
             this.techStackCodes = techStackCodes;
             this.regions = regions;
             this.careerLevels = careerLevels;
+            this.educationLevels = educationLevels;
         }
     }
 
@@ -61,11 +65,31 @@ public class JobPostingResponse {
         }
     }
 
-    public static class CareerLevelDTO {
-        private CareerLevel careerLevel;
+    @Data
+    public static class DetailPersonalDTO {
+        private DTO companyDTO;
+        private CompanyInfoDTO companyInfo;
 
-        public CareerLevelDTO(CareerLevel careerLevel) {
-            this.careerLevel = careerLevel;
+        public DetailPersonalDTO(DTO companyDTO, CompanyInfoDTO companyInfo) {
+            this.companyDTO = companyDTO;
+            this.companyInfo = companyInfo;
+        }
+
+        @Data
+        public static class CompanyInfoDTO {
+            private Integer id;
+            private String logoImage;
+            private String companyName;
+            private LocalDate establishmentDate;
+            private String mainService;
+
+            public CompanyInfoDTO(CompanyInfo companyInfo) {
+                this.id = companyInfo.getId();
+                this.logoImage = companyInfo.getLogoImage();
+                this.companyName = companyInfo.getCompanyName();
+                this.establishmentDate = companyInfo.getEstablishmentDate();
+                this.mainService = companyInfo.getMainService();
+            }
         }
     }
 
@@ -96,9 +120,9 @@ public class JobPostingResponse {
             this.id = jobPosting.getId();
             this.title = jobPosting.getTitle();
             this.positionType = jobPosting.getPositionType();
-            this.minCareerLevel = jobPosting.getMinCareerLevel().getLabel();
-            this.maxCareerLevel = jobPosting.getMaxCareerLevel().getLabel();
-            this.educationLevel = jobPosting.getEducationLevel();
+            this.minCareerLevel = jobPosting.getMinCareerLevel().label;
+            this.maxCareerLevel = jobPosting.getMaxCareerLevel().label;
+            this.educationLevel = jobPosting.getEducationLevel().label;
             this.addressRegionId = jobPosting.getAddressRegionId();
             this.addressSubRegionId = jobPosting.getAddressSubRegionId();
             this.addressDetail = jobPosting.getAddressDetail();
@@ -168,12 +192,12 @@ public class JobPostingResponse {
 
         private String formatCareer(CareerLevel min, CareerLevel max) {
             if (min == null || max == null) return "경력무관";
-            if (min.getValue() == 0 && max.getValue() == 0) return "신입";
-            if (min.getValue() > max.getValue()) return "경력 정보 오류";
+            if (min.value == 0 && max.value == 0) return "신입";
+            if (min.value > max.value) return "경력 정보 오류";
             if (min == max) {
-                return min.getLabel();
+                return min.label;
             } else {
-                return min.getLabel() + " ~ " + max.getLabel();
+                return min.label + " ~ " + max.label;
             }
         }
     }

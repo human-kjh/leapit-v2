@@ -1,11 +1,16 @@
 package com.example.leapit.jobposting;
 
+import com.example.leapit._core.error.ex.ExceptionApi403;
+import com.example.leapit._core.error.ex.ExceptionApi404;
 import com.example.leapit.common.enums.CareerLevel;
+import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.common.positiontype.PositionTypeRepository;
 import com.example.leapit.common.region.Region;
 import com.example.leapit.common.region.RegionRepository;
 import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.common.techstack.TechStackRepository;
+import com.example.leapit.companyinfo.CompanyInfo;
+import com.example.leapit.companyinfo.CompanyInfoRepository;
 import com.example.leapit.user.User;
 import jakarta.transaction.Transactional;
 import com.example.leapit.common.enums.CareerLevel;
@@ -27,9 +32,10 @@ import java.util.List;
 public class JobPostingService {
 
     private final JobPostingRepository jobPostingRepository;
-    private final PositionTypeRepository positionTypeRepository;
-    private final RegionRepository regionRepository;
     private final TechStackRepository techStackRepository;
+    private final RegionRepository regionRepository;
+    private final PositionTypeRepository positionTypeRepository;
+    private final CompanyInfoRepository companyInfoRepository;
 
     public JobPostingResponse.JobPostingListFilterDTO getList(Integer regionId, Integer subRegionId, CareerLevel career, String techStackCode, String positionLabel, SortType sortType, Integer sessionUserId) {
 
@@ -74,7 +80,6 @@ public class JobPostingService {
                 );
         return respDTO;
     }
-
     // 채용공고 저장
     @Transactional
     public JobPostingResponse.DTO save(JobPostingRequest.SaveDTO reqDTO, User sessionUser) {
@@ -110,7 +115,53 @@ public class JobPostingService {
             JobPostingResponse.RegionDTO regionDTO = new JobPostingResponse.RegionDTO(region.getId(), region.getName(), subRegions);
             regionDTOs.add(regionDTO);
         }
-        // 6. 최종 응답 DTO 생성
-        return new JobPostingResponse.SaveDTO(positionTypes, techStacks, regionDTOs, careerLevels);
+
+        // 6. 학력 (enum)
+        List<EducationLevel> educationLevels = List.of(EducationLevel.values());
+
+        // 7. 최종 응답 DTO 생성
+        return new JobPostingResponse.SaveDTO(positionTypes, techStacks, regionDTOs, careerLevels, educationLevels);
+    }
+
+    // 기업 채용공고 상세보기
+    @Transactional
+    public JobPostingResponse.DTO getDetailCompany(Integer id) {
+        JobPosting jobPosting = jobPostingRepository.findById(id)
+                .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
+        return new JobPostingResponse.DTO(jobPosting);
+    }
+
+    // 구직자 채용공고 상세보기
+    @Transactional
+    public JobPostingResponse.DetailPersonalDTO getDetailPersonal(Integer jobPostingId) {
+        JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
+                .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
+
+        // 채용공고를 작성한 기업 유저
+        Integer companyUserId = jobPosting.getUser().getId();
+
+        // 기업 유저의 회사 정보 조회
+        CompanyInfo companyInfo = companyInfoRepository.findByUserId(companyUserId)
+                .orElseThrow(() -> new ExceptionApi404("해당 기업의 정보가 존재하지 않습니다."));
+
+        // DTO 구성
+        JobPostingResponse.DTO companyDTO = new JobPostingResponse.DTO(jobPosting);
+        JobPostingResponse.DetailPersonalDTO.CompanyInfoDTO companyInfoDTO =
+                new JobPostingResponse.DetailPersonalDTO.CompanyInfoDTO(companyInfo);
+
+        return new JobPostingResponse.DetailPersonalDTO(companyDTO, companyInfoDTO);
+    }
+
+    // 채용공고 삭제
+    @Transactional
+    public void delete(Integer id, Integer sessionUser) {
+        JobPosting jobPosting = jobPostingRepository.findById(id)
+                .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
+
+        if (!jobPosting.getUser().getId().equals(sessionUser)) {
+            throw new ExceptionApi403("삭제 권한이 없습니다.");
+        }
+
+        jobPostingRepository.deleteById(id);
     }
 }

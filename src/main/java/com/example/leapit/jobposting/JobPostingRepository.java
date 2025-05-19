@@ -11,6 +11,8 @@ import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,7 @@ public class JobPostingRepository {
 
         if (regionId != null) query.setParameter("regionId", regionId);
         if (subRegionId != null) query.setParameter("subRegionId", subRegionId);
-        if (career != null) query.setParameter("careerValue", career.getValue());
+        if (career != null) query.setParameter("careerValue", career.value);
         if (techStackCode != null) query.setParameter("techStackCode", techStackCode);
         if (positionLabel != null) query.setParameter("positionLabel", positionLabel);
 
@@ -145,6 +147,12 @@ public class JobPostingRepository {
         return jobPosting;
     }
 
+    // 아이디로 채용공고 찾기
+    public Optional<JobPosting> findById(Integer id) {
+        return Optional.ofNullable(em.find(JobPosting.class, id));
+    }
+
+
     // COMPANY의 채용공고 & 해당 채용공고의 기술스택 조회
     public List<Object[]> findByUserIdJoinJobPostingTechStacks(Integer userId) {
         Query query = em.createQuery(
@@ -162,5 +170,9 @@ public class JobPostingRepository {
         query.setParameter("userId", userId);
         return (Long) query.getSingleResult();
     }
-}
 
+    // 아이디로 채용공고 삭제
+    public void deleteById(Integer id) {
+        em.remove(em.find(JobPosting.class, id));
+    }
+}

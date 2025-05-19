@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.example.leapit.common.enums.CareerLevel;
+import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import com.example.leapit.user.User;
 import jakarta.validation.constraints.NotEmpty;
@@ -47,7 +48,7 @@ public class JobPostingRequest {
         public CareerLevel getCareerLevelOrNull() {
             if (careerLabel != null) {
                 for (CareerLevel level : CareerLevel.values()) {
-                    if (careerLabel.trim().equals(level.getLabel())) {
+                    if (careerLabel.trim().equals(level.label)) {
                         return level;
                     }
                 }
@@ -92,7 +93,7 @@ public class JobPostingRequest {
         private String positionType;
         private CareerLevel minCareerLevel;
         private CareerLevel maxCareerLevel;
-        private String educationLevel;
+        private EducationLevel educationLevel;
         private Integer addressRegionId;
         private Integer addressSubRegionId;
         private String addressDetail;

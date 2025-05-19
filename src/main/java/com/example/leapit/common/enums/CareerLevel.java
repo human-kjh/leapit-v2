@@ -13,19 +13,11 @@ public enum CareerLevel {
     YEAR_9("9년차", 9),
     OVER_10("10년차 이상", 10);
 
-    private final String label;
-    private final int value;
+    public String label;
+    public Integer value;
 
-    CareerLevel(String label, int value) {
+    CareerLevel(String label, Integer value) {
         this.label = label;
         this.value = value;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public int getValue() {
-        return value;
     }
 }
