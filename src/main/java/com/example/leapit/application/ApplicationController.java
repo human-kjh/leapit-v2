@@ -14,7 +14,7 @@ public class ApplicationController {
     private final ApplicationService applicationService;
     private final HttpSession session;
 
-    // 기업 지원자현황 관리
+    // 기업 지원자 현황 관리
     @GetMapping("/s/company/applicant/list")
     public ResponseEntity<?> getApplicantList(ApplicationRequest.ApplicantListDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");

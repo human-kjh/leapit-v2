@@ -81,12 +81,13 @@ public class JobPostingResponse {
 
         private List<String> techStacks;
 
+        // TODO : 하림님이 고쳐야 함
         public DTO(JobPosting jobPosting) {
             this.id = jobPosting.getId();
             this.title = jobPosting.getTitle();
             this.positionType = jobPosting.getPositionType();
-            this.minCareerLevel = jobPosting.getMinCareerLevel().getLabel();
-            this.maxCareerLevel = jobPosting.getMaxCareerLevel().getLabel();
+            this.minCareerLevel = jobPosting.getMinCareerLevel().name();
+            this.maxCareerLevel = jobPosting.getMaxCareerLevel().name();
             this.educationLevel = jobPosting.getEducationLevel();
             this.addressRegionId = jobPosting.getAddressRegionId();
             this.addressSubRegionId = jobPosting.getAddressSubRegionId();

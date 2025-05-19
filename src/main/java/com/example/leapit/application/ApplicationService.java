@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
+    private final JobPostingRepository jobPostingRepository;
 
     // 개인 마이페이지 지원 현황 관리
     public ApplicationResponse.MyPageDTO getMyApplication(Integer userId) {
@@ -27,6 +28,7 @@ public class ApplicationService {
         return respDTO;
     }
 
+    // 기업 지원자 현황 관리
     public ApplicationResponse.ApplicantListPageDTO getApplicantList(Integer companyUserId, ApplicationRequest.ApplicantListDTO reqDTO) {
         // 1. 전체 공고 리스트 조회
         List<JobPostingResponse.ListDTO> allPositions = jobPostingRepository.findAllByCompanyUserId(companyUserId);
