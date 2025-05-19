@@ -41,7 +41,7 @@ public class JobPostingController {
     }
 
     // 구직자 - 채용공고 목록
-    @GetMapping("/s/personal/jobposting/list")
+    @GetMapping("/s/api/personal/jobposting/list")
     public ResponseEntity<?> getList(JobPostingRequest.JobPostingListRequestDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         Integer sessionUserId = (sessionUser != null) ? sessionUser.getId() : null;
