@@ -4,13 +4,9 @@ public enum BookmarkStatus {
     BOOKMARKED("스크랩됨"),
     NOT_BOOKMARKED("스크랩안됨");
 
-    private final String label;
+    public final String label;
 
     BookmarkStatus(String label) {
         this.label = label;
-    }
-
-    public String getLabel() {
-        return label;
     }
 }

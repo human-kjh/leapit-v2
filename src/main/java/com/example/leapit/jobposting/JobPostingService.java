@@ -13,14 +13,8 @@ import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoRepository;
 import com.example.leapit.user.User;
 import jakarta.transaction.Transactional;
-import com.example.leapit.common.enums.CareerLevel;
 import com.example.leapit.common.enums.SortType;
-import com.example.leapit.common.positiontype.PositionTypeRepository;
-import com.example.leapit.common.region.Region;
-import com.example.leapit.common.region.RegionRepository;
 import com.example.leapit.common.region.RegionResponse;
-import com.example.leapit.common.region.SubRegion;
-import com.example.leapit.common.techstack.TechStackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

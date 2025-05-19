@@ -5,19 +5,11 @@ import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.companyinfo.CompanyInfo;
 import lombok.Data;
-
 import java.time.LocalDate;
 import java.util.List;
-
-import com.example.leapit.common.enums.CareerLevel;
 import com.example.leapit.common.region.RegionResponse;
-import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.companyinfo.CompanyInfoResponse;
 import com.example.leapit.jobposting.techstack.JobPostingTechStack;
-import lombok.Data;
-
-import java.time.LocalDate;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class JobPostingResponse {
