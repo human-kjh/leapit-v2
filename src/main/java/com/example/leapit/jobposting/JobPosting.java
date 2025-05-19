@@ -46,7 +46,7 @@ public class JobPosting {
     @Column(nullable = false)
     private CareerLevel maxCareerLevel;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EducationLevel educationLevel;
 

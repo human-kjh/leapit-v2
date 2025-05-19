@@ -21,4 +21,5 @@ public class JobPostingRepository {
     public Optional<JobPosting> findById(Integer id) {
         return Optional.ofNullable(em.find(JobPosting.class, id));
     }
+
 }

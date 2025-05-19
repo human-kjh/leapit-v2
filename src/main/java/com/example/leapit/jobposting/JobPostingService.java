@@ -67,14 +67,14 @@ public class JobPostingService {
 
         // 6. 학력 (enum)
         List<EducationLevel> educationLevels = List.of(EducationLevel.values());
-        
+
         // 7. 최종 응답 DTO 생성
         return new JobPostingResponse.SaveDTO(positionTypes, techStacks, regionDTOs, careerLevels, educationLevels);
     }
 
     // 기업 채용공고 상세보기
     @Transactional
-    public JobPostingResponse.CompanyDTO companyGetDetailForm(Integer id) {
+    public JobPostingResponse.CompanyDTO getDetailCompany(Integer id) {
         JobPosting jobPosting = jobPostingRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
         return new JobPostingResponse.CompanyDTO(jobPosting);
@@ -82,7 +82,7 @@ public class JobPostingService {
 
     // 구직자 채용공고 상세보기
     @Transactional
-    public JobPostingResponse.PersonalDTO personalGetDetailForm(Integer jobPostingId) {
+    public JobPostingResponse.DetailPersonalDTO getDetailPersonal(Integer jobPostingId) {
         JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
 
@@ -95,9 +95,9 @@ public class JobPostingService {
 
         // DTO 구성
         JobPostingResponse.CompanyDTO companyDTO = new JobPostingResponse.CompanyDTO(jobPosting);
-        JobPostingResponse.PersonalDTO.companyInfoDTO companyInfoDTO =
-                new JobPostingResponse.PersonalDTO.companyInfoDTO(companyInfo);
+        JobPostingResponse.DetailPersonalDTO.CompanyInfoDTO companyInfoDTO =
+                new JobPostingResponse.DetailPersonalDTO.CompanyInfoDTO(companyInfo);
 
-        return new JobPostingResponse.PersonalDTO(companyDTO, companyInfoDTO);
+        return new JobPostingResponse.DetailPersonalDTO(companyDTO, companyInfoDTO);
     }
 }
