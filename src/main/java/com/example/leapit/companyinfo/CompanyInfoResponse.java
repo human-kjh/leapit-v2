@@ -108,14 +108,14 @@ public class CompanyInfoResponse {
 
         public DetailDTO(CompanyInfo companyInfo, Integer userId, Integer jobPostingCount, List<JobPosting> jobPostings, List<JobPostingTechStack> techStacks, String logoImageString, String imageString) {
             this.id = companyInfo.getId();
-            this.logoImage = logoImageString.substring(0, 100);
+            this.logoImage = logoImageString;
             this.companyName = companyInfo.getCompanyName();
             this.establishmentDate = companyInfo.getEstablishmentDate();
             this.formattedEstablishmentInfo = formatEstablishmentInfo(companyInfo.getEstablishmentDate());
             this.address = companyInfo.getAddress();
             this.mainService = companyInfo.getMainService();
             this.introduction = companyInfo.getIntroduction();
-            this.image = imageString.substring(0, 100);
+            this.image = imageString;
             this.benefit = companyInfo.getBenefit();
             this.jobPostingCount = jobPostingCount;
 

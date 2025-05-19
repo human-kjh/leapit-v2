@@ -46,7 +46,7 @@ public class CompanyInfoService {
                 // 읽어온 byte[] 를 Base64 문자열로 변환
                 String logoImageString = Base64Util.encodeAsString(logoImageBytes, "image/png");
                 // 로고 이미지를 Base64 문자열로 변환한 값을 DTO 필드에 저장 (DB 저장용)
-                reqDTO.setLogoImage(logoImageString.substring(0, 100));
+                reqDTO.setLogoImage(logoImageString);
             }
 
             // 대표 이미지 저장
@@ -59,7 +59,7 @@ public class CompanyInfoService {
                 // 읽어온 byte[] 를 Base64 문자열로 변환
                 String imgString = Base64Util.encodeAsString(imageBytes, "image/png");
                 // 로고 이미지를 Base64 문자열로 변환한 값을 DTO 필드에 저장 (DB 저장용)
-                reqDTO.setImage(imgString.substring(0, 100));
+                reqDTO.setImage(imgString);
             }
 
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class CompanyInfoService {
                 // 읽어온 byte[] 를 Base64 문자열로 변환
                 String logoImageString = Base64Util.encodeAsString(logoImageBytes, "image/png");
                 // 로고 이미지를 Base64 문자열로 변환한 값을 DTO 필드에 저장 (DB 저장용)
-                reqDTO.setLogoImage(logoImageString.substring(0, 100));
+                reqDTO.setLogoImage(logoImageString);
             }
 
             // 대표 이미지 저장 - encoding
@@ -113,7 +113,7 @@ public class CompanyInfoService {
                 // 읽어온 byte[] 를 Base64 문자열로 변환
                 String imgString = Base64Util.encodeAsString(imageBytes, "image/png");
                 // 로고 이미지를 Base64 문자열로 변환한 값을 DTO 필드에 저장 (DB 저장용)
-                reqDTO.setImage(imgString.substring(0, 100));
+                reqDTO.setImage(imgString);
             }
 
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class CompanyInfoService {
         return new CompanyInfoResponse.DTO(companyInfoPS);
     }
 
-    public CompanyInfoResponse.DTO updateAndReturn(Integer id, Integer sessionUserId) {
+    public CompanyInfoResponse.DTO getOne(Integer id, Integer sessionUserId) {
         CompanyInfo companyInfoPS = companyInfoRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("기업정보를 찾을 수 없습니다."));
 
@@ -146,7 +146,7 @@ public class CompanyInfoService {
         return new CompanyInfoResponse.DTO(companyInfoPS);
     }
 
-    public CompanyInfoResponse.DetailDTO detail(Integer id, Integer userId) {
+    public CompanyInfoResponse.DetailDTO getDetail(Integer id, Integer userId) {
         CompanyInfo companyInfoPS = companyInfoRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("기업정보를 찾을 수 없습니다"));
 
@@ -172,7 +172,7 @@ public class CompanyInfoService {
         }
 
         // 2. 조인된 결과 가져오기 (JobPosting + JobPostingTechStack)
-        List<Object[]> results = jobPostingRepository.findJobPostingsWithTechStacksByUserId(userId);
+        List<Object[]> results = jobPostingRepository.findByUserIdJoinJobPostingTechStacks(userId);
 
         // 3. 공고 Map과 기술스택 Map 생성
         Map<Integer, JobPosting> postingMap = new HashMap<>();

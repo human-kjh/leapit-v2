@@ -19,7 +19,7 @@ public class JobPostingRepository {
     }
 
     // COMPANY의 채용공고 & 해당 채용공고의 기술스택 조회
-    public List<Object[]> findJobPostingsWithTechStacksByUserId(Integer userId) {
+    public List<Object[]> findByUserIdJoinJobPostingTechStacks(Integer userId) {
         Query query = em.createQuery(
                 "SELECT j, t FROM JobPosting j " +
                         "LEFT JOIN JobPostingTechStack t ON t.jobPosting.id = j.id " +
