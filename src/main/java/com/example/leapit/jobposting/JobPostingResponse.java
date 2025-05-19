@@ -55,24 +55,24 @@ public class JobPostingResponse {
     }
 
     @Data
-    public static class PersonalDTO {
+    public static class DetailPersonalDTO {
         private DTO companyDTO;
-        private companyInfoDTO companyInfo;
+        private CompanyInfoDTO companyInfo;
 
-        public PersonalDTO(DTO companyDTO, companyInfoDTO companyInfo) {
+        public DetailPersonalDTO(DTO companyDTO, CompanyInfoDTO companyInfo) {
             this.companyDTO = companyDTO;
             this.companyInfo = companyInfo;
         }
 
         @Data
-        public static class companyInfoDTO {
+        public static class CompanyInfoDTO {
             private Integer id;
             private String logoImage;
             private String companyName;
             private LocalDate establishmentDate;
             private String mainService;
 
-            public companyInfoDTO(CompanyInfo companyInfo) {
+            public CompanyInfoDTO(CompanyInfo companyInfo) {
                 this.id = companyInfo.getId();
                 this.logoImage = companyInfo.getLogoImage();
                 this.companyName = companyInfo.getCompanyName();

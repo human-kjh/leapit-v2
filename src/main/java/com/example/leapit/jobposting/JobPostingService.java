@@ -75,7 +75,7 @@ public class JobPostingService {
 
     // 기업 채용공고 상세보기
     @Transactional
-    public JobPostingResponse.DTO companyGetDetailForm(Integer id) {
+    public JobPostingResponse.DTO getDetailCompany(Integer id) {
         JobPosting jobPosting = jobPostingRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
         return new JobPostingResponse.DTO(jobPosting);
@@ -83,7 +83,7 @@ public class JobPostingService {
 
     // 구직자 채용공고 상세보기
     @Transactional
-    public JobPostingResponse.PersonalDTO personalGetDetailForm(Integer jobPostingId) {
+    public JobPostingResponse.DetailPersonalDTO getDetailPersonal(Integer jobPostingId) {
         JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
 
@@ -96,10 +96,10 @@ public class JobPostingService {
 
         // DTO 구성
         JobPostingResponse.DTO companyDTO = new JobPostingResponse.DTO(jobPosting);
-        JobPostingResponse.PersonalDTO.companyInfoDTO companyInfoDTO =
-                new JobPostingResponse.PersonalDTO.companyInfoDTO(companyInfo);
+        JobPostingResponse.DetailPersonalDTO.CompanyInfoDTO companyInfoDTO =
+                new JobPostingResponse.DetailPersonalDTO.CompanyInfoDTO(companyInfo);
 
-        return new JobPostingResponse.PersonalDTO(companyDTO, companyInfoDTO);
+        return new JobPostingResponse.DetailPersonalDTO(companyDTO, companyInfoDTO);
     }
 
     // 채용공고 삭제
