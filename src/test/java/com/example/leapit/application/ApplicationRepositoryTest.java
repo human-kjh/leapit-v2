@@ -2,6 +2,10 @@ package com.example.leapit.application;
 
 import com.example.leapit.companyinfo.CompanyInfoRepository;
 import jdk.swing.interop.SwingInterOpUtils;
+import com.example.leapit.common.enums.BookmarkStatus;
+import com.example.leapit.common.enums.PassStatus;
+import com.example.leapit.common.enums.ViewStatus;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
