@@ -11,6 +11,7 @@ import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.common.techstack.TechStackRepository;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoRepository;
+import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import com.example.leapit.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,6 @@ public class JobPostingService {
     private final RegionRepository regionRepository;
     private final PositionTypeRepository positionTypeRepository;
     private final CompanyInfoRepository companyInfoRepository;
-
 
     // 채용공고 저장
     @Transactional
@@ -114,4 +114,51 @@ public class JobPostingService {
 
         jobPostingRepository.deleteById(id);
     }
+
+    // 채용공고 수정
+    @Transactional
+    public JobPostingResponse.DTO update(Integer id, Integer sessionUserId, JobPostingRequest.UpdateDTO reqDTO) {
+
+        // 1. 공고 조회
+        JobPosting jobPosting = jobPostingRepository.findById(id)
+                .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
+
+        // 2. 권한 확인
+        if (!jobPosting.getUser().getId().equals(sessionUserId)) {
+            throw new ExceptionApi403("수정 권한이 없습니다.");
+        }
+
+        // 3. 필드 수정
+        jobPosting.update(
+                reqDTO.getTitle(),
+                reqDTO.getPositionType(),
+                reqDTO.getMinCareerLevel(),
+                reqDTO.getMaxCareerLevel(),
+                reqDTO.getEducationLevel(),
+                reqDTO.getAddressRegionId(),
+                reqDTO.getAddressSubRegionId(),
+                reqDTO.getAddressDetail(),
+                reqDTO.getServiceIntro(),
+                reqDTO.getDeadline(),
+                reqDTO.getResponsibility(),
+                reqDTO.getQualification(),
+                reqDTO.getPreference(),
+                reqDTO.getBenefit(),
+                reqDTO.getAdditionalInfo()
+        );
+
+        // 4. 기술스택 초기화 후 재등록
+        jobPosting.clearTechStacks();
+        for (String techStack : reqDTO.getTechStackCodes()) {
+            JobPostingTechStack jpts = JobPostingTechStack.builder()
+                    .techStack(techStack)
+                    .jobPosting(jobPosting)
+                    .build();
+            jobPosting.addTechStack(jpts);
+        }
+
+        // 5. 저장 생략 가능
+        return new JobPostingResponse.DTO(jobPosting);
+    }
+
 }
