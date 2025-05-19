@@ -21,4 +21,9 @@ public class JobPostingRepository {
     public Optional<JobPosting> findById(Integer id) {
         return Optional.ofNullable(em.find(JobPosting.class, id));
     }
+
+    // 아이디로 채용공고 삭제
+    public void deleteById(Integer id) {
+        em.remove(em.find(JobPosting.class, id));
+    }
 }

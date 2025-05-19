@@ -20,6 +20,23 @@ public class JobpostingRepositoryTest {
     private CompanyInfoRepository companyInfoRepository;
 
     @Test
+    public void job_posting_delete_test() {
+        // given
+        Integer jobPostingId = 1;
+
+        // eye : 삭제 전
+        Optional<JobPosting> before = jobPostingRepository.findById(jobPostingId);
+        System.out.println("삭제 전: " + before);
+
+        // when
+        jobPostingRepository.deleteById(jobPostingId);
+
+        // eye : 삭제 후
+        Optional<JobPosting> after = jobPostingRepository.findById(jobPostingId);
+        System.out.println("삭제 후: " + after); // Optional.empty
+    }
+
+    @Test
     public void company_job_posting_detail_test() {
         // given
         Optional<JobPosting> optionalJobPosting = jobPostingRepository.findById(1);

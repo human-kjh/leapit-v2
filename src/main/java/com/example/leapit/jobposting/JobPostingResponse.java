@@ -56,10 +56,10 @@ public class JobPostingResponse {
 
     @Data
     public static class PersonalDTO {
-        private CompanyDTO companyDTO;
+        private DTO companyDTO;
         private companyInfoDTO companyInfo;
 
-        public PersonalDTO(CompanyDTO companyDTO, companyInfoDTO companyInfo) {
+        public PersonalDTO(DTO companyDTO, companyInfoDTO companyInfo) {
             this.companyDTO = companyDTO;
             this.companyInfo = companyInfo;
         }
@@ -83,7 +83,7 @@ public class JobPostingResponse {
     }
 
     @Data
-    public static class CompanyDTO {
+    public static class DTO {
         private Integer id;
         private String title;
         private String positionType;
@@ -105,7 +105,7 @@ public class JobPostingResponse {
 
         private List<String> techStacks;
 
-        public CompanyDTO(JobPosting jobPosting) {
+        public DTO(JobPosting jobPosting) {
             this.id = jobPosting.getId();
             this.title = jobPosting.getTitle();
             this.positionType = jobPosting.getPositionType();
