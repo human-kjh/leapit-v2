@@ -20,7 +20,7 @@ public class ApplicationRepository {
     }
 
     // 지원 현황 통계
-    public ApplicationResponse.StatusDTO findSummaryByUserId(Integer userId) {
+    public ApplicationResponse.StatusDTO findStatusByUserId(Integer userId) {
         String jpql = """
                     SELECT COUNT(a), 
                            SUM(CASE WHEN a.passStatus = 'PASS' THEN 1 ELSE 0 END), 
@@ -43,7 +43,7 @@ public class ApplicationRepository {
     }
 
     // 지원 현황 목록
-    public List<ApplicationResponse.ItemDTO> findApplicationsByUserId(Integer userId) {
+    public List<ApplicationResponse.ItemDTO> findItemsByUserId(Integer userId) {
         String jpql = """
                     SELECT\s
                         ci.companyName,\s
@@ -65,7 +65,7 @@ public class ApplicationRepository {
                     JOIN CompanyInfo ci ON ci.user.id = company.id
                     WHERE u.id = :userId
                     ORDER BY a.appliedDate DESC
-                    
+                
                 """;
 
         List<Object[]> resultList = em.createQuery(jpql, Object[].class)
