@@ -217,7 +217,7 @@ public class CompanyInfoService {
         return new CompanyInfoResponse.DetailDTO(companyInfoPS, userId, jobPostingCount.intValue(), jobPostings, allTechStacks, logoImageString, imageString);
     }
 
-    public CompanyInfo findByIdOrThrow(Integer id) {
+    public CompanyInfo findById(Integer id) {
         return companyInfoRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("기업정보를 찾을 수 없습니다."));
     }

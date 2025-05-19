@@ -34,7 +34,7 @@ public class CompanyInfoController {
         return Resp.ok(respDTO);
     }
 
-    @GetMapping("/s/api/company/info/{id}")
+    @GetMapping("/s/api/company/companyinfo/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -43,7 +43,7 @@ public class CompanyInfoController {
         return Resp.ok(respDTO);
     }
 
-    @GetMapping("/s/api/company/info/{id}/detail")
+    @GetMapping("/s/api/company/companyinfo/{id}/detail")
     public ResponseEntity<?> getDetailCompany(@PathVariable("id") Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -52,9 +52,9 @@ public class CompanyInfoController {
     }
 
     // 구직자 - 기업정보 상세보기
-    @GetMapping("/api/personal/company/info/{id}/detail")
+    @GetMapping("/api/personal/companyinfo/{id}/detail")
     public ResponseEntity<?> getDetailPersonal(@PathVariable("id") Integer id) {
-        CompanyInfo companyInfo = companyInfoService.findByIdOrThrow(id);
+        CompanyInfo companyInfo = companyInfoService.findById(id);
         Integer companyUserId = companyInfo.getUser().getId();
 
         CompanyInfoResponse.DetailDTO respDTO = companyInfoService.getDetail(id, companyUserId);
