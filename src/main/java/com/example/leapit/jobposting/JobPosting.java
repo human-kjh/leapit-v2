@@ -37,11 +37,11 @@ public class JobPosting {
     @Column(nullable = false)
     private String positionType;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private CareerLevel minCareerLevel;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private CareerLevel maxCareerLevel;
 

@@ -8,6 +8,14 @@ import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.common.techstack.TechStackRepository;
 import com.example.leapit.user.User;
 import jakarta.transaction.Transactional;
+import com.example.leapit.common.enums.CareerLevel;
+import com.example.leapit.common.enums.SortType;
+import com.example.leapit.common.positiontype.PositionTypeRepository;
+import com.example.leapit.common.region.Region;
+import com.example.leapit.common.region.RegionRepository;
+import com.example.leapit.common.region.RegionResponse;
+import com.example.leapit.common.region.SubRegion;
+import com.example.leapit.common.techstack.TechStackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +27,53 @@ import java.util.List;
 public class JobPostingService {
 
     private final JobPostingRepository jobPostingRepository;
-    private final TechStackRepository techStackRepository;
-    private final RegionRepository regionRepository;
     private final PositionTypeRepository positionTypeRepository;
+    private final RegionRepository regionRepository;
+    private final TechStackRepository techStackRepository;
 
+    public JobPostingResponse.JobPostingListFilterDTO getList(Integer regionId, Integer subRegionId, CareerLevel career, String techStackCode, String positionLabel, SortType sortType, Integer sessionUserId) {
+
+        // 1. 포지션 타입 코드 리스트 (예: ["백엔드", "프론트엔드"])
+        List<String> positionTypes = positionTypeRepository.findAll();
+
+        // 2. 기술 스택 코드 리스트 (예: ["Java", "React"])
+        List<String> techStacks = techStackRepository.findAll();
+
+        // 3. 전체 지역 조회
+        List<Region> regions = regionRepository.findAllRegion();
+
+        // 4. 커리어 레벨 (enum)
+        List<CareerLevel> careerLevels = List.of(CareerLevel.values());
+
+        // 5. Region + SubRegion DTO 변환
+        List<RegionResponse.RegionDTO> regionDTOs = new ArrayList<>();
+        for (Region region : regions) {
+            List<SubRegion> subRegions = regionRepository.findAllSubRegionByRegionId(region.getId());
+            RegionResponse.RegionDTO regionDTO = new RegionResponse.RegionDTO(region.getId(), region.getName(), subRegions);
+            regionDTOs.add(regionDTO);
+        }
+
+        // 전체 공고목록 조회
+        List<JobPostingResponse.JobPostingDTO> jobPostingList = jobPostingRepository.findAllByFilter(
+                regionId,
+                subRegionId,
+                career,
+                techStackCode,
+                positionLabel,
+                sortType,
+                sessionUserId
+        );
+
+        JobPostingResponse.JobPostingListFilterDTO respDTO =
+                new JobPostingResponse.JobPostingListFilterDTO(
+                        positionTypes,
+                        techStacks,
+                        regionDTOs,
+                        careerLevels,
+                        jobPostingList
+                );
+        return respDTO;
+    }
 
     // 채용공고 저장
     @Transactional
