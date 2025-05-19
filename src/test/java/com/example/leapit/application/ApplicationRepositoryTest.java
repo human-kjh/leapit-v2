@@ -70,4 +70,37 @@ public class ApplicationRepositoryTest {
             System.out.println("=========== 끝 ===========");
         }
     }
+
+    @Test
+    public void find_all_applicants_by_filter_test() {
+        // given
+        Integer companyUserId = 7;
+        Integer jobPostingId = null; // 공고 필터 없이 전체
+        PassStatus passStatus = null; // 합격여부 필터 없이 전체
+        ViewStatus viewStatus = null; // 열람여부 필터 없이 전체
+        BookmarkStatus bookmarkStatus = null; // 북마크 필터 없이 전체
+
+        // when
+        List<ApplicationResponse.ApplicantListDTO> applicants =
+                applicationRepository.findAllApplicantsByFilter(
+                        companyUserId,
+                        jobPostingId,
+                        passStatus,
+                        viewStatus,
+                        bookmarkStatus
+                );
+
+        // eye
+        System.out.println("========= 필터 지원자 조회 =========");
+        for (ApplicationResponse.ApplicantListDTO dto : applicants) {
+            System.out.println("지원서 ID: " + dto.getApplicationId());
+            System.out.println("이력서 ID: " + dto.getResumeId());
+            System.out.println("지원자명: " + dto.getApplicantName());
+            System.out.println("공고 제목: " + dto.getJobTitle());
+            System.out.println("지원일: " + dto.getAppliedDate());
+            System.out.println("북마크 여부: " + dto.getBookmarkStatus());
+            System.out.println("열람 상태: " + dto.getViewStatus());
+            System.out.println("------------------------------------");
+        }
+    }
 }
