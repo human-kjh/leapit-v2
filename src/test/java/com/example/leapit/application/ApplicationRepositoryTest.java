@@ -31,7 +31,7 @@ public class ApplicationRepositoryTest {
     }
 
     @Test
-    public void findSummaryByUserId_test() {
+    public void find_status_by_user_id_test() {
         // given
         Integer userId = 1;
 
