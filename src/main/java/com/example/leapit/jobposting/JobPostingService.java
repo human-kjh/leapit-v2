@@ -62,4 +62,15 @@ public class JobPostingService {
         // 6. 최종 응답 DTO 생성
         return new JobPostingResponse.SaveDTO(positionTypes, techStacks, regionDTOs, careerLevels);
     }
+
+    // 채용공고 상세보기
+    @Transactional
+    public JobPostingResponse.DTO getDetailForm(Integer id) {
+        JobPosting jobPosting = jobPostingRepository.findById(id);
+        if (jobPosting == null) {
+            throw new RuntimeException("해당 채용공고를 찾을 수 없습니다. id=" + id);
+        }
+        return new JobPostingResponse.DTO(jobPosting);
+    }
+
 }

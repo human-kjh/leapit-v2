@@ -14,4 +14,10 @@ public class JobPostingRepository {
         em.persist(jobPosting);
         return jobPosting;
     }
+
+    // 아이디로 채용공고 찾기
+    public JobPosting findById(Integer id) {
+        return em.find(JobPosting.class, id);
+    }
+
 }
