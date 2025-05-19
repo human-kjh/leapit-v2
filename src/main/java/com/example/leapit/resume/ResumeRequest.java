@@ -1,5 +1,6 @@
 package com.example.leapit.resume;
 
+import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.resume.education.Education;
 import com.example.leapit.resume.etc.Etc;
 import com.example.leapit.resume.experience.Experience;
@@ -61,7 +62,7 @@ public class ResumeRequest {
             private LocalDate graduationDate;
             private Boolean isDropout;
             @NotEmpty(message ="학력구분을 선택해주세요.")
-            private String educationLevel;
+            private EducationLevel educationLevel;
             @NotEmpty(message ="학교명을 입력해주세요.")
             private String schoolName;
             private String major;

@@ -1,5 +1,6 @@
 package com.example.leapit.resume.education;
 
+import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.resume.Resume;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -29,7 +30,7 @@ public class Education {
     private Boolean isDropout = false;
 
     @Column(nullable = false)
-    private String educationLevel;
+    private EducationLevel educationLevel;
 
     @Column(nullable = false)
     private String schoolName;
@@ -47,7 +48,7 @@ public class Education {
 
     @Builder
 
-    public Education(Integer id, Resume resume, LocalDate graduationDate, Boolean isDropout, String educationLevel, String schoolName, String major, BigDecimal gpa, BigDecimal gpaScale, Timestamp createdAt) {
+    public Education(Integer id, Resume resume, LocalDate graduationDate, Boolean isDropout, EducationLevel educationLevel, String schoolName, String major, BigDecimal gpa, BigDecimal gpaScale, Timestamp createdAt) {
         this.id = id;
         this.resume = resume;
         this.graduationDate = graduationDate;

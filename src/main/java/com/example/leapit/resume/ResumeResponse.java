@@ -1,6 +1,7 @@
 package com.example.leapit.resume;
 
 import com.example.leapit._core.util.Base64Util;
+import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.resume.education.Education;
 import com.example.leapit.resume.etc.Etc;
 import com.example.leapit.resume.experience.Experience;
@@ -41,7 +42,7 @@ public class ResumeResponse {
             private Integer id;
             private LocalDate graduationDate;
             private Boolean isDropout;
-            private String educationLevel;
+            private EducationLevel educationLevel;
             private String schoolName;
             private String major;
             private String gpa;
