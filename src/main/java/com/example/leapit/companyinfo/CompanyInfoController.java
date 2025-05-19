@@ -37,7 +37,9 @@ public class CompanyInfoController {
     @GetMapping("/s/api/company/info/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
+
         CompanyInfoResponse.DTO respDTO = companyInfoService.getOne(id, sessionUser.getId());
+
         return Resp.ok(respDTO);
     }
 
@@ -56,7 +58,6 @@ public class CompanyInfoController {
         Integer companyUserId = companyInfo.getUser().getId();
 
         CompanyInfoResponse.DetailDTO respDTO = companyInfoService.getDetail(id, companyUserId);
-
         return Resp.ok(respDTO);
     }
 }

@@ -15,14 +15,14 @@ public class CompanyInfoResponse {
     @Data
     public static class DTO {
         private Integer id;
-        private String logoImage;
+        private String logoImage; // Base64로 변환된 로고 이미지 문자열 (data:image/png;base64,...)
         private String companyName;
         private LocalDate establishmentDate; // 원본 날짜
-        private String formattedEstablishmentInfo;
+        private String formattedEstablishmentInfo; // 포맷된 날짜
         private String address;
         private String mainService;
         private String introduction;
-        private String image;
+        private String image;  // Base64로 변환된 대표 이미지 문자열 (data:image/png;base64,...)
         private String benefit;
 
         public DTO(CompanyInfo companyInfo) {
@@ -51,7 +51,6 @@ public class CompanyInfoResponse {
             return years + "년차 (" + year + "년 " + month + "월 설립)";
         }
     }
-
 
     @Data
     public static class DetailDTO {
