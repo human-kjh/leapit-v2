@@ -70,8 +70,6 @@ public class Resume {
     @Lob
     private String selfIntroduction;
 
-    private Boolean isPublic;
-
     @CreationTimestamp
     private Timestamp createdAt;
 

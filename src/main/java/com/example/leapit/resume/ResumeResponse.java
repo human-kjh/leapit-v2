@@ -1,5 +1,6 @@
 package com.example.leapit.resume;
 
+import com.example.leapit._core.util.Base64Util;
 import com.example.leapit.resume.education.Education;
 import com.example.leapit.resume.etc.Etc;
 import com.example.leapit.resume.experience.Experience;
@@ -11,7 +12,6 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ResumeResponse {
 
@@ -20,12 +20,6 @@ public class ResumeResponse {
         private Integer id;
         private String title;
         private String photoUrl;
-
-        // 유저 정보
-        private String name;
-        private String email;
-        private Integer birthDate;
-        private String contactNumber;
 
         private String summary;
         private String positionType;
@@ -185,12 +179,20 @@ public class ResumeResponse {
         public DTO(Resume resume) {
             this.id = resume.getId();
             this.title = resume.getTitle();
-            this.photoUrl = resume.getPhotoUrl();
 
-            this.name = resume.getUser().getName();
-            this.email = resume.getUser().getEmail();
-            this.birthDate = resume.getUser().getBirthDate().getYear();
-            this.contactNumber = resume.getUser().getContactNumber();
+            // 이미지 처리
+            String filename = resume.getPhotoUrl(); // 이미지 파일명(O) Base64 인코딩 문자열(X)
+            if (filename != null && !filename.isEmpty()) {
+                try {
+                    byte[] imageBytes = Base64Util.readImageAsByteArray(filename);
+                    String mimeType = filename.endsWith(".png") ? "png" : "jpeg";
+                    this.photoUrl = Base64Util.encodeAsString(imageBytes, mimeType);
+                } catch (Exception e) {
+                    this.photoUrl = null; // 이미지 인코딩 실패 시 null 처리 또는 기본 이미지
+                }
+            } else {
+                this.photoUrl = null;
+            }
 
             this.summary = resume.getSummary();
             this.positionType = resume.getPositionType();
@@ -213,7 +215,7 @@ public class ResumeResponse {
     // 이력서 목록
     @Data
     public static class ListDTO{
-        private List<ItemDTO> resumes; // TODO : 여기 담기는 DTO는 item이든 뭐든 해서 다르게 내가 원하는 값만 담긴 DTO로 변경해야한다. DTO는 entity 전체와 비슷하기에 불필요한 값까지 주게 된다
+        private List<ItemDTO> resumes;
 
         public ListDTO(List<Resume> resumes) {
             this.resumes = resumes

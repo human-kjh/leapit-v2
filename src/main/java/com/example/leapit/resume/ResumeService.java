@@ -3,18 +3,21 @@ package com.example.leapit.resume;
 import com.example.leapit._core.error.ex.ExceptionApi400;
 import com.example.leapit._core.error.ex.ExceptionApi403;
 import com.example.leapit._core.error.ex.ExceptionApi404;
+import com.example.leapit._core.util.Base64Util;
 import com.example.leapit.application.Application;
 import com.example.leapit.application.ApplicationRepository;
-import com.example.leapit.common.positiontype.PositionType;
 import com.example.leapit.common.positiontype.PositionTypeRepository;
 import com.example.leapit.common.techstack.TechStackRepository;
 import com.example.leapit.user.User;
+import com.example.leapit.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.util.UUID;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class ResumeService {
     private final ApplicationRepository applicationRepository;
     private final PositionTypeRepository positionTypeRepository;
     private final TechStackRepository techStackRepository;
+    private final UserRepository userRepository;
 
     public ResumeResponse.ListDTO getList(Integer userId) {
         List<Resume> resumes = resumeRepository.findAllByUserId(userId);
@@ -55,27 +59,52 @@ public class ResumeService {
         // TODO : CareerLevel 추가
         List<String> positionTypes = positionTypeRepository.findAll();
         List<String> techStacks = techStackRepository.findAll();
-        return new ResumeResponse.SaveDTO(sessionUser, positionTypes, techStacks);
+
+        // sessionUser에서 brithDate, email 등의 정보를 꺼내올 수 없음 -> user 조회
+        User userPS = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new ExceptionApi404("자원을 찾을 수 없습니다"));
+
+        return new ResumeResponse.SaveDTO(userPS, positionTypes, techStacks);
     }
 
     @Transactional
     public ResumeResponse.DTO save(ResumeRequest.SaveDTO reqDTO, User sessionUser) {
         // 이미지
-        String uploadDir = System.getProperty("user.dir") + "/upload/";
-        try {
-            // 디렉토리 없을 경우 생성
-            Files.createDirectories(Paths.get(uploadDir));
+        String base64EncodedImg = reqDTO.getPhotoUrl(); // Base64 인코딩된 문자열
+        String originalFileName = reqDTO.getPhotoFileName();
 
-            // 대표 이미지 저장
-            if (photoUrlFile != null && !photoUrlFile.isEmpty()) {
-                String imageFilename = UUID.randomUUID() + "_" + photoUrlFile.getOriginalFilename();
+        // 디코딩 -> DB에 파일명 저장, upload 폴더에 실제 이미지
+        if (base64EncodedImg != null && !base64EncodedImg.isEmpty()) {
+            try {
+                // 디렉토리 생성
+                String uploadDir = System.getProperty("user.dir") + "/upload/";
+                Files.createDirectories(Paths.get(uploadDir));
+
+                // MIME 타입 추출 및 확장자 결정
+                String mimeType = Base64Util.getMimeType(base64EncodedImg); // 예: jpeg, png
+                String extension;
+                if (mimeType.equals("jpeg")) {
+                    extension = ".jpg";
+                } else if (mimeType.equals("png")) {
+                    extension = ".png";
+                } else {
+                    throw new ExceptionApi400("지원하지 않는 이미지 형식입니다. jpeg, png만 허용됩니다.");
+                }
+
+                // 고유한 파일명 생성 및 저장
+                String imageFilename = UUID.randomUUID() + "_" + originalFileName;
                 Path imagePath = Paths.get(uploadDir + imageFilename);
-                Files.write(imagePath, photoUrlFile.getBytes());
-                saveDTO.setPhotoUrl(imageFilename);
-            }
 
-        } catch (Exception e) {
-            throw new Exception400("파일 업로드 실패");
+                // 이미지 디코딩 및 저장
+                byte[] imageBytes = Base64Util.decodeAsBytes(base64EncodedImg);
+                Files.write(imagePath, imageBytes);
+
+                // DTO에 파일명 설정 (DB 저장용)
+                reqDTO.setPhotoUrl(imageFilename);
+
+            } catch (Exception e) {
+                throw new RuntimeException("이미지 디코딩 및 저장 실패", e);
+            }
         }
 
         Resume resume = reqDTO.toEntity(sessionUser);
