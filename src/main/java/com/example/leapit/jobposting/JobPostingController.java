@@ -34,14 +34,14 @@ public class JobPostingController {
     // 기업 채용공고 상세보기
     @GetMapping("/s/api/company/jobposting/detail/{id}")
     public ResponseEntity<?> companyGetDetailForm(@PathVariable Integer id) {
-        JobPostingResponse.DTO respDTO = jobPostingService.companyGetDetailForm(id);
+        JobPostingResponse.DTO respDTO = jobPostingService.getDetailCompany(id);
         return Resp.ok(respDTO);
     }
 
     // 구직자 채용공고 상세보기
     @GetMapping("/s/api/personal/jobposting/detail/{id}")
     public ResponseEntity<?> personalGetDetailForm(@PathVariable Integer id) {
-        JobPostingResponse.PersonalDTO respDTO = jobPostingService.personalGetDetailForm(id);
+        JobPostingResponse.DetailPersonalDTO respDTO = jobPostingService.getDetailPersonal(id);
         return Resp.ok(respDTO);
     }
 
