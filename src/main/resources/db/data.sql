@@ -1,20 +1,28 @@
 -- 1. user_tb
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('ssar', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'ssar@nate.com', '010-1234-5678', 'PERSONAL', NOW(), '쌀', '2000-01-01');
+VALUES ('ssar', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'ssar@nate.com', '010-1234-5678',
+        'PERSONAL', NOW(), '쌀', '2000-01-01');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('cos', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'cos@nate.com', '010-2345-6789', 'PERSONAL', NOW(), '코스', '1999-12-31');
+VALUES ('cos', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'cos@nate.com', '010-2345-6789',
+        'PERSONAL', NOW(), '코스', '1999-12-31');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('love', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'love@nate.com', '010-3456-6709', 'PERSONAL', NOW(), '러브', '1999-10-25');
+VALUES ('love', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'love@nate.com', '010-3456-6709',
+        'PERSONAL', NOW(), '러브', '1999-10-25');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('hana', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'hana@nate.com', '010-4567-7890', 'PERSONAL', NOW(), '김하나', '2001-03-14');
+VALUES ('hana', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'hana@nate.com', '010-4567-7890',
+        'PERSONAL', NOW(), '김하나', '2001-03-14');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at, name, birth_date)
-VALUES ('minsu', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'minsu@nate.com', '010-5678-8901', 'PERSONAL', NOW(), '박민수', '1998-07-22');
+VALUES ('minsu', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'minsu@nate.com', '010-5678-8901',
+        'PERSONAL', NOW(), '박민수', '1998-07-22');
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at)
-VALUES ('company01', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company01@nate.com', '02-1234-5678', 'COMPANY', NOW());
+VALUES ('company01', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company01@nate.com',
+        '02-1234-5678', 'COMPANY', NOW());
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at)
-VALUES ('company02', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company02@nate.com', '02-2345-6789', 'COMPANY', NOW());
+VALUES ('company02', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company02@nate.com',
+        '02-2345-6789', 'COMPANY', NOW());
 INSERT INTO user_tb (username, password, email, contact_number, role, created_at)
-VALUES ('company03', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company03@nate.com', '02-3456-7890', 'COMPANY', NOW());
+VALUES ('company03', '$2a$10$gCUnBtPpadsQOWl43CsAhe.oYPd.a5f0TPUhxOnhImDNo8U433B7S', 'company03@nate.com',
+        '02-3456-7890', 'COMPANY', NOW());
 
 -- 2.1 position_type_tb
 INSERT INTO position_type_tb (code)
@@ -56,7 +64,7 @@ VALUES ('Django');
 INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
 VALUES (1, '쌀의 이력서', NULL, '자바 개발자입니다', '백엔드', '적극적이고 성실합니다', now(), now());
 INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
-VALUES (1, '쌀의 이력서2', '이력서 사진4.png', '프론트엔드 자신 있습니다', '프론트엔드', '디자인 감각도 좋아요',now(), now());
+VALUES (1, '쌀의 이력서2', '이력서 사진4.png', '프론트엔드 자신 있습니다', '프론트엔드', '디자인 감각도 좋아요', now(), now());
 INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
 VALUES (2, '파이썬 이력서', '이력서 사진5.png', 'Django와 FastAPI 경험 있음', '백엔드', '데이터 파이프라인 경험', now(), now());
 INSERT INTO resume_tb (user_id, title, photo_url, summary, position_type, self_introduction, created_at, updated_at)
@@ -95,19 +103,19 @@ VALUES (2, '개인 블로그', 'https://velog.io/@username');
 -- 2.5 education_tb
 INSERT INTO education_tb (resume_id, graduation_date, is_dropout, education_level, school_name, major, gpa, gpa_scale,
                           created_at)
-VALUES (1, '2025-02-28', FALSE, '전문학사', '가나다대학교', '컴퓨터공학과', 4.2, 4.5, NOW());
+VALUES (1, '2025-02-28', FALSE, 'ASSOCIATE', '가나다대학교', '컴퓨터공학과', 4.2, 4.5, NOW());
 INSERT INTO education_tb (resume_id, graduation_date, is_dropout, education_level, school_name, major, gpa, gpa_scale,
                           created_at)
-VALUES (2, '2025-02-28', TRUE, '전문학사', '가나다대학교', '컴퓨터공학과', 2.2, 4.5, NOW());
+VALUES (2, '2025-02-28', TRUE, 'ASSOCIATE', '가나다대학교', '컴퓨터공학과', 2.2, 4.5, NOW());
 INSERT INTO education_tb (resume_id, graduation_date, is_dropout, education_level, school_name, major, gpa, gpa_scale,
                           created_at)
-VALUES (3, '2024-08-31', TRUE, '고등학교', '라마바고등학교', '정보처리학과', 3.5, 4.5, NOW());
+VALUES (3, '2024-08-31', TRUE, 'HIGH_SCHOOL', '라마바고등학교', '정보처리학과', 3.5, 4.5, NOW());
 INSERT INTO education_tb (resume_id, graduation_date, is_dropout, education_level, school_name, major, gpa, gpa_scale,
                           created_at)
-VALUES (4, '2023-02-28', FALSE, '학사', '사아자차카대학교', '인공지능학과', 3.9, 4.3, NOW());
+VALUES (4, '2023-02-28', FALSE, 'BACHELOR', '사아자차카대학교', '인공지능학과', 3.9, 4.3, NOW());
 INSERT INTO education_tb (resume_id, graduation_date, is_dropout, education_level, school_name, major, gpa, gpa_scale,
                           created_at)
-VALUES (5, '2024-02-28', FALSE, '전문학사', '부산대학교', '통계학과', 4.25, 4.3, NOW());
+VALUES (5, '2024-02-28', FALSE, 'ASSOCIATE', '부산대학교', '통계학과', 4.25, 4.3, NOW());
 
 -- 2.6 experience_tb
 INSERT INTO experience_tb (resume_id, start_date, end_date, is_employed, company_name, summary, position,
@@ -286,7 +294,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (6, '시니어 백엔드 개발자 채용', '백엔드', 5, 10,
-        '전문학사', 1, 1, '강남대로 123',
+        'HIGH_SCHOOL', 1, 1, '강남대로 123',
         '대용량 트래픽 처리 기반 백엔드 플랫폼 개발',
         '2025-06-30', '마이크로서비스 아키텍처 기반 시스템 설계 및 운영',
         'Java, Spring 기반 개발 경험 필수',
@@ -299,7 +307,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (7, '프론트엔드 개발자 모집', '프론트엔드', 0, 2,
-        NULL, 1, 2, '서초대로 77',
+        'NO_PREFERENCE', 1, 2, '서초대로 77',
         'B2B SaaS 웹서비스 구축 중인 스타트업입니다.',
         '2025-05-20', 'React 기반 웹 프론트엔드 개발 및 유지보수',
         'React, TypeScript 기반 개발 경험',
@@ -312,7 +320,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (7, '데이터 엔지니어 채용', '데이터 엔지니어', 0, 2,
-        NULL, 1, 2, '서초대로 77',
+        'NO_PREFERENCE', 1, 2, '서초대로 77',
         'B2B SaaS 플랫폼의 데이터 인프라를 담당할 인재를 찾습니다.',
         '2025-07-20', 'ETL 파이프라인 구축 및 데이터 웨어하우스 운영',
         'Python, SQL 기반 데이터 처리 경험',
@@ -325,7 +333,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (7, '주니어 데이터 엔지니어 모집', '데이터 엔지니어', 0, 2,
-        NULL, 1, 2, '서초대로 77',
+        'NO_PREFERENCE', 1, 2, '서초대로 77',
         'B2B SaaS 스타트업의 데이터 기반 서비스 구축에 참여할 인재를 찾습니다.',
         '2025-05-20', '데이터 수집 및 정제 자동화 시스템 구축',
         'Python, SQL 기본 지식 필수',
@@ -338,7 +346,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (7, '마감된 개발자 모집', '프론트엔드', 0, 2,
-        NULL, 1, 2, '서초대로 77',
+        'NO_PREFERENCE', 1, 2, '서초대로 77',
         'B2B SaaS 웹서비스 구축 중인 스타트업입니다.',
         '2025-03-20', 'React 기반 웹 프론트엔드 개발 및 유지보수',
         'React, TypeScript 기반 개발 경험',
@@ -351,7 +359,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (8, '데이터 엔지니어 채용', '데이터 엔지니어', 3, 5,
-        '학사', 2, 3, '해운대로 456',
+        'BACHELOR', 2, 3, '해운대로 456',
         'AI 데이터 파이프라인 구축 기업입니다.',
         '2025-04-15', 'ETL 파이프라인 설계 및 데이터 웨어하우스 운영',
         'Python, SQL, AWS Redshift 경험',
@@ -364,7 +372,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (6, '프론트엔드 웹 개발자 채용', '프론트엔드', 2, 5,
-        '학사', 1, 2, '테헤란로 456',
+        'BACHELOR', 1, 2, '테헤란로 456',
         '대규모 플랫폼 웹 프론트엔드 개발',
         '2025-06-30', 'React 기반 SPA 아키텍처 설계 및 개발',
         'React, TypeScript 실무 경험자',
@@ -377,7 +385,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (6, '모바일 프론트엔드 앱 개발자', '모바일 앱 개발자', 2, 5,
-        '학사', 1, 1, '정자일로 123',
+        'BACHELOR', 1, 1, '정자일로 123',
         'React Native 기반 모바일 앱 개발',
         '2025-06-30', '모바일 최적화 및 퍼포먼스 개선 작업',
         'React Native 개발 경험 필수',
@@ -390,7 +398,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (7, 'iOS 앱 개발자 구인', '모바일 앱 개발자', 1, 4,
-        '학사', 1, 2, '잠실로 321',
+        'BACHELOR', 1, 2, '잠실로 321',
         'iOS 기반 모바일 앱 개발',
         '2025-07-31', 'Swift 기반 앱 아키텍처 설계 및 구현',
         'Swift, UIKit 경험자 필수',
@@ -403,7 +411,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (8, 'AI 연구원 채용', 'AI 엔지니어', 0, 2,
-        '석사', 2, 4, '777',
+        'MASTER', 2, 4, '777',
         '머신러닝/딥러닝 모델 연구 및 개발',
         '2025-07-01', '최신 AI 모델 논문 분석 및 모델 개선',
         'TensorFlow, PyTorch 활용 경험',
@@ -416,7 +424,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (8, '풀스택 개발자 채용', '풀스택', 4, 8,
-        '전문학사', 1, 2, '디지털로 888',
+        'ASSOCIATE', 1, 2, '디지털로 888',
         '웹 및 서버 통합 풀스택 개발을 담당할 인재를 찾습니다.',
         '2025-08-10', 'React 및 Spring Boot 기반 풀스택 아키텍처 설계 및 개발',
         'Java, Spring Boot, React 개발 경험',
@@ -429,7 +437,7 @@ INSERT INTO job_posting_tb (user_id, title, position_type, min_career_level, max
                             service_intro, deadline, responsibility, qualification, preference,
                             benefit, additional_info, view_count, created_at)
 VALUES (7, 'QA 엔지니어 모집', '백엔드', 1, 5,
-        '학사', 2, 1, '999',
+        'BACHELOR', 2, 1, '999',
         '품질 보증 및 테스트 자동화 구축',
         '2025-07-20', '테스트 케이스 작성 및 품질 관리',
         '테스트 자동화 경험 필수 (Selenium 등)',
@@ -439,77 +447,77 @@ VALUES (7, 'QA 엔지니어 모집', '백엔드', 1, 5,
 
 
 -- 3-1. job_posting_tech_stack_tb
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (1, 'Python');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (1, 'Java');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (1, 'React');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (2, 'Django');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (2, 'Kotlin');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (2, 'Spring Boot');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (3, 'SQL');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (3, 'Node.js');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (3, 'React');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (4, 'React');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (4, 'Node.js');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (4, 'CSS');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (5, 'Python');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (5, 'Django');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (5, 'SQL');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (6, 'Java');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (6, 'Spring Boot');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (6, 'SQL');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (7, 'React');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (7, 'HTML');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (7, 'CSS');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (8, 'Node.js');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (8, 'SQL');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (8, 'Java');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (9, 'Python');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (9, 'React');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (9, 'SQL');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (10, 'Java');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (10, 'Spring Boot');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (10, 'HTML');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (11, 'Python');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (11, 'Django');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (11, 'CSS');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (12, 'Java');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (12, 'Kotlin');
-INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack_code)
+INSERT INTO job_posting_tech_stack_tb (job_posting_id, tech_stack)
 VALUES (12, 'Spring Boot');
 
 
@@ -526,22 +534,22 @@ INSERT INTO job_posting_bookmark_tb (user_id, job_posting_id, created_at)
 VALUES (3, 3, NOW());
 
 -- 5. application_tb
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (2, 2, '2025-04-18', null, false);
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (2, 2, '2025-04-19', true, true);
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (2, 1, '2025-04-19', null, true);
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (3, 1, '2025-04-20', false, true);
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (3, 3, '2025-04-21', true, true);
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (4, 3, '2025-04-21', null, true);
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (4, 2, '2025-04-21', true, true);
-INSERT INTO application_tb (resume_id, job_posting_id, applied_date, is_passed, is_viewed)
-VALUES (5, 3, '2025-04-21', false, true);
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (2, 2, '2025-04-18', 'WAITING', 'UNVIEWED');
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (2, 2, '2025-04-19', 'PASS', 'VIEWED');
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (2, 1, '2025-04-19', 'WAITING', 'VIEWED');
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (3, 1, '2025-04-20', 'FAIL', 'VIEWED');
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (3, 3, '2025-04-21', 'PASS', 'VIEWED');
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (4, 3, '2025-04-21', 'WAITING', 'VIEWED');
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (4, 2, '2025-04-21', 'PASS', 'VIEWED');
+INSERT INTO application_tb (resume_id, job_posting_id, applied_date, pass_status, view_status)
+VALUES (5, 3, '2025-04-21', 'FAIL', 'VIEWED');
 
 -- 5-1. application_bookmark_tb
 INSERT INTO application_bookmark_tb (user_id, application_id, created_at)
