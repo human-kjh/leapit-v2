@@ -142,7 +142,7 @@ public class JobPostingResponse {
             this.image = image;
             this.companyName = companyName;
             this.techStacks = techStacks.stream()
-                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack().getCode()))
+                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack()))
                     .collect(Collectors.toList());
 
             this.isBookmarked = isBookmarked;
@@ -158,7 +158,7 @@ public class JobPostingResponse {
             this.image = image;
             this.companyName = companyName;
             this.techStacks = techStacks.stream()
-                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack().getCode()))
+                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack()))
                     .collect(Collectors.toList());
         }
 

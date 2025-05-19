@@ -54,7 +54,7 @@ public class JobPostingService {
         }
 
         // 전체 공고목록 조회
-        List<JobPostingResponse.JobPostingDTO> jobPostingList = jobPostingRepository.findAllByFilter(
+        List<JobPostingResponse.JobPostingDTO> jobPostingList = jobPostingRepository.findByFilter(
                 regionId,
                 subRegionId,
                 career,

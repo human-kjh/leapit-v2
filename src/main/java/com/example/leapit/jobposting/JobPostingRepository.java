@@ -20,7 +20,7 @@ import java.util.List;
 public class JobPostingRepository {
     private final EntityManager em;
 
-    public List<JobPostingResponse.JobPostingDTO> findAllByFilter(
+    public List<JobPostingResponse.JobPostingDTO> findByFilter(
             Integer regionId,
             Integer subRegionId,
             CareerLevel career,
@@ -118,7 +118,7 @@ public class JobPostingRepository {
             } else {
                 if (techStack != null && currentDTO != null) {
                     currentDTO.getTechStacks().add(new CompanyInfoResponse.TechStackDTO(
-                            techStack.getTechStack().getCode()
+                            techStack.getTechStack()
                     ));
                 }
             }
