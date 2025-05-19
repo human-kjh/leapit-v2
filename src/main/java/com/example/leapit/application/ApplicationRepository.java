@@ -110,6 +110,7 @@ public class ApplicationRepository {
         }
         return dtoList;
     }
+
     // 지원 현황 통계
     public ApplicationResponse.StatusDTO findStatusByUserId(Integer userId) {
         String jpql = """

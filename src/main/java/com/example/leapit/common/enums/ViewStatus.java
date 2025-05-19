@@ -9,8 +9,4 @@ public enum ViewStatus {
     ViewStatus(String label) {
         this.label = label;
     }
-
-    public String getLabel() {
-        return label;
-    }
 }

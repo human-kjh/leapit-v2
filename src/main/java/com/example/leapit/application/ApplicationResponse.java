@@ -7,6 +7,14 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.example.leapit.common.enums.BookmarkStatus;
+import com.example.leapit.common.enums.ViewStatus;
+import com.example.leapit.jobposting.JobPostingResponse;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.List;
+
 public class ApplicationResponse {
 
     // 지원 현황 목록 + 통계
@@ -19,7 +27,6 @@ public class ApplicationResponse {
             this.status = status;
             this.itemDTOs = itemDTOs;
         }
-
         // 지원 형황 목록
         @Data
         public static class ItemDTO {
@@ -72,6 +79,7 @@ public class ApplicationResponse {
             this.closedPostions = closedPostions;
         }
     }
+
 
     // 지원자 목록 조회
     @Data
