@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Repository
 public class JobPostingRepository {
@@ -16,8 +18,7 @@ public class JobPostingRepository {
     }
 
     // 아이디로 채용공고 찾기
-    public JobPosting findById(Integer id) {
-        return em.find(JobPosting.class, id);
+    public Optional<JobPosting> findById(Integer id) {
+        return Optional.ofNullable(em.find(JobPosting.class, id));
     }
-
 }
