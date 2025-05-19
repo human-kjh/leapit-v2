@@ -19,9 +19,9 @@ public class ApplicationService {
         }
 
         // 지원 현황 목록 조회
-        List<ApplicationResponse.ItemDTO> applicationDTOs = applicationRepository.findAllByUserId(userId);
+        List<ApplicationResponse.ItemDTO> itemDTOs = applicationRepository.findItemsByUserId(userId);
         // respDTO에 담기
-        ApplicationResponse.MyPageDTO respDTO = new ApplicationResponse.MyPageDTO(statusDTO, applicationDTOs);
+        ApplicationResponse.MyPageDTO respDTO = new ApplicationResponse.MyPageDTO(statusDTO, itemDTOs);
         return respDTO;
     }
 }

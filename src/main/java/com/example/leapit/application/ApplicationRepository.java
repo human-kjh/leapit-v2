@@ -43,7 +43,7 @@ public class ApplicationRepository {
     }
 
     // 지원 현황 목록
-    public List<ApplicationResponse.ItemDTO> findAllByUserId(Integer userId) {
+    public List<ApplicationResponse.ItemDTO> findItemsByUserId(Integer userId) {
         String jpql = """
                     SELECT\s
                         ci.companyName,\s

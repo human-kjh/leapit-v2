@@ -11,11 +11,11 @@ public class ApplicationResponse {
     @Data
     public static class MyPageDTO {
         private StatusDTO status;
-        private List<ItemDTO> applications;
+        private List<ItemDTO> itemDTOs;
 
-        public MyPageDTO(StatusDTO status, List<ItemDTO> applications) {
+        public MyPageDTO(StatusDTO status, List<ItemDTO> itemDTOs) {
             this.status = status;
-            this.applications = applications;
+            this.itemDTOs = itemDTOs;
         }
     }
 
