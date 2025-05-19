@@ -14,6 +14,17 @@ public class ApplicationController {
     private final ApplicationService applicationService;
     private final HttpSession session;
 
+    // 기업 지원자현황 관리
+    @GetMapping("/s/company/applicant/list")
+    public ResponseEntity<?> getApplicantList(ApplicationRequest.ApplicantListDTO reqDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        ApplicationResponse.ApplicantListPageDTO respDTO =
+                applicationService.getApplicantList(sessionUser.getId(), reqDTO);
+
+        return Resp.ok(respDTO);
+    }
+
     // 개인 마이페이지 지원 현황 관리
     @GetMapping("/s/personal/mypage/application")
     public ResponseEntity<?> getMyApplication() {

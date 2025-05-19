@@ -1,12 +1,12 @@
 package com.example.leapit.common.enums;
 
-public enum ViewStatus {
-    VIEWED("열람"),
-    UNVIEWED("미열람");
+public enum BookmarkStatus {
+    BOOKMARKED("스크랩됨"),
+    NOT_BOOKMARKED("스크랩안됨");
 
     private final String label;
 
-    ViewStatus(String label) {
+    BookmarkStatus(String label) {
         this.label = label;
     }
 

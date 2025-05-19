@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class JobPostingRepository {
     private final EntityManager em;
-    
+
     // 채용공고 저장
     public JobPosting save(JobPosting jobPosting) {
         em.persist(jobPosting);
@@ -34,5 +34,62 @@ public class JobPostingRepository {
         Query query = em.createQuery("SELECT COUNT(j) FROM JobPosting j WHERE j.user.id = :userId AND j.deadline >= CURRENT_DATE");
         query.setParameter("userId", userId);
         return (Long) query.getSingleResult();
+    }
+
+
+    // 전체 공고 조회
+    public List<JobPostingResponse.ListDTO> findAllByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
+    }
+
+    // 진행중인 공고 조회
+    public List<JobPostingResponse.ListDTO> findOpenByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                      AND jpt.deadline >= CURRENT_DATE
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
+    }
+
+    // 마감된 공고 조회
+    public List<JobPostingResponse.ListDTO> findClosedByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                      AND jpt.deadline < CURRENT_DATE
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
     }
 }
