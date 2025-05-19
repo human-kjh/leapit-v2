@@ -2,6 +2,8 @@ package com.example.leapit.user;
 
 import com.example.leapit._core.error.ex.ExceptionApi400;
 import com.example.leapit._core.util.Resp;
+import com.example.leapit.jobposting.JobPostingResponse;
+import com.example.leapit.jobposting.JobPostingService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ public class UserController {
 
     private final UserService userService;
     private final HttpSession session;
+    private final JobPostingService jobPostingService;
 
     @PostMapping("/personal/join")
     public ResponseEntity<?> personalJoin(@Valid @RequestBody UserRequest.PersonalJoinDTO reqDTO, Errors errors) {
@@ -58,5 +62,19 @@ public class UserController {
         if (!reqDTO.getNewPassword().equals(reqDTO.getConfirmPassword())) throw new ExceptionApi400("입력한 비밀번호가 다릅니다.");
         UserResponse.UpdateDTO respDTO = userService.update(reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> index() {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        Integer userId = sessionUser != null ? sessionUser.getId() : null;
+
+        List<JobPostingResponse.MainDTO.MainRecentJobPostingDTO> recent = jobPostingService.getRecentPostings(userId);
+        List<JobPostingResponse.MainDTO.MainPopularJobPostingDTO> popular = jobPostingService.getPopularJobPostings(userId);
+
+        JobPostingResponse.MainDTO respDTO = new JobPostingResponse.MainDTO(recent, popular);
+
+        return Resp.ok(respDTO);
+
     }
 }
