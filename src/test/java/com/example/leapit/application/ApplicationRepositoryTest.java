@@ -36,7 +36,7 @@ public class ApplicationRepositoryTest {
         Integer userId = 1;
 
         // when
-        ApplicationResponse.StatusDTO dto = applicationRepository.findSummaryByUserId(userId);
+        ApplicationResponse.StatusDTO dto = applicationRepository.findStatusByUserId(userId);
 
         // eye
         System.out.println("=========통계 테스트=========");
@@ -47,16 +47,16 @@ public class ApplicationRepositoryTest {
     }
 
     @Test
-    public void findApplicationsByUserId_test() {
+    public void find_items_by_user_id_test() {
         // given
         Integer userId = 1;
 
         // when
-        List<ApplicationResponse.ItemDTO> applications = applicationRepository.findApplicationsByUserId(userId);
+        List<ApplicationResponse.MyPageDTO.ItemDTO> applications = applicationRepository.findItemsByUserId(userId);
 
         // eye
         System.out.println("=========지원현황 테스트=========");
-        for (ApplicationResponse.ItemDTO dto : applications) {
+        for (ApplicationResponse.MyPageDTO.ItemDTO dto : applications) {
             System.out.println("회사명: " + dto.getCompanyName());
             System.out.println("공고 제목: " + dto.getJobTitle());
             System.out.println("지원일: " + dto.getAppliedDate());

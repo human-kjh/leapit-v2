@@ -13,7 +13,7 @@ public class JobPostingBookmarkRepository {
     private final EntityManager em;
 
     //  개인 마이페이지 공고 스크랩 목록 조회
-    public List<JobPostingBookmarkResponse.ItemDTO> findAllJobPostingBookmarkByuserId(Integer userId) {
+    public List<JobPostingBookmarkResponse.ItemDTO> findItemsByuserId(Integer userId) {
         String jpql = """
         SELECT jp.id, ci.companyName, jp.title, jp.deadline
         FROM JobPostingBookmark jb

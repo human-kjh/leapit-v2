@@ -15,13 +15,13 @@ public class JobPostingBookmarkRepositoryTest {
     private JobPostingBookmarkRepository jobPostingBookmarkRepository;
 
     @Test
-    public void findAllJobPostingBookmarkByUserId_test() {
+    public void find_items_by_user_id_test() {
         // given
         Integer userId = 1;
 
         // when
         List<JobPostingBookmarkResponse.ItemDTO> bookmarks =
-                jobPostingBookmarkRepository.findAllJobPostingBookmarkByuserId(userId);
+                jobPostingBookmarkRepository.findItemsByuserId(userId);
 
         // eye
         System.out.println("=========개인 스크랩 현황 테스트=========");

@@ -19,10 +19,10 @@ public class JobPostingBookmarkService {
         if (userId == null) throw new ExceptionApi404("회원정보가 존재하지 않습니다.");
 
         // 지원 현황 통계
-        ApplicationResponse.StatusDTO statusDTO = applicationRepository.findSummaryByUserId(userId);
+        ApplicationResponse.StatusDTO statusDTO = applicationRepository.findStatusByUserId(userId);
 
         // 스크랩한 공고 목록 조회
-        List<JobPostingBookmarkResponse.ItemDTO> bookmarkListDTO = jobPostingBookmarkRepository.findAllJobPostingBookmarkByuserId(userId);
+        List<JobPostingBookmarkResponse.ItemDTO> bookmarkListDTO = jobPostingBookmarkRepository.findItemsByuserId(userId);
 
         // respDTO에 담기
         JobPostingBookmarkResponse.ViewDTO respDTO = new JobPostingBookmarkResponse.ViewDTO(bookmarkListDTO, statusDTO);
