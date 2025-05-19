@@ -17,7 +17,7 @@ public class BoardController {
     private final BoardService boardService;
     private final HttpSession session;
 
-    @PostMapping("/s/api/community")
+    @PostMapping("/s/api/personal/board")
     public ResponseEntity<?> save(@Valid @RequestBody BoardRequest.SaveDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -27,7 +27,7 @@ public class BoardController {
     }
 
 
-    @PutMapping("/s/api/community/{id}")
+    @PutMapping("/s/api/personal/board/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id, @Valid @RequestBody BoardRequest.UpdateDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -36,7 +36,7 @@ public class BoardController {
         return Resp.ok(respDTO);
     }
 
-    @GetMapping("/s/api/community/{id}")
+    @GetMapping("/s/api/personal/board/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -44,7 +44,7 @@ public class BoardController {
         return Resp.ok(respDTO);
     }
 
-    @GetMapping("/api/community")
+    @GetMapping("/api/personal/board")
     public ResponseEntity<?> getList() {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -54,7 +54,7 @@ public class BoardController {
         return Resp.ok(respDTO);
     }
 
-    @GetMapping("/api/community/{id}/detail")
+    @GetMapping("/api/personal/board/{id}/detail")
     public ResponseEntity<?> getDetail(@PathVariable("id") Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -66,7 +66,7 @@ public class BoardController {
         return Resp.ok(respDTO);
     }
 
-    @DeleteMapping("/s/api/community/{id}")
+    @DeleteMapping("/s/api/personal/board/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
