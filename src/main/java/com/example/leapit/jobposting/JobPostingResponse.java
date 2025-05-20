@@ -1,5 +1,6 @@
 package com.example.leapit.jobposting;
 
+import com.example.leapit.common.enums.BookmarkStatus;
 import com.example.leapit.common.enums.CareerLevel;
 import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.common.region.SubRegion;
@@ -161,7 +162,7 @@ public class JobPostingResponse {
             private String companyName;
             private String image;
             private boolean isActive;
-            private boolean isBookmarked;
+            private BookmarkStatus bookmarkStatus;
 
             public MainRecentJobPostingDTO(JobPosting jp, CompanyInfo companyInfo, String imageString, boolean isActive, boolean isBookmarked) {
                 this.id = jp.getId();
@@ -169,7 +170,9 @@ public class JobPostingResponse {
                 this.companyName = companyInfo.getCompanyName();
                 this.image = imageString;
                 this.isActive = isActive;
-                this.isBookmarked = isBookmarked;
+                this.bookmarkStatus = isBookmarked
+                        ? BookmarkStatus.BOOKMARKED
+                        : BookmarkStatus.NOT_BOOKMARKED;
             }
         }
 
@@ -183,7 +186,7 @@ public class JobPostingResponse {
             private String career;
             private int dDay;
             private int viewCount;
-            private boolean isBookmarked;
+            private BookmarkStatus bookmarkStatus;
             private List<CompanyInfoResponse.DetailDTO.JobPostingDTO.TechStackDTO> techStacks;
 
             public MainPopularJobPostingDTO(JobPosting jp,
@@ -200,7 +203,9 @@ public class JobPostingResponse {
                 this.career = formatCareer(jp.getMinCareerLevel().name(), jp.getMaxCareerLevel().name());
                 this.dDay = calculateDDay(jp.getDeadline());
                 this.viewCount = jp.getViewCount();
-                this.isBookmarked = isBookmarked;
+                this.bookmarkStatus = isBookmarked
+                        ? BookmarkStatus.BOOKMARKED
+                        : BookmarkStatus.NOT_BOOKMARKED;
                 this.techStacks = new ArrayList<>();
                 for (JobPostingTechStack stack : techStacks) {
                     String code = stack.getTechStack();
