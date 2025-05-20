@@ -87,7 +87,6 @@ public class UserController {
                 // userId는 null로 둬도 됨 → 북마크 없이 동작
             }
         }
-
         List<JobPostingResponse.MainDTO.MainRecentJobPostingDTO> recent = jobPostingService.getRecentPostings(userId);
         List<JobPostingResponse.MainDTO.MainPopularJobPostingDTO> popular = jobPostingService.getPopularJobPostings(userId);
 

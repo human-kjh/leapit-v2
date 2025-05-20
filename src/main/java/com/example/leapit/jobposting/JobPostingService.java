@@ -242,4 +242,5 @@ public class JobPostingService {
 
         return popularList;
     }
+
 }

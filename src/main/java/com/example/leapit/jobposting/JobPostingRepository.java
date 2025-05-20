@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @RequiredArgsConstructor
 @Repository
 public class JobPostingRepository {
@@ -20,6 +21,7 @@ public class JobPostingRepository {
         em.persist(jobPosting);
         return jobPosting;
     }
+
 
     // 아이디로 채용공고 찾기
     public Optional<JobPosting> findById(Integer id) {
@@ -176,7 +178,6 @@ public class JobPostingRepository {
         query.setMaxResults(3);
 
         return query.getResultList();
-
     }
 }
 

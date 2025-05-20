@@ -46,6 +46,7 @@ public class JobPostingBookmarkRepository {
         return dtos;
     }
 
+
     public Optional<JobPostingBookmark> findByUserIdAndJobPostingId(Integer userId, Integer jobPostingId) {
         try {
             JobPostingBookmark bookmark = em.createQuery("""
@@ -55,7 +56,6 @@ public class JobPostingBookmarkRepository {
                     .setParameter("userId", userId)
                     .setParameter("jobPostingId", jobPostingId)
                     .getSingleResult();
-
             return Optional.of(bookmark);
         } catch (Exception e) {
             return Optional.ofNullable(null);
@@ -66,4 +66,6 @@ public class JobPostingBookmarkRepository {
         em.persist(bookmark);
         return bookmark;
     }
+
+
 }
