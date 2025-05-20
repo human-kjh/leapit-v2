@@ -21,4 +21,15 @@ public class ApplicationController {
         ApplicationResponse.MyPageDTO respDTO = applicationService.getMyApplication(sessionUser.getId());
         return Resp.ok(respDTO);
     }
+
+    // 기업 지원자현황 관리
+    @GetMapping("/s/company/applicant/list")
+    public ResponseEntity<?> getApplicantList(ApplicationRequest.ApplicantListDTO reqDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        ApplicationResponse.ApplicantListPageDTO respDTO =
+                applicationService.getApplicantList(sessionUser.getId(), reqDTO);
+
+        return Resp.ok(respDTO);
+    }
 }
