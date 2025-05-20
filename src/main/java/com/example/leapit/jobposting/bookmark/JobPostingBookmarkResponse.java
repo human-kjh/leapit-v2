@@ -39,15 +39,15 @@ public class JobPostingBookmarkResponse {
     @Data
     public static class DTO {
         private Integer bookmarkId;
-        private Integer resumeId;
+        private Integer userId;
         private Integer jobPostingId;
         private String createdAt;
 
         public DTO(JobPostingBookmark jobPostingBookmark) {
-            this.bookmarkId = bookmarkId;
-            this.resumeId = resumeId;
-            this.jobPostingId = jobPostingId;
-            this.createdAt = createdAt;
+            this.bookmarkId = jobPostingBookmark.getId();
+            this.userId = jobPostingBookmark.getUser().getId();
+            this.jobPostingId = jobPostingBookmark.getJobPosting().getId();
+            this.createdAt = jobPostingBookmark.getCreatedAt().toString();
         }
     }
 

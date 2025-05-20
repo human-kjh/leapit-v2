@@ -146,7 +146,7 @@ public class JobPostingService {
                 reqDTO.getCareerLevel(),
                 reqDTO.getTechStackCode(),
                 reqDTO.getSelectedPosition(),
-                reqDTO.getSortTypeOrDefault(),
+                reqDTO.getSortType(),
                 sessionUserId
         );
 
