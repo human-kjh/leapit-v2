@@ -142,9 +142,9 @@ public class JobPostingService {
         List<JobPostingResponse.ItemDTO> jobPostingList = jobPostingRepository.findAllByFilter(
                 reqDTO.getRegionId(),
                 reqDTO.getSubRegionId(),
-                reqDTO.getCareerLevelOrNull(),
-                reqDTO.getTechStackCodeOrNull(),
-                reqDTO.getSelectedPositionOrNull(),
+                reqDTO.getCareerLevel(),
+                reqDTO.getTechStackCode(),
+                reqDTO.getSelectedPosition(),
                 reqDTO.getSortTypeOrDefault(),
                 sessionUserId
         );
