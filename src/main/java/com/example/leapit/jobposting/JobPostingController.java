@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class JobPostingController {
     private final JobPostingService jobPostingService;
+
     private final HttpSession session;
 
     // 채용공고 등록
@@ -50,21 +51,14 @@ public class JobPostingController {
         jobPostingService.delete(id, sessionUser.getId());
         return Resp.ok(null);
     }
-
-    // 구직자 - 채용공고 목록
-    @GetMapping("/s/personal/jobposting/list")
-    public ResponseEntity<?> getList(JobPostingRequest.JobPostingListRequestDTO reqDTO) {
+    // 구직자 - 채용공고 목록(공고현황 페이지(필터))
+    @GetMapping("/api/personal/jobposting")
+    public ResponseEntity<?> getList(JobPostingRequest.FilterDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         Integer sessionUserId = (sessionUser != null) ? sessionUser.getId() : null;
 
-        JobPostingResponse.JobPostingListFilterDTO respDTO =
-                jobPostingService.getList(
-                        reqDTO.getRegionIdAsInteger(),
-                        reqDTO.getSubRegionIdAsInteger(),
-                        reqDTO.getCareerLevelOrNull(),
-                        reqDTO.getTechStackCodeOrNull(),
-                        reqDTO.getSelectedPositionOrNull(),
-                        reqDTO.getSortTypeOrDefault(),
+        JobPostingResponse.FilteredListDTO respDTO =
+                jobPostingService.getList(reqDTO,
                         sessionUserId
                 );
         return Resp.ok(respDTO);
