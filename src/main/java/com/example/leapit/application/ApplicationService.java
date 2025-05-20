@@ -1,10 +1,22 @@
 package com.example.leapit.application;
 
+import com.example.leapit._core.error.ex.ExceptionApi400;
+import com.example.leapit._core.error.ex.ExceptionApi403;
+import com.example.leapit._core.error.ex.ExceptionApi404;
+import com.example.leapit.companyinfo.CompanyInfo;
+import com.example.leapit.companyinfo.CompanyInfoRepository;
+import com.example.leapit.jobposting.JobPosting;
 import com.example.leapit.jobposting.JobPostingRepository;
 import com.example.leapit.jobposting.JobPostingResponse;
+import com.example.leapit.resume.Resume;
+import com.example.leapit.resume.ResumeRepository;
+import com.example.leapit.user.User;
+import com.example.leapit.user.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -12,6 +24,9 @@ import java.util.List;
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final JobPostingRepository jobPostingRepository;
+    private final ResumeRepository resumeRepository;
+    private final UserRepository userRepository;
+    private final CompanyInfoRepository companyInfoRepository;
 
     // 기업 지원자 현황 관리
     public ApplicationResponse.ApplicantPageDTO getApplicant(Integer companyUserId, ApplicationRequest.ApplicantListDTO reqDTO) {
@@ -46,5 +61,52 @@ public class ApplicationService {
         // respDTO에 담기
         ApplicationResponse.MyPageDTO respDTO = new ApplicationResponse.MyPageDTO(statusDTO, itemDTOs);
         return respDTO;
+    }
+
+    // 특정 채용공고에 대한 이력서 지원 화면
+    public ApplicationResponse.ApplyDTO getApplyForm(Integer jobPostingId, Integer userId) {
+        JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
+                .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
+
+        CompanyInfo companyInfo = companyInfoRepository.findByUserId(jobPosting.getUser().getId())
+                .orElseThrow(() -> new ExceptionApi404("기업 정보를 찾을 수 없습니다."));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ExceptionApi404("사용자 정보를 찾을 수 없습니다."));
+
+        List<Resume> resumes = resumeRepository.findAllByUserIdWithTechStacks(userId);
+
+        return new ApplicationResponse.ApplyDTO(jobPosting, companyInfo, user, resumes);
+    }
+
+    //
+    @Transactional
+    public ApplicationResponse.ApplyResultDTO save(ApplicationRequest.ApplyReqDTO dto, Integer userId) {
+        // 1. 중복 지원 방지
+        if (applicationRepository.checkIfAlreadyApplied(userId, dto.getJobPostingId())) {
+            throw new ExceptionApi400("이미 지원한 공고입니다.");
+        }
+
+        // 2. 이력서 조회 (본인 것만 허용)
+        Resume resume = resumeRepository.findById(dto.getResumeId())
+                .orElseThrow(() -> new ExceptionApi404("이력서를 찾을 수 없습니다."));
+        if (!resume.getUser().getId().equals(userId)) {
+            throw new ExceptionApi403("본인 이력서만 사용할 수 없습니다.");
+        }
+
+        // 3. 채용공고 조회
+        JobPosting jobPosting = jobPostingRepository.findById(dto.getJobPostingId())
+                .orElseThrow(() -> new ExceptionApi404("채용공고를 찾을 수 없습니다."));
+
+        // 4. 지원서 엔티티 생성
+        Application application = Application.builder()
+                .resume(resume)
+                .jobPosting(jobPosting)
+                .appliedDate(new Timestamp(System.currentTimeMillis()))
+                .build();
+
+        // 5. 저장 및 응답 DTO 리턴
+        Application applicationPS = applicationRepository.save(application);
+        return new ApplicationResponse.ApplyResultDTO(applicationPS);
     }
 }

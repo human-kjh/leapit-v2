@@ -3,6 +3,7 @@ package com.example.leapit.application;
 import com.example.leapit.common.enums.BookmarkStatus;
 import com.example.leapit.common.enums.PassStatus;
 import com.example.leapit.common.enums.ViewStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 public class ApplicationRequest {
@@ -17,4 +18,14 @@ public class ApplicationRequest {
         private BookmarkStatus bookmarkStatus;   // 스크랩 여부
         private PassStatus passStatus;           // 합격 여부
     }
+
+    @Data
+    public static class ApplyReqDTO {
+        @NotNull(message = "채용공고 ID는 필수입니다.")
+        private Integer jobPostingId;
+
+        @NotNull(message = "이력서 ID는 필수입니다.")
+        private Integer resumeId;
+    }
+
 }

@@ -5,8 +5,7 @@ import com.example.leapit.user.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,6 +29,21 @@ public class ApplicationController {
         ApplicationResponse.ApplicantPageDTO respDTO =
                 applicationService.getApplicant(sessionUser.getId(), reqDTO);
 
+        return Resp.ok(respDTO);
+    }
+
+    // 특정 채용공고에 대한 이력서 지원하기 화면
+    @GetMapping("/s/api/personal/jobposting/{id}/apply-form")
+    public ResponseEntity<?> getApplyForm(@PathVariable Integer id) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        ApplicationResponse.ApplyDTO respDTO = applicationService.getApplyForm(id, sessionUser.getId());
+        return Resp.ok(respDTO);
+    }
+
+    @PostMapping("/s/api/personal/application")
+    public ResponseEntity<?> save(@RequestBody ApplicationRequest.ApplyReqDTO reqDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        ApplicationResponse.ApplyResultDTO respDTO = applicationService.save(reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
     }
 }

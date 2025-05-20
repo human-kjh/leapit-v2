@@ -9,8 +9,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.List;
 
 @NoArgsConstructor
@@ -33,7 +34,8 @@ public class Application {
     @OneToMany(mappedBy = "application", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ApplicationBookmark> applicationBookmarks;
 
-    private LocalDate appliedDate;
+    @CreationTimestamp
+    private Timestamp appliedDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -42,4 +44,13 @@ public class Application {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ViewStatus viewStatus; // VIEWED / UNVIEWED
+
+    @Builder
+    public Application(Resume resume, JobPosting jobPosting, Timestamp appliedDate) {
+        this.resume = resume;
+        this.jobPosting = jobPosting;
+        this.appliedDate = appliedDate;
+        this.passStatus = PassStatus.WAITING;
+        this.viewStatus = ViewStatus.UNVIEWED;
+    }
 }

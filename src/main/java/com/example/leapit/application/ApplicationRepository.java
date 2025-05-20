@@ -175,4 +175,25 @@ public class ApplicationRepository {
                 ))
                 .toList();
     }
+
+    // 채용공고에 이력서 지원하기
+    public Application save(Application application) {
+        em.persist(application);
+        return application;
+    }
+
+    public boolean checkIfAlreadyApplied(Integer userId, Integer jobPostingId) {
+        String jpql = """
+                    SELECT COUNT(a) > 0
+                    FROM Application a
+                    WHERE a.resume.user.id = :userId
+                    AND a.jobPosting.id = :jobPostingId
+                """;
+
+        return em.createQuery(jpql, Boolean.class)
+                .setParameter("userId", userId)
+                .setParameter("jobPostingId", jobPostingId)
+                .getSingleResult();
+    }
+
 }
