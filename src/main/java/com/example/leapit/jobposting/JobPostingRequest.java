@@ -77,7 +77,7 @@ public class JobPostingRequest {
     }
 
     @Data
-    public class JobPostingListRequestDTO {
+    public class FilterDTO {
 
         private Integer regionId;
         private Integer subRegionId;

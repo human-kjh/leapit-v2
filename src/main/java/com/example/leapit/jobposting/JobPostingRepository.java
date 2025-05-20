@@ -115,7 +115,7 @@ public class JobPostingRepository {
 
 
 
-    public List<JobPostingResponse.JobPostingDTO> findByFilter(
+    public List<JobPostingResponse.JobPostingDTO> findAllByFilter(
             Integer regionId,
             Integer subRegionId,
             CareerLevel career,

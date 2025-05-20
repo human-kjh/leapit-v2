@@ -117,7 +117,7 @@ public class JobPostingService {
     }
 
     // 공고현황 페이지(필터)
-    public JobPostingResponse.FilteredListDTO getList(JobPostingRequest.JobPostingListRequestDTO reqDTO,Integer sessionUserId) {
+    public JobPostingResponse.FilteredListDTO getList(JobPostingRequest.FilterDTO reqDTO,Integer sessionUserId) {
 
         // 1. 포지션 타입 코드 리스트 (예: ["백엔드", "프론트엔드"])
         List<String> positionTypes = positionTypeRepository.findAll();
@@ -140,7 +140,7 @@ public class JobPostingService {
         }
 
         // 전체 공고목록 조회
-        List<JobPostingResponse.JobPostingDTO> jobPostingList = jobPostingRepository.findByFilter(
+        List<JobPostingResponse.JobPostingDTO> jobPostingList = jobPostingRepository.findAllByFilter(
                 reqDTO.getRegionId(),
                 reqDTO.getSubRegionId(),
                 reqDTO.getCareerLevelOrNull(),
