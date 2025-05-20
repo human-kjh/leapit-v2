@@ -61,7 +61,7 @@ public class JobPostingController {
 
     // 채용공고 수정
     @PutMapping("/s/api/company/jobposting/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody JobPostingRequest.UpdateDTO reqDTO) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody JobPostingRequest.UpdateDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         JobPostingResponse.DTO respDTO = jobPostingService.update(id, sessionUser.getId(), reqDTO);
         return Resp.ok(respDTO);

@@ -3,8 +3,10 @@ package com.example.leapit.application;
 import com.example.leapit._core.util.Resp;
 import com.example.leapit.user.User;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -41,7 +43,7 @@ public class ApplicationController {
     }
 
     @PostMapping("/s/api/personal/application")
-    public ResponseEntity<?> save(@RequestBody ApplicationRequest.ApplyReqDTO reqDTO) {
+    public ResponseEntity<?> save(@Valid @RequestBody ApplicationRequest.ApplyReqDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         ApplicationResponse.ApplyResultDTO respDTO = applicationService.save(reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
