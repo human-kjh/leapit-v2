@@ -9,6 +9,8 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 
+import lombok.Data;
+
 public class JobPostingResponse {
 
     // 등록된 채용공고에 대한 수정화면 DTO
@@ -189,6 +191,18 @@ public class JobPostingResponse {
             this.techStacks = jobPosting.getJobPostingTechStacks().stream()
                     .map(jpts -> jpts.getTechStack())
                     .toList();
+        }
+    }
+
+    // 진행중과 마감된 리스트 조회
+    @Data
+    public static class ListDTO {
+        private Integer jobPostingId;
+        private String title;
+
+        public ListDTO(Integer jobPostingId, String title) {
+            this.jobPostingId = jobPostingId;
+            this.title = title;
         }
     }
 }
