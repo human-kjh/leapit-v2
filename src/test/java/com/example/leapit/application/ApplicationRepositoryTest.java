@@ -34,7 +34,7 @@ public class ApplicationRepositoryTest {
 
         // when
         List<ApplicationResponse.ApplicantListDTO> result =
-                applicationRepository.findAllApplicantsByFilter(
+                applicationRepository.findApplicantsByFilter(
                         companyUserId,
                         jobPostingId,
                         passStatus,

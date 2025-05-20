@@ -13,7 +13,8 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final JobPostingRepository jobPostingRepository;
 
-    public ApplicationResponse.ApplicantListPageDTO getApplicantList(Integer companyUserId, ApplicationRequest.ApplicantListDTO reqDTO) {
+    // 기업 지원자 현황 관리
+    public ApplicationResponse.ApplicantPageDTO getApplicant(Integer companyUserId, ApplicationRequest.ApplicantListDTO reqDTO) {
         // 1. 전체 공고 리스트 조회
         List<JobPostingResponse.ListDTO> allPositions = jobPostingRepository.findAllByCompanyUserId(companyUserId);
 
@@ -24,10 +25,10 @@ public class ApplicationService {
         List<JobPostingResponse.ListDTO> closedPositions = jobPostingRepository.findClosedByCompanyUserId(companyUserId);
 
         // 4. 지원받은 이력서 목록 조회(필터 : 북마크여부, 열람여부, 합불여부)
-        List<ApplicationResponse.ApplicantListDTO> applicants = applicationRepository.findAllApplicantsByFilter(companyUserId, reqDTO.getJobPostingId(), reqDTO.getPassStatus(), reqDTO.getViewStatus(), reqDTO.getBookmarkStatus());
+        List<ApplicationResponse.ApplicantListDTO> applicants = applicationRepository.findApplicantsByFilter(companyUserId, reqDTO.getJobPostingId(), reqDTO.getPassStatus(), reqDTO.getViewStatus(), reqDTO.getBookmarkStatus());
 
         // 5. pageDTO에 담아서 컨트롤러에 넘김
-        ApplicationResponse.ApplicantListPageDTO respDTO = new ApplicationResponse.ApplicantListPageDTO(applicants, allPositions, openPositions, closedPositions);
+        ApplicationResponse.ApplicantPageDTO respDTO = new ApplicationResponse.ApplicantPageDTO(applicants, allPositions, openPositions, closedPositions);
 
         return respDTO;
     }

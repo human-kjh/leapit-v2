@@ -7,6 +7,7 @@ import lombok.Data;
 
 public class ApplicationRequest {
 
+    // 기업 지원자 현황 관리
     @Data
     public static class ApplicantListDTO {
         private Integer jobPostingId;

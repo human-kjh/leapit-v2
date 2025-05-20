@@ -5,13 +5,9 @@ public enum JobPostingStatus {
     OPEN("진행중"),
     CLOSED("마감");
 
-    private final String label;
+    public String label;
 
     JobPostingStatus(String label) {
         this.label = label;
-    }
-
-    public String getLabel() {
-        return label;
     }
 }

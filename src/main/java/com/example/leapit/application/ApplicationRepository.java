@@ -24,7 +24,7 @@ public class ApplicationRepository {
     }
 
     // 지원받은 이력서 목록 조회(필터 : 북마크여부, 열람여부, 합불여부)
-    public List<ApplicationResponse.ApplicantListDTO> findAllApplicantsByFilter(
+    public List<ApplicationResponse.ApplicantListDTO> findApplicantsByFilter(
             Integer companyUserId,
             Integer jobPostingId,
             PassStatus passStatus,

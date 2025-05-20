@@ -15,20 +15,20 @@ public class ApplicationController {
     private final HttpSession session;
 
     // 개인 마이페이지 지원 현황 관리
-    @GetMapping("/s/personal/mypage/application")
+    @GetMapping("/s/api/personal/mypage/application")
     public ResponseEntity<?> getMyApplication() {
         User sessionUser = (User) session.getAttribute("sessionUser");
         ApplicationResponse.MyPageDTO respDTO = applicationService.getMyApplication(sessionUser.getId());
         return Resp.ok(respDTO);
     }
 
-    // 기업 지원자현황 관리
-    @GetMapping("/s/company/applicant/list")
-    public ResponseEntity<?> getApplicantList(ApplicationRequest.ApplicantListDTO reqDTO) {
+    // 기업 지원자 현황 관리
+    @GetMapping("/s/api/company/applicant")
+    public ResponseEntity<?> getApplicant(ApplicationRequest.ApplicantListDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
-        ApplicationResponse.ApplicantListPageDTO respDTO =
-                applicationService.getApplicantList(sessionUser.getId(), reqDTO);
+        ApplicationResponse.ApplicantPageDTO respDTO =
+                applicationService.getApplicant(sessionUser.getId(), reqDTO);
 
         return Resp.ok(respDTO);
     }
