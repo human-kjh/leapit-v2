@@ -8,12 +8,12 @@ public class RegionResponse {
 
 
     @Data
-    public static class RegionDTO {
+    public static class DTO {
         private Integer id;
         private String name;
         private List<SubRegionDTO> subRegions;
 
-        public RegionDTO(Integer id, String name, List<SubRegion> subRegions) {
+        public DTO(Integer id, String name, List<SubRegion> subRegions) {
             this.id = id;
             this.name = name;
             this.subRegions = subRegions.stream()

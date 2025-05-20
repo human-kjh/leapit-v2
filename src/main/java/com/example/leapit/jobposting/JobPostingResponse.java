@@ -205,11 +205,11 @@ public class JobPostingResponse {
     public static class FilteredListDTO {
         private List<String> positions;
         private List<String> techStacks;
-        private List<RegionResponse.RegionDTO> regions;
+        private List<RegionResponse.DTO> regions;
         private List<CareerLevel> careerLevels;
         private List<JobPostingResponse.ItemDTO> jobPostingList;
 
-        public FilteredListDTO(List<String> positions, List<String> techStacks, List<RegionResponse.RegionDTO> regions, List<CareerLevel> careerLevels, List<ItemDTO> jobPostingList) {
+        public FilteredListDTO(List<String> positions, List<String> techStacks, List<RegionResponse.DTO> regions, List<CareerLevel> careerLevels, List<ItemDTO> jobPostingList) {
             this.positions = positions;
             this.techStacks = techStacks;
             this.regions = regions;

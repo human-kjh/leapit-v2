@@ -55,10 +55,11 @@ public class JobPostingController {
     @GetMapping("/api/personal/jobposting")
     public ResponseEntity<?> getList(JobPostingRequest.FilterDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
+        Integer sessionUserId = (sessionUser != null) ? sessionUser.getId() : null;
 
         JobPostingResponse.FilteredListDTO respDTO =
                 jobPostingService.getList(reqDTO,
-                        sessionUser.getId()
+                        sessionUserId
                 );
         return Resp.ok(respDTO);
     }

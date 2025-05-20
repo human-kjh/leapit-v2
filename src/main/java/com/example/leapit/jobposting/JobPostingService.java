@@ -131,10 +131,10 @@ public class JobPostingService {
         List<CareerLevel> careerLevels = List.of(CareerLevel.values());
 
         // 5. Region + SubRegion DTO 변환
-        List<RegionResponse.RegionDTO> regionDTOs = new ArrayList<>();
+        List<RegionResponse.DTO> regionDTOs = new ArrayList<>();
         for (Region region : regions) {
             List<SubRegion> subRegions = regionRepository.findAllSubRegionByRegionId(region.getId());
-            RegionResponse.RegionDTO regionDTO = new RegionResponse.RegionDTO(region.getId(), region.getName(), subRegions);
+            RegionResponse.DTO regionDTO = new RegionResponse.DTO(region.getId(), region.getName(), subRegions);
             regionDTOs.add(regionDTO);
         }
 
