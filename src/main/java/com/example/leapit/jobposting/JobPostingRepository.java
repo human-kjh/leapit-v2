@@ -115,7 +115,7 @@ public class JobPostingRepository {
 
 
 
-    public List<JobPostingResponse.JobPostingDTO> findAllByFilter(
+    public List<JobPostingResponse.ItemDTO> findAllByFilter(
             Integer regionId,
             Integer subRegionId,
             CareerLevel career,
@@ -181,10 +181,10 @@ public class JobPostingRepository {
         if (positionLabel != null) query.setParameter("positionLabel", positionLabel);
 
         List<Object[]> results = query.getResultList();
-        List<JobPostingResponse.JobPostingDTO> dtos = new ArrayList<>();
+        List<JobPostingResponse.ItemDTO> dtos = new ArrayList<>();
 
         Integer lastJobPostingId = null;
-        JobPostingResponse.JobPostingDTO currentDTO = null;
+        JobPostingResponse.ItemDTO currentDTO = null;
 
         for (Object[] result : results) {
             JobPosting jobPosting = (JobPosting) result[0];
@@ -204,7 +204,7 @@ public class JobPostingRepository {
                 }
 
                 // JobPostingDTO 생성 시, isBookmarked 값 전달
-                currentDTO = new JobPostingResponse.JobPostingDTO(
+                currentDTO = new JobPostingResponse.ItemDTO(
                         jobPosting, techStacks, address, image, companyName, isBookmarked
                 );
                 dtos.add(currentDTO);

@@ -14,7 +14,6 @@ import com.example.leapit.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.example.leapit.common.enums.SortType;
 import com.example.leapit.common.region.RegionResponse;
 
 import java.util.ArrayList;
@@ -140,7 +139,7 @@ public class JobPostingService {
         }
 
         // 전체 공고목록 조회
-        List<JobPostingResponse.JobPostingDTO> jobPostingList = jobPostingRepository.findAllByFilter(
+        List<JobPostingResponse.ItemDTO> jobPostingList = jobPostingRepository.findAllByFilter(
                 reqDTO.getRegionId(),
                 reqDTO.getSubRegionId(),
                 reqDTO.getCareerLevelOrNull(),

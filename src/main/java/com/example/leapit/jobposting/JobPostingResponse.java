@@ -156,7 +156,7 @@ public class JobPostingResponse {
 
     // 구직자 - 채용공고 목록
     @Data
-    public static class JobPostingDTO {
+    public static class ItemDTO {
         private Integer id;
         private String companyName;
         private String title;
@@ -169,7 +169,7 @@ public class JobPostingResponse {
         private List<CompanyInfoResponse.TechStackDTO> techStacks;
 
         // address는 외부에서 전달받음
-        public JobPostingDTO(JobPosting jobPostings, List<JobPostingTechStack> techStacks, String address, String image, String companyName, boolean isBookmarked) {
+        public ItemDTO(JobPosting jobPostings, List<JobPostingTechStack> techStacks, String address, String image, String companyName, boolean isBookmarked) {
             this.id = jobPostings.getId();
             this.title = jobPostings.getTitle();
             this.deadline = jobPostings.getDeadline();
@@ -183,20 +183,6 @@ public class JobPostingResponse {
                     .collect(Collectors.toList());
 
             this.isBookmarked = isBookmarked;
-        }
-
-        public JobPostingDTO(JobPosting jobPostings, List<JobPostingTechStack> techStacks, String address, String image, String companyName) {
-            this.id = jobPostings.getId();
-            this.title = jobPostings.getTitle();
-            this.deadline = jobPostings.getDeadline();
-            this.dDay = calculateDDay(deadline);
-            this.career = formatCareer(jobPostings.getMinCareerLevel(), jobPostings.getMaxCareerLevel());
-            this.address = address;
-            this.image = image;
-            this.companyName = companyName;
-            this.techStacks = techStacks.stream()
-                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack()))
-                    .collect(Collectors.toList());
         }
 
         private int calculateDDay(LocalDate deadline) {
@@ -221,9 +207,9 @@ public class JobPostingResponse {
         private List<String> techStacks;
         private List<RegionResponse.RegionDTO> regions;
         private List<CareerLevel> careerLevels;
-        private List<JobPostingResponse.JobPostingDTO> jobPostingList;
+        private List<JobPostingResponse.ItemDTO> jobPostingList;
 
-        public FilteredListDTO(List<String> positions, List<String> techStacks, List<RegionResponse.RegionDTO> regions, List<CareerLevel> careerLevels, List<JobPostingDTO> jobPostingList) {
+        public FilteredListDTO(List<String> positions, List<String> techStacks, List<RegionResponse.RegionDTO> regions, List<CareerLevel> careerLevels, List<ItemDTO> jobPostingList) {
             this.positions = positions;
             this.techStacks = techStacks;
             this.regions = regions;
