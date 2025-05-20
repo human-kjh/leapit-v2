@@ -7,6 +7,7 @@ import com.example.leapit.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,24 +18,19 @@ public class ApplicationBookmarkController {
     private final HttpSession session;
 
     // 기업 스크랩 등록 application_bookmark
-    @PostMapping("/s/api/company/bookmark")
-    public Resp<?> saveApplicationBookmark(@Valid @RequestBody ApplicationBookmarkRequest.SaveDTO reqDTO, Errors errors) {
-
-        try {
-            ApplicationBookmarkResponse.SaveDTO respDTO = bookmarkService.saveApplicantBookmarkByUserId(reqDTO, sessionUser.getId());
-            return Resp.ok(respDTO);
-        } catch (RuntimeException e) {
-            return Resp.fail(400, e.getMessage());
-        }
+    @PostMapping("/s/api/company/applicationbookmark")
+    public ResponseEntity<?> save(@Valid @RequestBody ApplicationBookmarkRequest.SaveDTO reqDTO, Errors errors) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        ApplicationBookmarkResponse.SaveDTO respDTO = bookmarkService.save(reqDTO, sessionUser);
+        return Resp.ok(respDTO);
     }
 
     // 기업 스크랩 삭제 application_bookmark
-    @DeleteMapping("/s/api/company/bookmark/{id}")
-    public Resp<?> deleteApplicationBookmark(@PathVariable("id") Integer bookmarkId) {
+    @DeleteMapping("/s/api/company/applicationbookmark/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer bookmarkId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) throw new ExceptionApi401("로그인 후 이용");
 
-        bookmarkService.deleteApplicationBookmarkByApplicationId(bookmarkId, sessionUser.getId());
-        return Resp.ok("북마크 삭제");
+        bookmarkService.delete(bookmarkId, sessionUser.getId());
+        return Resp.ok(null);
     }
 }

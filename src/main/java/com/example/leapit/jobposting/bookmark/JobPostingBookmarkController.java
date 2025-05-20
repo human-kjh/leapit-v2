@@ -25,7 +25,7 @@ public class JobPostingBookmarkController {
     }
 
     // 개인 스크랩 등록
-    @PostMapping("/s/api/personal/bookmark")
+    @PostMapping("/s/api/personal/jobpostingbookmark")
     public ResponseEntity<?> save(@Valid @RequestBody JobPostingBookmarkRequest.SaveDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
             JobPostingBookmarkResponse.DTO respDTO = jobPostingBookmarkService.save(reqDTO, sessionUser);
@@ -33,7 +33,7 @@ public class JobPostingBookmarkController {
     }
 
     // 개인 스크랩 삭제 job_posting_bookmark
-    @DeleteMapping("/s/api/personal/bookmark/{id}")
+    @DeleteMapping("/s/api/personal/jobpostingbookmark/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer bookmarkId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 

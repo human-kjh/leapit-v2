@@ -42,4 +42,9 @@ public class Application {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ViewStatus viewStatus; // VIEWED / UNVIEWED
+
+    @Builder
+    public Application(Integer id) {
+        this.id = id;
+    }
 }
