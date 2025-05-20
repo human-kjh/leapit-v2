@@ -2,8 +2,6 @@ package com.example.leapit.jobposting;
 
 import com.example.leapit.common.enums.CareerLevel;
 import com.example.leapit.common.enums.EducationLevel;
-import com.example.leapit.common.enums.CareerLevel;
-import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoRepository;
 import com.example.leapit.jobposting.techstack.JobPostingTechStack;
@@ -29,25 +27,6 @@ public class JobpostingRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
-
-
-    @Test
-    public void education_level_enum() {
-        // given
-        Integer id = 1;
-
-        // when
-        Optional<JobPosting> optional = jobPostingRepository.findById(id);
-
-        // eye
-        if (optional.isPresent()) {
-            JobPosting jp = optional.get();
-            System.out.println("===== educationLevel 테스트 =====");
-            System.out.println("Enum name(): " + jp.getEducationLevel());         // → BACHELOR
-            System.out.println("label: " + jp.getEducationLevel().label);         // → 학사
-            System.out.println("=================================");
-        }
-    }
 
     @Test
     public void save_job_posting() {

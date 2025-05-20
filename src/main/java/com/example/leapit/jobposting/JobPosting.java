@@ -93,16 +93,6 @@ public class JobPosting {
     @OneToMany(mappedBy = "jobPosting", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Application> applications;
 
-    // 채용공고에 등록된 기술스택 삭제
-    public void clearTechStacks() {
-        this.jobPostingTechStacks.clear();
-    }
-
-    // 채용공고에 등록될 기술스택 추가
-    public void addTechStack(JobPostingTechStack techStack) {
-        this.jobPostingTechStacks.add(techStack);
-    }
-
     @Builder
     public JobPosting(Integer id, User user, String title, String positionType,
                       CareerLevel minCareerLevel, CareerLevel maxCareerLevel,
@@ -131,28 +121,25 @@ public class JobPosting {
         this.jobPostingTechStacks = new ArrayList<>();
     }
 
-    public void update(String title, String positionType,
-                       CareerLevel minCareerLevel, CareerLevel maxCareerLevel,
-                       EducationLevel educationLevel,
-                       Integer addressRegionId, Integer addressSubRegionId, String addressDetail,
-                       String serviceIntro, LocalDate deadline,
-                       String responsibility, String qualification,
-                       String preference, String benefit, String additionalInfo) {
-
-        this.title = title;
-        this.positionType = positionType;
-        this.minCareerLevel = minCareerLevel;
-        this.maxCareerLevel = maxCareerLevel;
-        this.educationLevel = educationLevel;
-        this.addressRegionId = addressRegionId;
-        this.addressSubRegionId = addressSubRegionId;
-        this.addressDetail = addressDetail;
-        this.serviceIntro = serviceIntro;
-        this.deadline = deadline;
-        this.responsibility = responsibility;
-        this.qualification = qualification;
-        this.preference = preference;
-        this.benefit = benefit;
-        this.additionalInfo = additionalInfo;
+    public void update(JobPostingRequest.UpdateDTO dto) {
+        this.title = dto.getTitle();
+        this.positionType = dto.getPositionType();
+        this.minCareerLevel = dto.getMinCareerLevel();
+        this.maxCareerLevel = dto.getMaxCareerLevel();
+        this.educationLevel = dto.getEducationLevel();
+        this.addressRegionId = dto.getAddressRegionId();
+        this.addressSubRegionId = dto.getAddressSubRegionId();
+        this.addressDetail = dto.getAddressDetail();
+        this.serviceIntro = dto.getServiceIntro();
+        this.deadline = dto.getDeadline();
+        this.responsibility = dto.getResponsibility();
+        this.qualification = dto.getQualification();
+        this.preference = dto.getPreference();
+        this.benefit = dto.getBenefit();
+        this.additionalInfo = dto.getAdditionalInfo();
+        this.jobPostingTechStacks.clear();
+        dto.getTechStackCodes().forEach(code ->
+                this.jobPostingTechStacks.add(new JobPostingTechStack(null, this, code))
+        );
     }
 }

@@ -11,7 +11,6 @@ import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.common.techstack.TechStackRepository;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoRepository;
-import com.example.leapit.jobposting.techstack.JobPostingTechStack;
 import com.example.leapit.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +43,6 @@ public class JobPostingService {
     }
 
     // 채용공고 저장 화면에 필요한 데이터 불러오기
-    @Transactional
     public JobPostingResponse.SaveDTO getSaveForm() {
         // 1. 포지션 타입 코드 리스트 (예: ["백엔드", "프론트엔드"])
         List<String> positionTypes = positionTypeRepository.findAll();
@@ -74,7 +72,6 @@ public class JobPostingService {
     }
 
     // 기업 채용공고 상세보기
-    @Transactional
     public JobPostingResponse.DTO getDetailCompany(Integer id) {
         JobPosting jobPosting = jobPostingRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
@@ -82,7 +79,6 @@ public class JobPostingService {
     }
 
     // 구직자 채용공고 상세보기
-    @Transactional
     public JobPostingResponse.DetailPersonalDTO getDetailPersonal(Integer jobPostingId) {
         JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
@@ -115,50 +111,60 @@ public class JobPostingService {
         jobPostingRepository.deleteById(id);
     }
 
-    // 채용공고 수정
-    @Transactional
-    public JobPostingResponse.DTO update(Integer id, Integer sessionUserId, JobPostingRequest.UpdateDTO reqDTO) {
-
-        // 1. 공고 조회
+    // 채용공고 수정 화면에 필요한 데이터 불러오기
+    public JobPostingResponse.UpdateDTO getUpdateForm(Integer id) {
         JobPosting jobPosting = jobPostingRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
 
-        // 2. 권한 확인
-        if (!jobPosting.getUser().getId().equals(sessionUserId)) {
-            throw new ExceptionApi403("수정 권한이 없습니다.");
+        JobPostingResponse.DetailDTO detailDTO = new JobPostingResponse.DetailDTO(jobPosting);
+
+        // 1. 포지션 타입 코드 리스트 (예: ["백엔드", "프론트엔드"])
+        List<String> positionTypes = positionTypeRepository.findAll();
+
+        // 2. 기술 스택 코드 리스트 (예: ["Java", "React"])
+        List<String> techStacks = techStackRepository.findAll();
+
+        // 3. 전체 지역 조회
+        List<Region> regions = regionRepository.findAllRegion();
+
+        // 4. 커리어 레벨 (enum)
+        List<String> careerLevels = new ArrayList<>();
+        for (CareerLevel level : CareerLevel.values()) {
+            careerLevels.add(level.label);
         }
 
-        // 3. 필드 수정
-        jobPosting.update(
-                reqDTO.getTitle(),
-                reqDTO.getPositionType(),
-                reqDTO.getMinCareerLevel(),
-                reqDTO.getMaxCareerLevel(),
-                reqDTO.getEducationLevel(),
-                reqDTO.getAddressRegionId(),
-                reqDTO.getAddressSubRegionId(),
-                reqDTO.getAddressDetail(),
-                reqDTO.getServiceIntro(),
-                reqDTO.getDeadline(),
-                reqDTO.getResponsibility(),
-                reqDTO.getQualification(),
-                reqDTO.getPreference(),
-                reqDTO.getBenefit(),
-                reqDTO.getAdditionalInfo()
-        );
-
-        // 4. 기술스택 초기화 후 재등록
-        jobPosting.clearTechStacks();
-        for (String techStack : reqDTO.getTechStackCodes()) {
-            JobPostingTechStack jpts = JobPostingTechStack.builder()
-                    .techStack(techStack)
-                    .jobPosting(jobPosting)
-                    .build();
-            jobPosting.addTechStack(jpts);
+        // 5. Region + SubRegion DTO 변환
+        List<JobPostingResponse.RegionDTO> regionDTOs = new ArrayList<>();
+        for (Region region : regions) {
+            List<SubRegion> subRegions = regionRepository.findAllSubRegionByRegionId(region.getId());
+            JobPostingResponse.RegionDTO regionDTO = new JobPostingResponse.RegionDTO(region.getId(), region.getName(), subRegions);
+            regionDTOs.add(regionDTO);
         }
 
-        // 5. 저장 생략 가능
-        return new JobPostingResponse.DTO(jobPosting);
+        // 6. 학력 (enum)
+        List<String> educationLevels = new ArrayList<>();
+        for (EducationLevel level : EducationLevel.values()) {
+            educationLevels.add(level.label);
+        }
+
+        return new JobPostingResponse.UpdateDTO(positionTypes, techStacks, regionDTOs, careerLevels, educationLevels, detailDTO);
     }
 
+    // 채용공고 수정
+    @Transactional
+    public JobPostingResponse.DTO update(Integer jobPostingId, Integer userId, JobPostingRequest.UpdateDTO reqDTO) {
+        // 1. 채용공고 조회 없으면 터뜨림
+        JobPosting jobPostingPS = jobPostingRepository.findById(jobPostingId)
+                .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
+
+        // 2. 해당 채용공고에 대한 권한 체크
+        if (!userId.equals(jobPostingPS.getUser().getId())) {
+            throw new ExceptionApi403("해당 채용공고에 대한 수정 권한이 없습니다.");
+        }
+
+        // 3. 채용공고 수정
+        jobPostingPS.update(reqDTO);
+
+        return new JobPostingResponse.DTO(jobPostingPS);
+    }
 }

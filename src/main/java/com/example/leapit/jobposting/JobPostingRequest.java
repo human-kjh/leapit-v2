@@ -82,6 +82,7 @@ public class JobPostingRequest {
 
         @NotEmpty(message = "직무는 필수입니다.")
         private String positionType;
+        
         private CareerLevel minCareerLevel;
         private CareerLevel maxCareerLevel;
         private EducationLevel educationLevel;

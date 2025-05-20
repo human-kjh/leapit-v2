@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class JobPostingController {
     private final JobPostingService jobPostingService;
-
     private final HttpSession session;
 
     // 채용공고 등록
@@ -45,6 +44,7 @@ public class JobPostingController {
         return Resp.ok(respDTO);
     }
 
+    // 채용공고 삭제
     @DeleteMapping("/s/api/company/jobposting/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
@@ -52,4 +52,18 @@ public class JobPostingController {
         return Resp.ok(null);
     }
 
+    // 채용공고 수정 화면
+    @GetMapping("/s/api/company/jobposting/{id}/edit")
+    public ResponseEntity<?> getUpdateForm(@PathVariable Integer id) {
+        JobPostingResponse.UpdateDTO respDTO = jobPostingService.getUpdateForm(id);
+        return Resp.ok(respDTO);
+    }
+
+    // 채용공고 수정
+    @PutMapping("/s/api/company/jobposting/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody JobPostingRequest.UpdateDTO reqDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        JobPostingResponse.DTO respDTO = jobPostingService.update(id, sessionUser.getId(), reqDTO);
+        return Resp.ok(respDTO);
+    }
 }
