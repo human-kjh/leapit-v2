@@ -70,6 +70,6 @@ public class JobPostingBookmarkService {
         }
 
         // 북마크 삭제
-        jobPostingBookmarkRepository.delete(bookmark);
+        jobPostingBookmarkRepository.deleteByUserIdAndJobPostingId(sessionUserId,jobPostingId);
     }
 }

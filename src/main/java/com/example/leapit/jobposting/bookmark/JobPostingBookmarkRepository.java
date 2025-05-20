@@ -62,11 +62,17 @@ public class JobPostingBookmarkRepository {
                     .getSingleResult();
             return Optional.of(result);
         } catch (Exception e) {
-            return Optional.ofNullable(null);
+            return Optional.empty();
         }
     }
 
-    public void delete(JobPostingBookmark bookmark) {
-        em.remove(bookmark);
+    public void deleteByUserIdAndJobPostingId(Integer userId, Integer jobPostingId) {
+        em.createQuery("""
+        DELETE FROM JobPostingBookmark jb
+        WHERE jb.user.id = :userId AND jb.jobPosting.id = :jobPostingId
+    """)
+                .setParameter("userId", userId)
+                .setParameter("jobPostingId", jobPostingId)
+                .executeUpdate();
     }
 }
