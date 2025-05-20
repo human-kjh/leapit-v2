@@ -87,7 +87,7 @@ public class JobPostingRequest {
         private SortType sortType; // POPULAR("인기순"), LATEST("최신순")
 
         // 경력 enum
-        public CareerLevel getCareerLevelOrNull() {
+        public CareerLevel getCareerLevel() {
             if (careerLabel != null) {
                 for (CareerLevel level : CareerLevel.values()) {
                     if (careerLabel.trim().equals(level.label)) {
@@ -99,17 +99,17 @@ public class JobPostingRequest {
         }
 
         // 기술 스택
-        public String getTechStackCodeOrNull() {
+        public String getTechStackCode() {
             return isNotBlank(techStackCode) ? techStackCode.trim() : null;
         }
 
         // 직무
-        public String getSelectedPositionOrNull() {
+        public String getSelectedPosition() {
             return isNotBlank(positionLabel) ? positionLabel.trim() : null;
         }
 
         // 정렬 기준 (기본값: 최신순)
-        public SortType getSortTypeOrDefault() {
+        public SortType getSortType() {
             return sortType != null ? sortType : SortType.LATEST;
         }
 
