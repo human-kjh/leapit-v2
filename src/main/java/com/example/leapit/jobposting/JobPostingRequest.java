@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
+import com.example.leapit.common.enums.SortType;
 
 public class JobPostingRequest {
 
@@ -76,13 +77,55 @@ public class JobPostingRequest {
     }
 
     @Data
+    public class FilterDTO {
+
+        private Integer regionId;
+        private Integer subRegionId;
+        private String careerLabel;
+        private String techStackCode;
+        private String positionLabel;
+        private SortType sortType; // POPULAR("인기순"), LATEST("최신순")
+
+        // 경력 enum
+        public CareerLevel getCareerLevel() {
+            if (careerLabel != null) {
+                for (CareerLevel level : CareerLevel.values()) {
+                    if (careerLabel.trim().equals(level.label)) {
+                        return level;
+                    }
+                }
+            }
+            return null;
+        }
+
+        // 기술 스택
+        public String getTechStackCode() {
+            return isNotBlank(techStackCode) ? techStackCode.trim() : null;
+        }
+
+        // 직무
+        public String getSelectedPosition() {
+            return isNotBlank(positionLabel) ? positionLabel.trim() : null;
+        }
+
+        // 정렬 기준 (기본값: 최신순)
+        public SortType getSortType() {
+            return sortType != null ? sortType : SortType.LATEST;
+        }
+
+        private boolean isNotBlank(String value) {
+            return value != null && !value.trim().isEmpty();
+        }
+    }
+
+    @Data
     public static class UpdateDTO {
         @NotEmpty(message = "제목은 필수입니다.")
         private String title;
 
         @NotEmpty(message = "직무는 필수입니다.")
         private String positionType;
-        
+
         private CareerLevel minCareerLevel;
         private CareerLevel maxCareerLevel;
         private EducationLevel educationLevel;

@@ -1,6 +1,7 @@
 package com.example.leapit.application;
 
 import com.example.leapit.common.enums.BookmarkStatus;
+import com.example.leapit.common.enums.PassStatus;
 import com.example.leapit.common.enums.ViewStatus;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.jobposting.JobPosting;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ApplicationResponse {
+
     // 지원 현황 목록 + 통계
     @Data
     public static class MyPageDTO {
@@ -108,6 +110,18 @@ public class ApplicationResponse {
             this.viewStatus = viewStatus;
         }
     }
+
+    @Data
+    public static class UpdatePassDTO {
+        private Integer applicationId;
+        private PassStatus passStatus;
+
+        public UpdatePassDTO(Integer applicationId, PassStatus passStatus) {
+            this.applicationId = applicationId;
+            this.passStatus = passStatus;
+        }
+    }
+
 
     @Data
     public static class ApplyDTO {

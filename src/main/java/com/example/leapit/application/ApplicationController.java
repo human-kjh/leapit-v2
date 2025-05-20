@@ -1,5 +1,6 @@
 package com.example.leapit.application;
 
+import com.example.leapit._core.error.ex.ExceptionApi401;
 import com.example.leapit._core.util.Resp;
 import com.example.leapit.user.User;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +32,15 @@ public class ApplicationController {
         ApplicationResponse.ApplicantPageDTO respDTO =
                 applicationService.getApplicant(sessionUser.getId(), reqDTO);
 
+        return Resp.ok(respDTO);
+    }
+
+    // 지원서 합격,불합격 처리
+    @PutMapping("/s/api/company/applicant/{id}/pass")
+    public ResponseEntity<?> updatePass(@PathVariable("id") Integer id, @RequestBody ApplicationRequest.UpdatePassDTO reqDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        ApplicationResponse.UpdatePassDTO respDTO = applicationService.updatePass(id, reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
     }
 

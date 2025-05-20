@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -176,12 +177,17 @@ public class ApplicationRepository {
                 .toList();
     }
 
+    public Optional<Application> findById(Integer id) {
+        return Optional.ofNullable(em.find(Application.class, id));
+    }
+
     // 채용공고에 이력서 지원하기
     public Application save(Application application) {
         em.persist(application);
         return application;
     }
 
+    // 지원한 공고인지 확인
     public boolean checkIfAlreadyApplied(Integer userId, Integer jobPostingId) {
         String jpql = """
                     SELECT COUNT(a) > 0
