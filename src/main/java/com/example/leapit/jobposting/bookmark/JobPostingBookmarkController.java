@@ -34,10 +34,10 @@ public class JobPostingBookmarkController {
 
     // 개인 스크랩 삭제 job_posting_bookmark
     @DeleteMapping("/s/api/personal/bookmark/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer jobPostingId) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer bookmarkId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
-        jobPostingBookmarkService.delete(jobPostingId, sessionUser.getId());
+        jobPostingBookmarkService.delete(bookmarkId, sessionUser.getId());
         return Resp.ok(null);
     }
 }

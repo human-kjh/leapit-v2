@@ -58,10 +58,10 @@ public class JobPostingBookmarkService {
     }
 
     @Transactional
-    public void delete(Integer jobPostingId, Integer sessionUserId) {
+    public void delete(Integer bookmarkId, Integer sessionUserId) {
 
         // 북마크 조회
-        JobPostingBookmark bookmark = jobPostingBookmarkRepository.findByUserIdAndJobPostingId(sessionUserId, jobPostingId)
+        JobPostingBookmark bookmark = jobPostingBookmarkRepository.findById(bookmarkId)
                 .orElseThrow(()->new ExceptionApi404("해당 스크랩이 존재하지 않습니다."));
 
         // 권한 확인
@@ -70,6 +70,6 @@ public class JobPostingBookmarkService {
         }
 
         // 북마크 삭제
-        jobPostingBookmarkRepository.deleteByUserIdAndJobPostingId(sessionUserId,jobPostingId);
+        jobPostingBookmarkRepository.delete(bookmark);
     }
 }
