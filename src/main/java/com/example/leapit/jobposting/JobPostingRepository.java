@@ -50,6 +50,64 @@ public class JobPostingRepository {
         em.remove(em.find(JobPosting.class, id));
     }
 
+    // 전체 공고 조회
+    public List<JobPostingResponse.ListDTO> findAllByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
+    }
+
+    // 진행중인 공고 조회
+    public List<JobPostingResponse.ListDTO> findOpenByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                      AND jpt.deadline >= CURRENT_DATE
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
+    }
+
+    // 마감된 공고 조회
+    public List<JobPostingResponse.ListDTO> findClosedByCompanyUserId(Integer companyUserId) {
+        String jpql = """
+                    SELECT new com.example.leapit.jobposting.JobPostingResponse$ListDTO(
+                        jpt.id,
+                        jpt.title
+                    )
+                    FROM JobPosting jpt
+                    JOIN jpt.user u
+                    WHERE u.id = :companyUserId
+                      AND jpt.deadline < CURRENT_DATE
+                    ORDER BY jpt.createdAt DESC
+                """;
+
+        return em.createQuery(jpql, JobPostingResponse.ListDTO.class)
+                .setParameter("companyUserId", companyUserId)
+                .getResultList();
+
+    }
+
+
     // 구직자 메인페이지 - 인기 공고 8개 + 기술스택까지 조인해서 조회
     public List<Object[]> findTop8PopularJobPostingsAndTechStacks() {
         LocalDate today = LocalDate.now();
@@ -118,5 +176,7 @@ public class JobPostingRepository {
         query.setMaxResults(3);
 
         return query.getResultList();
+
     }
 }
+
