@@ -177,7 +177,7 @@ public class ApplicationRepository {
                 .toList();
     }
 
-    public Optional<Application> findById(Integer applicationId) {
-        return Optional.ofNullable(em.find(Application.class, applicationId));
+    public Optional<Application> findById(Integer id) {
+        return Optional.ofNullable(em.find(Application.class, id));
     }
 }

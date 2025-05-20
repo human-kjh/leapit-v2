@@ -112,7 +112,6 @@ public class JobPostingRepository {
                 .setParameter("companyUserId", companyUserId)
                 .getResultList();
     }
-
     public List<JobPostingResponse.ItemDTO> findAllByFilter(
             Integer regionId,
             Integer subRegionId,
@@ -233,3 +232,4 @@ public class JobPostingRepository {
         return bookmark != null;
     }
 }
+
