@@ -1,18 +1,27 @@
 package com.example.leapit.jobposting.bookmark;
 
+import com.example.leapit.jobposting.JobPosting;
+import com.example.leapit.jobposting.JobPostingRepository;
+import com.example.leapit.user.User;
+import com.example.leapit.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
+import java.util.Optional;
 
-@Import(JobPostingBookmarkRepository.class)
+@Import({JobPostingBookmarkRepository.class, UserRepository.class, JobPostingRepository.class})
 @DataJpaTest
 public class JobPostingBookmarkRepositoryTest {
 
     @Autowired
     private JobPostingBookmarkRepository jobPostingBookmarkRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private JobPostingRepository jobPostingRepository;
 
     @Test
     public void find_items_by_user_id_test() {
@@ -32,6 +41,50 @@ public class JobPostingBookmarkRepositoryTest {
             System.out.println("공고 제목: " + dto.getCompanyName());
             System.out.println("마감일: " + dto.getDeadLine());
             System.out.println("=========== 끝 ===========");
+        }
+    }
+
+    @Test
+    public void findByUserIdAndJobPostingId_whenBookmarkExists() {
+        // given
+        Integer userId = 1;
+        Integer jobPostingId = 10;
+
+        Optional<User> userOP = userRepository.findById(userId);
+        Optional<JobPosting> jobPostingOP = jobPostingRepository.findById(jobPostingId);
+
+        JobPostingBookmark bookmark = JobPostingBookmark.builder()
+                .user(userOP.get())
+                .jobPosting(jobPostingOP.get())
+                .build();
+
+        jobPostingBookmarkRepository.save(bookmark);
+
+        // when
+        Optional<JobPostingBookmark> result = jobPostingBookmarkRepository.findByUserIdAndJobPostingId(userOP.get().getId(), jobPostingOP.get().getId());
+
+        // eye
+        if (result.isPresent()) {
+            System.out.println("Bookmark found: ID = " + result.get().getId());
+        } else {
+            System.out.println("Bookmark not found (unexpected)");
+        }
+    }
+
+    @Test
+    public void findByUserIdAndJobPostingId_whenBookmarkDoesNotExist() {
+        // given
+        Integer userId = 999;
+        Integer jobPostingId = 888;
+
+        // when
+        Optional<JobPostingBookmark> result = jobPostingBookmarkRepository.findByUserIdAndJobPostingId(userId, jobPostingId); // 존재하지 않는 ID
+
+        // eye
+        if (result.isEmpty()) {
+            System.out.println("Bookmark not found as expected");
+        } else {
+            System.out.println("Bookmark found (unexpected): ID = " + result.get().getId());
         }
     }
 
