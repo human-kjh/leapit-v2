@@ -6,8 +6,6 @@ import com.example.leapit._core.error.ex.ExceptionApi404;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoRepository;
 import com.example.leapit.jobposting.JobPosting;
-import com.example.leapit._core.error.ex.ExceptionApi403;
-import com.example.leapit._core.error.ex.ExceptionApi404;
 import com.example.leapit.jobposting.JobPostingRepository;
 import com.example.leapit.jobposting.JobPostingResponse;
 import com.example.leapit.resume.Resume;
@@ -15,10 +13,8 @@ import com.example.leapit.resume.ResumeRepository;
 import com.example.leapit.user.User;
 import com.example.leapit.user.UserRepository;
 import jakarta.transaction.Transactional;
-import com.example.leapit.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -74,7 +70,8 @@ public class ApplicationService {
                 .orElseThrow(() -> new ExceptionApi404("해당 지원서는 존재하지 않습니다."));
 
         // 2. 권한 확인 (지원서의 채용공고 주인 == sessionUserId)
-        if (!(applicationPS.getJobPosting().getUser().getId().equals(sessionUserId))) throw new ExceptionApi403("권한이 없습니다.");
+        if (!(applicationPS.getJobPosting().getUser().getId().equals(sessionUserId)))
+            throw new ExceptionApi403("권한이 없습니다.");
 
         // 3. 합격 불합격 처리
         applicationPS.updatePassStatus(reqDTO.getPassStatus());
