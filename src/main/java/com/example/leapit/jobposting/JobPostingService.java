@@ -157,9 +157,13 @@ public class JobPostingService {
     }
 
     // 채용공고 수정 화면에 필요한 데이터 불러오기
-    public JobPostingResponse.UpdateDTO getUpdateForm(Integer id) {
+    public JobPostingResponse.UpdateDTO getUpdateForm(Integer id, Integer sessionUserId) {
         JobPosting jobPosting = jobPostingRepository.findById(id)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
+
+        if (!jobPosting.getUser().getId().equals(sessionUserId)) {
+            throw new ExceptionApi403("수정 권한이 없습니다.");
+        }
 
         JobPostingResponse.DetailDTO detailDTO = new JobPostingResponse.DetailDTO(jobPosting);
 
@@ -197,13 +201,13 @@ public class JobPostingService {
 
     // 채용공고 수정
     @Transactional
-    public JobPostingResponse.DTO update(Integer jobPostingId, Integer userId, JobPostingRequest.UpdateDTO reqDTO) {
+    public JobPostingResponse.DTO update(Integer jobPostingId, Integer sessionUserId, JobPostingRequest.UpdateDTO reqDTO) {
         // 1. 채용공고 조회 없으면 터뜨림
         JobPosting jobPostingPS = jobPostingRepository.findById(jobPostingId)
                 .orElseThrow(() -> new ExceptionApi404("해당 채용공고를 찾을 수 없습니다."));
 
         // 2. 해당 채용공고에 대한 권한 체크
-        if (!userId.equals(jobPostingPS.getUser().getId())) {
+        if (!sessionUserId.equals(jobPostingPS.getUser().getId())) {
             throw new ExceptionApi403("해당 채용공고에 대한 수정 권한이 없습니다.");
         }
 

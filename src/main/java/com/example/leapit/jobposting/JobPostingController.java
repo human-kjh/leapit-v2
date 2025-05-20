@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class JobPostingController {
     private final JobPostingService jobPostingService;
-
     private final HttpSession session;
 
     // 채용공고 등록
@@ -68,7 +67,8 @@ public class JobPostingController {
     // 채용공고 수정 화면
     @GetMapping("/s/api/company/jobposting/{id}/edit")
     public ResponseEntity<?> getUpdateForm(@PathVariable Integer id) {
-        JobPostingResponse.UpdateDTO respDTO = jobPostingService.getUpdateForm(id);
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        JobPostingResponse.UpdateDTO respDTO = jobPostingService.getUpdateForm(id, sessionUser.getId());
         return Resp.ok(respDTO);
     }
 
