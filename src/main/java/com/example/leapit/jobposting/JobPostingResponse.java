@@ -3,6 +3,7 @@ package com.example.leapit.jobposting;
 import com.example.leapit.common.enums.BookmarkStatus;
 import com.example.leapit.common.enums.CareerLevel;
 import com.example.leapit.common.enums.EducationLevel;
+import com.example.leapit.common.region.RegionResponse;
 import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoResponse;
@@ -12,8 +13,72 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class JobPostingResponse {
+
+    // 등록된 채용공고에 대한 수정화면 DTO
+    @Data
+    public static class UpdateDTO {
+        private List<String> positionTypes;
+        private List<String> techStackCodes;
+        private List<RegionDTO> regions;
+        private List<String> careerLevels;
+        private List<String> educationLevels;
+        private DetailDTO detailDTO;
+
+        public UpdateDTO(List<String> positionTypes, List<String> techStackCodes, List<RegionDTO> regions, List<String> careerLevels, List<String> educationLevels, DetailDTO detailDTO) {
+            this.positionTypes = positionTypes;
+            this.techStackCodes = techStackCodes;
+            this.regions = regions;
+            this.careerLevels = careerLevels;
+            this.educationLevels = educationLevels;
+            this.detailDTO = detailDTO;
+        }
+    }
+
+    // 등록되어 있는 채용공고의 데이터를 담는 DTO
+    @Data
+    public static class DetailDTO {
+        private String title;
+        private String positionType;
+        private String minCareerLevel;
+        private String maxCareerLevel;
+        private String educationLevel;
+        private Integer addressRegionId;
+        private Integer addressSubRegionId;
+        private String addressDetail;
+        private String serviceIntro;
+        private LocalDate deadline;
+        private String responsibility;
+        private String qualification;
+        private String preference;
+        private String benefit;
+        private String additionalInfo;
+        private List<String> techStackCodes;
+
+        public DetailDTO(JobPosting jobPosting) {
+            this.title = jobPosting.getTitle();
+            this.positionType = jobPosting.getPositionType();
+            this.minCareerLevel = jobPosting.getMinCareerLevel().label;
+            this.maxCareerLevel = jobPosting.getMaxCareerLevel().label;
+            this.educationLevel = jobPosting.getEducationLevel().label;
+            this.addressRegionId = jobPosting.getAddressRegionId();
+            this.addressSubRegionId = jobPosting.getAddressSubRegionId();
+            this.addressDetail = jobPosting.getAddressDetail();
+            this.serviceIntro = jobPosting.getServiceIntro();
+            this.deadline = jobPosting.getDeadline();
+            this.responsibility = jobPosting.getResponsibility();
+            this.qualification = jobPosting.getQualification();
+            this.preference = jobPosting.getPreference();
+            this.benefit = jobPosting.getBenefit();
+            this.additionalInfo = jobPosting.getAdditionalInfo();
+            this.techStackCodes = jobPosting.getJobPostingTechStacks().stream()
+                    .map(jpts -> jpts.getTechStack())
+                    .toList();
+        }
+    }
 
     @Data
     public static class SaveDTO {
@@ -134,7 +199,7 @@ public class JobPostingResponse {
         }
     }
 
-    // 진행중과 마감된 리스트 조회
+    // 전체/진행중/마감된 리스트 조회
     @Data
     public static class ListDTO {
         private Integer jobPostingId;
@@ -146,15 +211,80 @@ public class JobPostingResponse {
         }
     }
 
+    // 구직자 - 채용공고 목록
+    @Data
+    public static class ItemDTO {
+        private Integer id;
+        private String companyName;
+        private String title;
+        private LocalDate deadline;
+        private int dDay;
+        private String career;
+        private String address; // ← 외부에서 주입
+        private String image;
+        private boolean isBookmarked;
+        private List<CompanyInfoResponse.TechStackDTO> techStacks;
+
+        // address는 외부에서 전달받음
+        public ItemDTO(JobPosting jobPostings, List<JobPostingTechStack> techStacks, String address, String image, String companyName, boolean isBookmarked) {
+            this.id = jobPostings.getId();
+            this.title = jobPostings.getTitle();
+            this.deadline = jobPostings.getDeadline();
+            this.dDay = calculateDDay(deadline);
+            this.career = formatCareer(jobPostings.getMinCareerLevel(), jobPostings.getMaxCareerLevel());
+            this.address = address;
+            this.image = image;
+            this.companyName = companyName;
+            this.techStacks = techStacks.stream()
+                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack()))
+                    .collect(Collectors.toList());
+
+            this.isBookmarked = isBookmarked;
+        }
+
+        private int calculateDDay(LocalDate deadline) {
+            return (int) java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), deadline);
+        }
+
+        private String formatCareer(CareerLevel min, CareerLevel max) {
+            if (min == null || max == null) return "경력무관";
+            if (min.value == 0 && max.value == 0) return "신입";
+            if (min.value > max.value) return "경력 정보 오류";
+            if (min == max) {
+                return min.label;
+            } else {
+                return min.label + " ~ " + max.label;
+            }
+        }
+    }
+
+    @Data
+    public static class FilteredListDTO {
+        private List<String> positions;
+        private List<String> techStacks;
+        private List<RegionResponse.DTO> regions;
+        private List<CareerLevel> careerLevels;
+        private List<JobPostingResponse.ItemDTO> jobPostingList;
+
+        public FilteredListDTO(List<String> positions, List<String> techStacks, List<RegionResponse.DTO> regions, List<CareerLevel> careerLevels, List<ItemDTO> jobPostingList) {
+            this.positions = positions;
+            this.techStacks = techStacks;
+            this.regions = regions;
+            this.careerLevels = careerLevels;
+            this.jobPostingList = jobPostingList;
+        }
+    }
+
+
     // 구직자 - 메인페이지 채용공고 목록
     @Data
     public static class MainDTO {
 
-        private List<MainRecentJobPostingDTO> recentJobPostings; // 최신공고 3개
-        private List<MainPopularJobPostingDTO> popularJobPostings; // 인기공고 8개
+        private List<RecentDTO> recent; // 최신공고 3개
+        private List<PopularDTO> popular; // 인기공고 8개
 
         @Data
-        public static class MainRecentJobPostingDTO {
+        public static class RecentDTO {
             private Integer id;
             private String title;
             private String companyName;
@@ -162,7 +292,7 @@ public class JobPostingResponse {
             private boolean isActive;
             private BookmarkStatus bookmarkStatus;
 
-            public MainRecentJobPostingDTO(JobPosting jp, CompanyInfo companyInfo, String imageString, boolean isActive, boolean isBookmarked) {
+            public RecentDTO(JobPosting jp, CompanyInfo companyInfo, String imageString, boolean isActive, boolean isBookmarked) {
                 this.id = jp.getId();
                 this.title = jp.getTitle();
                 this.companyName = companyInfo.getCompanyName();
@@ -175,7 +305,7 @@ public class JobPostingResponse {
         }
 
         @Data
-        public static class MainPopularJobPostingDTO {
+        public static class PopularDTO {
             private Integer id;
             private String title;
             private String companyName;
@@ -187,7 +317,7 @@ public class JobPostingResponse {
             private BookmarkStatus bookmarkStatus;
             private List<CompanyInfoResponse.DetailDTO.JobPostingDTO.TechStackDTO> techStacks;
 
-            public MainPopularJobPostingDTO(JobPosting jp,
+            public PopularDTO(JobPosting jp,
                                             String companyName,
                                             String imageString,
                                             String address,
@@ -247,9 +377,9 @@ public class JobPostingResponse {
         }
 
 
-        public MainDTO(List<MainRecentJobPostingDTO> recent, List<MainPopularJobPostingDTO> popular) {
-            this.recentJobPostings = recent;
-            this.popularJobPostings = popular;
+        public MainDTO(List<RecentDTO> recent, List<PopularDTO> popular) {
+            this.recent = recent;
+            this.popular = popular;
         }
     }
 }

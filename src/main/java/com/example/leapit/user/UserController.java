@@ -88,8 +88,8 @@ public class UserController {
             }
         }
 
-        List<JobPostingResponse.MainDTO.MainRecentJobPostingDTO> recent = jobPostingService.getRecentPostings(userId);
-        List<JobPostingResponse.MainDTO.MainPopularJobPostingDTO> popular = jobPostingService.getPopularJobPostings(userId);
+        List<JobPostingResponse.MainDTO.RecentDTO> recent = jobPostingService.getRecent(userId);
+        List<JobPostingResponse.MainDTO.PopularDTO> popular = jobPostingService.getPopular(userId);
 
         JobPostingResponse.MainDTO respDTO = new JobPostingResponse.MainDTO(recent, popular);
 
