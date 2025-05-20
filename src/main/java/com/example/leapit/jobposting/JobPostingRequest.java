@@ -10,9 +10,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
-import com.example.leapit.common.enums.CareerLevel;
 import com.example.leapit.common.enums.SortType;
-import lombok.Data;
 
 public class JobPostingRequest {
 
@@ -81,22 +79,12 @@ public class JobPostingRequest {
     @Data
     public class JobPostingListRequestDTO {
 
-        private String regionId;
-        private String subRegionId;
+        private Integer regionId;
+        private Integer subRegionId;
         private String careerLabel;
         private String techStackCode;
         private String positionLabel;
         private SortType sortType; // POPULAR("인기순"), LATEST("최신순")
-
-        // 지역
-        public Integer getRegionIdAsInteger() {
-            return intOrNull(regionId);
-        }
-
-        // 서브지역
-        public Integer getSubRegionIdAsInteger() {
-            return intOrNull(subRegionId);
-        }
 
         // 경력 enum
         public CareerLevel getCareerLevelOrNull() {
@@ -123,14 +111,6 @@ public class JobPostingRequest {
         // 정렬 기준 (기본값: 최신순)
         public SortType getSortTypeOrDefault() {
             return sortType != null ? sortType : SortType.LATEST;
-        }
-
-        private Integer intOrNull(String value) {
-            try {
-                return (value != null && !value.isBlank()) ? Integer.parseInt(value.trim()) : null;
-            } catch (NumberFormatException e) {
-                return null;
-            }
         }
 
         private boolean isNotBlank(String value) {

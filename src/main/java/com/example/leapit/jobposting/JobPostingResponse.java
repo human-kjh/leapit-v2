@@ -216,14 +216,14 @@ public class JobPostingResponse {
     }
 
     @Data
-    public static class JobPostingListFilterDTO {
+    public static class FilteredListDTO {
         private List<String> positions;
         private List<String> techStacks;
         private List<RegionResponse.RegionDTO> regions;
         private List<CareerLevel> careerLevels;
         private List<JobPostingResponse.JobPostingDTO> jobPostingList;
 
-        public JobPostingListFilterDTO(List<String> positions, List<String> techStacks, List<RegionResponse.RegionDTO> regions, List<CareerLevel> careerLevels, List<JobPostingDTO> jobPostingList) {
+        public FilteredListDTO(List<String> positions, List<String> techStacks, List<RegionResponse.RegionDTO> regions, List<CareerLevel> careerLevels, List<JobPostingDTO> jobPostingList) {
             this.positions = positions;
             this.techStacks = techStacks;
             this.regions = regions;
