@@ -235,4 +235,3 @@ public class JobPostingRepository {
         return bookmark != null;
     }
 }
-
