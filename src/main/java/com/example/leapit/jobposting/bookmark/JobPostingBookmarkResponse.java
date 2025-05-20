@@ -36,4 +36,19 @@ public class JobPostingBookmarkResponse {
         }
     }
 
+    @Data
+    public static class DTO {
+        private Integer bookmarkId;
+        private Integer resumeId;
+        private Integer jobPostingId;
+        private String createdAt;
+
+        public DTO(JobPostingBookmark jobPostingBookmark) {
+            this.bookmarkId = bookmarkId;
+            this.resumeId = resumeId;
+            this.jobPostingId = jobPostingId;
+            this.createdAt = createdAt;
+        }
+    }
+
 }
