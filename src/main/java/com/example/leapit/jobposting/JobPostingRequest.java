@@ -102,7 +102,7 @@ public class JobPostingRequest {
         public CareerLevel getCareerLevelOrNull() {
             if (careerLabel != null) {
                 for (CareerLevel level : CareerLevel.values()) {
-                    if (careerLabel.trim().equals(level.getLabel())) {
+                    if (careerLabel.trim().equals(level.label)) {
                         return level;
                     }
                 }

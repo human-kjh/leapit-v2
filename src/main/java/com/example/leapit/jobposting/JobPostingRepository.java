@@ -176,7 +176,7 @@ public class JobPostingRepository {
 
         if (regionId != null) query.setParameter("regionId", regionId);
         if (subRegionId != null) query.setParameter("subRegionId", subRegionId);
-        if (career != null) query.setParameter("careerValue", career.getValue());
+        if (career != null) query.setParameter("careerValue", career.value);
         if (techStackCode != null) query.setParameter("techStackCode", techStackCode);
         if (positionLabel != null) query.setParameter("positionLabel", positionLabel);
 
@@ -213,7 +213,7 @@ public class JobPostingRepository {
             } else {
                 if (techStack != null && currentDTO != null) {
                     currentDTO.getTechStacks().add(new CompanyInfoResponse.TechStackDTO(
-                            techStack.getTechStack().getCode()
+                            techStack.getTechStack()
                     ));
                 }
             }

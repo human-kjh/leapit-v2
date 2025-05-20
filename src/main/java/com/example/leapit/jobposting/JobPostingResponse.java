@@ -179,7 +179,7 @@ public class JobPostingResponse {
             this.image = image;
             this.companyName = companyName;
             this.techStacks = techStacks.stream()
-                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack().getCode()))
+                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack()))
                     .collect(Collectors.toList());
 
             this.isBookmarked = isBookmarked;
@@ -195,7 +195,7 @@ public class JobPostingResponse {
             this.image = image;
             this.companyName = companyName;
             this.techStacks = techStacks.stream()
-                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack().getCode()))
+                    .map(stack -> new CompanyInfoResponse.TechStackDTO(stack.getTechStack()))
                     .collect(Collectors.toList());
         }
 
@@ -205,12 +205,12 @@ public class JobPostingResponse {
 
         private String formatCareer(CareerLevel min, CareerLevel max) {
             if (min == null || max == null) return "경력무관";
-            if (min.getValue() == 0 && max.getValue() == 0) return "신입";
-            if (min.getValue() > max.getValue()) return "경력 정보 오류";
+            if (min.value == 0 && max.value == 0) return "신입";
+            if (min.value > max.value) return "경력 정보 오류";
             if (min == max) {
-                return min.getLabel();
+                return min.label;
             } else {
-                return min.getLabel() + " ~ " + max.getLabel();
+                return min.label + " ~ " + max.label;
             }
         }
     }
