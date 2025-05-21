@@ -3,6 +3,7 @@ import com.example.leapit.common.enums.BookmarkStatus;
 import com.example.leapit.common.enums.PassStatus;
 import com.example.leapit.common.enums.ViewStatus;
 import com.example.leapit.jobposting.JobPostingResponse;
+import com.example.leapit.resume.ResumeResponse;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -110,6 +111,12 @@ public class ApplicationResponse {
             this.applicationId = applicationId;
             this.passStatus = passStatus;
         }
+    }
+
+    @Data
+    public class DetailDTO {
+        private ResumeResponse.DTO resume;
+
     }
 }
 

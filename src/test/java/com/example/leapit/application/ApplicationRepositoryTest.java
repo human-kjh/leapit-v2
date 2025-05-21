@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
+import java.util.Optional;
 
 @Import(ApplicationRepository.class)
 @DataJpaTest
@@ -106,5 +107,17 @@ public class ApplicationRepositoryTest {
             System.out.println("결과: " + dto.getResult());
             System.out.println("=========== 끝 ===========");
         }
+    }
+
+    @Test
+    public void find_by_id_join_application_bookmark(){
+        // given
+        Integer applicationId = 3;
+        Integer sessionUserId = 6;
+        // when
+        Optional<Application> application = applicationRepository.findByIdJoinApplicationBookmark(applicationId, sessionUserId);
+        // eye
+        System.out.println("=========지원내역+지원 북마크 Join 테스트=========");
+        System.out.println("" + application.get().getApplicationBookmarks().);
     }
 }

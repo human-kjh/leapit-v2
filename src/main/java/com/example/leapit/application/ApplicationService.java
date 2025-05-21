@@ -66,4 +66,10 @@ public class ApplicationService {
 
         return new ApplicationResponse.UpdatePassDTO(applicationPS.getId(), applicationPS.getPassStatus());
     }
+
+    public ApplicationResponse.DetailDTO getDetail(Integer id, User sessionUser) {
+        applicationRepository.findByIdJoinApplicationBookmark(id, sessionUser.getId());
+
+        return new ApplicationResponse.DetailDTO();
+    }
 }

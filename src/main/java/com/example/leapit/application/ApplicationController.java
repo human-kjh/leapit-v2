@@ -41,4 +41,19 @@ public class ApplicationController {
         ApplicationResponse.UpdatePassDTO respDTO = applicationService.updatePass(id, reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
     }
+
+    // 기업 지원서 상세보기
+    @GetMapping("/s/company/applicant/{id}")
+    public ResponseEntity<?> getDetail(@PathVariable("id") Integer id) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        ApplicationResponse.DetailDTO respDTO = applicationService.getDetail(id, sessionUser);
+        return Resp.ok(respDTO);
+    }
+    /*
+        applicationService.viewCheck(id);
+        ApplicationResponse.DetailDTO detailDTO = applicationService.detail(id, sessionUser);
+        request.setAttribute("model", detailDTO);
+        return "/company/applicant/detail";
+    }
+     */
 }

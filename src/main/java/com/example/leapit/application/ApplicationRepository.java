@@ -180,4 +180,15 @@ public class ApplicationRepository {
     public Optional<Application> findById(Integer id) {
         return Optional.ofNullable(em.find(Application.class, id));
     }
+
+    public Optional<Application> findByIdJoinApplicationBookmark(Integer id, Integer sessionUserId) {
+        try{
+            Query query = em.createQuery("SELECT a FROM Application a JOIN FETCH a.applicationBookmarks b WHERE a.id = :id AND b.user.id = :sessionUserId", Application.class);
+            query.setParameter("id", id);
+            Application applicationPS = (Application) query.getSingleResult();
+            return Optional.of(applicationPS);
+        } catch (RuntimeException e) {
+            return Optional.ofNullable(null);
+        }
+    }
 }
