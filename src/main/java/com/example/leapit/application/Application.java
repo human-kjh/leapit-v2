@@ -34,7 +34,6 @@ public class Application {
     @OneToMany(mappedBy = "application", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ApplicationBookmark> applicationBookmarks;
 
-    @CreationTimestamp
     private LocalDate appliedDate;
 
     @Enumerated(EnumType.STRING)
@@ -60,5 +59,16 @@ public class Application {
         this.appliedDate = appliedDate;
         this.passStatus = PassStatus.WAITING;
         this.viewStatus = ViewStatus.UNVIEWED;
+    }
+
+    @Builder
+    public Application(Integer id, Resume resume, JobPosting jobPosting, List<ApplicationBookmark> applicationBookmarks, LocalDate appliedDate, PassStatus passStatus, ViewStatus viewStatus) {
+        this.id = id;
+        this.resume = resume;
+        this.jobPosting = jobPosting;
+        this.applicationBookmarks = applicationBookmarks;
+        this.appliedDate = appliedDate;
+        this.passStatus = passStatus;
+        this.viewStatus = viewStatus;
     }
 }
