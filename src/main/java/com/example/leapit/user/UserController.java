@@ -3,6 +3,7 @@ package com.example.leapit.user;
 import com.example.leapit._core.error.ex.ExceptionApi400;
 import com.example.leapit._core.util.JwtUtil;
 import com.example.leapit._core.util.Resp;
+import com.example.leapit.common.enums.Role;
 import com.example.leapit.jobposting.JobPostingResponse;
 import com.example.leapit.jobposting.JobPostingService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,31 +25,37 @@ public class UserController {
     private final JobPostingService jobPostingService;
     private final HttpSession session;
 
+    // 개인 회원가입
     @PostMapping("/personal/join")
     public ResponseEntity<?> personalJoin(@Valid @RequestBody UserRequest.PersonalJoinDTO reqDTO, Errors errors) {
+        if (reqDTO.getRole()!= Role.PERSONAL) throw new ExceptionApi400("잘못된 요청입니다");
         UserResponse.DTO respDTO = userService.join(reqDTO);
         return Resp.ok(respDTO);
     }
 
+    // 기업 회원가입
     @PostMapping("/company/join")
     public ResponseEntity<?> companyJoin(@Valid @RequestBody UserRequest.CompanyJoinDTO reqDTO) {
+        if (reqDTO.getRole()!= Role.COMPANY) throw new ExceptionApi400("잘못된 요청입니다");
         UserResponse.DTO respDTO = userService.join(reqDTO);
         return Resp.ok(respDTO);
     }
 
+    // 유저네임 중복체크
     @GetMapping("/api/check-username-available/{username}")
     public ResponseEntity<?> checkUsernameAvailable(@PathVariable("username") String username) {
         Map<String, Object> respDTO = userService.checkUsernameAvailable(username);
         return Resp.ok(respDTO);
     }
 
-
+    // 로그인
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserRequest.LoginDTO loginDTO, HttpServletResponse response, Errors errors) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserRequest.LoginDTO loginDTO, Errors errors) {
         UserResponse.TokenDTO respDTO = userService.login(loginDTO);
         return Resp.ok(respDTO);
     }
 
+    // 기업 유저 정보 수정
     @PutMapping("/s/company/user")
     public ResponseEntity<?> companyUpdate(@Valid @RequestBody UserRequest.CompanyUpdateDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
@@ -57,6 +64,7 @@ public class UserController {
         return Resp.ok(respDTO);
     }
 
+    // 개인 유저 정보 수정
     @PutMapping("/s/personal/user")
     public ResponseEntity<?> personalUpdate(@Valid @RequestBody UserRequest.PersonalUpdateDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
@@ -65,34 +73,21 @@ public class UserController {
         return Resp.ok(respDTO);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> index(
-            @RequestHeader(value = "Authorization", required = false) String accessToken) {
 
-        Integer userId = null;
 
-        // 1. 세션 기반 인증
+    // 개인 유저 정보 수정 화면
+    @GetMapping("/s/api/personal/user/edit")
+    public ResponseEntity<?> getPersonalUpdateForm() {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser != null) {
-            userId = sessionUser.getId();
-        }
+        UserResponse.UpdateDTO respDTO = userService.getPersonalUpdateForm(sessionUser.getId());
+        return Resp.ok(respDTO);
+    }
 
-        // 2. 토큰 기반 인증 (세션이 없을 때만)
-        else if (accessToken != null && accessToken.startsWith("Bearer ")) {
-            try {
-                String token = accessToken.replace("Bearer ", "");
-                userId = JwtUtil.getUserId(token);
-            } catch (Exception e) {
-                System.out.println("JWT 파싱 실패: " + e.getMessage());
-                // userId는 null로 둬도 됨 → 북마크 없이 동작
-            }
-        }
-
-        List<JobPostingResponse.MainDTO.RecentDTO> recent = jobPostingService.getRecent(userId);
-        List<JobPostingResponse.MainDTO.PopularDTO> popular = jobPostingService.getPopular(userId);
-
-        JobPostingResponse.MainDTO respDTO = new JobPostingResponse.MainDTO(recent, popular);
-
+    // 기업 유저 정보 수정 화면
+    @GetMapping("/s/api/company/user/edit")
+    public ResponseEntity<?> getCompanyUpdateForm() {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        UserResponse.UpdateDTO respDTO = userService.getCompanyUpdateForm(sessionUser.getId());
         return Resp.ok(respDTO);
 
     }
