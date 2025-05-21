@@ -85,7 +85,7 @@ public class JobPostingController {
     @GetMapping("/s/api/company/jobposting")
     public ResponseEntity<?> getCompanyList() {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        JobPostingResponse.ListByStatusDTO respDTO = jobPostingService.getCompanyJobPostings(sessionUser.getId());
+        JobPostingResponse.ListByStatusDTO respDTO = jobPostingService.getCompanyList(sessionUser.getId());
         return Resp.ok(respDTO);
     }
 
