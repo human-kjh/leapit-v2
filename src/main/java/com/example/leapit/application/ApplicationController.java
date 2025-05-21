@@ -43,11 +43,11 @@ public class ApplicationController {
         return Resp.ok(respDTO);
     }
 
-    // 기업 스크랩 등록 application_bookmark
+    // 기업 지원 스크랩 application_bookmark
     @PutMapping("/s/api/company/application/{id}/bookmark")
-    public ResponseEntity<?> bookmark(@PathVariable("id") Integer applicationId) {
+    public ResponseEntity<?> updateBookmark(@PathVariable("id") Integer applicationId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        applicationService.bookmark(applicationId, sessionUser.getId());
+        applicationService.updateBookmark(applicationId, sessionUser.getId());
         return Resp.ok(null);
     }
 
