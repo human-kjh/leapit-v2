@@ -9,11 +9,6 @@ import com.example.leapit.common.enums.ViewStatus;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoRepository;
 import com.example.leapit.jobposting.JobPosting;
-import com.example.leapit.common.enums.PassStatus;
-import com.example.leapit.common.enums.ViewStatus;
-import com.example.leapit.companyinfo.CompanyInfo;
-import com.example.leapit.companyinfo.CompanyInfoRepository;
-import com.example.leapit.jobposting.JobPosting;
 import com.example.leapit.jobposting.JobPostingRepository;
 import com.example.leapit.jobposting.JobPostingResponse;
 import com.example.leapit.resume.Resume;
@@ -96,8 +91,9 @@ public class ApplicationService {
         if (!(applicationPS.getJobPosting().getUser().getId().equals(sessionUserId)))
             throw new ExceptionApi403("권한이 없습니다.");
         // 3. update  BOOKMARKED -> NOT_BOOKMARKED, NOT_BOOKMARKED -> BOOKMARKED 로 바꿈
-        applicationPS.bookmarkUpdate(applicationPS.getBookmark().toString());
+        applicationPS.updateBookmark(applicationPS.getBookmark().toString());
     }
+
     // 특정 채용공고에 대한 이력서 지원 화면
     public ApplicationResponse.ApplyDTO getApplyForm(Integer jobPostingId, Integer userId) {
         JobPosting jobPosting = jobPostingRepository.findById(jobPostingId)
