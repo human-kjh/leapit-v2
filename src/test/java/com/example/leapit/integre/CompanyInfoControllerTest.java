@@ -28,6 +28,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 @Transactional
 @AutoConfigureMockMvc
@@ -177,11 +180,14 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         CompanyInfo companyInfo = companyInfoRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("company01의 회사 정보가 없습니다."));
 
+        String requestBody = om.writeValueAsString(companyInfo);
+
         // when
         ResultActions actions = mvc.perform(
                 MockMvcRequestBuilders
-                        .get("/s/api/company/companyinfo/" + companyInfo.getId())
+                        .get("/s/api/company/companyinfo/{id}", companyInfo.getId())
                         .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         // eye
@@ -204,7 +210,11 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.image")
                 .value(matchesPattern("^data:image\\/png;base64,.+")));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.benefit").value("유연근무제, 점심 제공, 워케이션 제도"));
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+        actions.andDo(document("{class-name}/{method-name}",
+                pathParameters(
+                        parameterWithName("id").description("조회할 회사의 ID")
+                )
+        ));
 
     }
 
@@ -217,6 +227,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
 
         CompanyInfo companyInfo = companyInfoRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("company01의 회사 정보 없음"));
+
 
         List<Object[]> results = jobPostingRepository.findByUserIdJoinJobPostingTechStacks(user.getId());
 
@@ -238,10 +249,14 @@ public class CompanyInfoControllerTest extends MyRestDoc {
 
         Long jobPostingCount = jobPostingRepository.countByUserIdAndDeadlineAfter(user.getId());
 
+        String requestBody = om.writeValueAsString(companyInfo);
+
         // when
         ResultActions actions = mvc.perform(
-                MockMvcRequestBuilders.get("/s/api/company/companyinfo/" + companyInfo.getId() + "/detail")
+                MockMvcRequestBuilders
+                        .get("/s/api/company/companyinfo/{id}/detail", companyInfo.getId())
                         .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         // eye
@@ -273,7 +288,11 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[0].name").value("Python"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[1].name").value("Java"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[2].name").value("React"));
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+        actions.andDo(document("{class-name}/{method-name}",
+                pathParameters(
+                        parameterWithName("id").description("조회할 회사의 ID")
+                )
+        ));
 
 
     }
@@ -306,9 +325,13 @@ public class CompanyInfoControllerTest extends MyRestDoc {
 
         Long jobPostingCount = jobPostingRepository.countByUserIdAndDeadlineAfter(user.getId());
 
+        String requestBody = om.writeValueAsString(companyInfo);
+
         // when
         ResultActions actions = mvc.perform(
-                MockMvcRequestBuilders.get("/api/personal/companyinfo/" + companyInfo.getId() + "/detail")
+                MockMvcRequestBuilders
+                        .get("/api/personal/companyinfo/{id}/detail", companyInfo.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         // eye
@@ -340,7 +363,12 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[0].name").value("Python"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[1].name").value("Java"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[2].name").value("React"));
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+        actions.andDo(document("{class-name}/{method-name}",
+                pathParameters(
+                        parameterWithName("id").description("조회할 회사의 ID")
+                )
+        ));
+
     }
 
 
