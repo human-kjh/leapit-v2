@@ -3,6 +3,8 @@ package com.example.leapit.application;
 import com.example.leapit._core.error.ex.ExceptionApi400;
 import com.example.leapit._core.error.ex.ExceptionApi403;
 import com.example.leapit._core.error.ex.ExceptionApi404;
+import com.example.leapit.common.enums.PassStatus;
+import com.example.leapit.common.enums.ViewStatus;
 import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.companyinfo.CompanyInfoRepository;
 import com.example.leapit.jobposting.JobPosting;
@@ -119,6 +121,8 @@ public class ApplicationService {
                 .resume(resume)
                 .jobPosting(jobPosting)
                 .appliedDate(LocalDate.now())
+                .passStatus(PassStatus.WAITING)
+                .viewStatus(ViewStatus.UNVIEWED)
                 .build();
 
         // 5. 저장 및 응답 DTO 리턴

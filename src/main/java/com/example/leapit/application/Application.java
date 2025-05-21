@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,15 +49,6 @@ public class Application {
 
     public void updateViewStatus(ViewStatus viewStatus) {
         this.viewStatus = viewStatus;
-    }
-
-    @Builder
-    public Application(Resume resume, JobPosting jobPosting, LocalDate appliedDate) {
-        this.resume = resume;
-        this.jobPosting = jobPosting;
-        this.appliedDate = appliedDate;
-        this.passStatus = PassStatus.WAITING;
-        this.viewStatus = ViewStatus.UNVIEWED;
     }
 
     @Builder
