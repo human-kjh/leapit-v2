@@ -83,7 +83,7 @@ public class ApplicationService {
     }
 
     @Transactional
-    public void bookmark(Integer applicationId, Integer sessionUserId) {
+    public void updateBookmark(Integer applicationId, Integer sessionUserId) {
         // 1. 해당 applicationId 존재 확인
         Application applicationPS = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new ExceptionApi404("해당 지원서는 존재하지 않습니다."));
