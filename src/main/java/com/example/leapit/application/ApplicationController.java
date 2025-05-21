@@ -1,11 +1,12 @@
 package com.example.leapit.application;
 
-import com.example.leapit._core.error.ex.ExceptionApi401;
 import com.example.leapit._core.util.Resp;
 import com.example.leapit.user.User;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -42,18 +43,27 @@ public class ApplicationController {
         return Resp.ok(respDTO);
     }
 
-    // 기업 지원서 상세보기
-    @GetMapping("/s/company/applicant/{id}")
-    public ResponseEntity<?> getDetail(@PathVariable("id") Integer id) {
+    // 특정 채용공고에 대한 이력서 지원하기 화면
+    @GetMapping("/s/api/personal/jobposting/{id}/apply")
+    public ResponseEntity<?> getApplyForm(@PathVariable Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        ApplicationResponse.DetailDTO respDTO = applicationService.getDetail(id, sessionUser);
+        ApplicationResponse.ApplyDTO respDTO = applicationService.getApplyForm(id, sessionUser.getId());
         return Resp.ok(respDTO);
     }
-    /*
-        applicationService.viewCheck(id);
-        ApplicationResponse.DetailDTO detailDTO = applicationService.detail(id, sessionUser);
-        request.setAttribute("model", detailDTO);
-        return "/company/applicant/detail";
+
+    // 채용공고에 이력서를 지원
+    @PostMapping("/s/api/personal/application")
+    public ResponseEntity<?> save(@Valid @RequestBody ApplicationRequest.SaveDTO reqDTO, Errors errors) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        ApplicationResponse.SaveDTO respDTO = applicationService.save(reqDTO, sessionUser.getId());
+        return Resp.ok(respDTO);
     }
-     */
+
+    // 기업 지원 스크랩 application_bookmark
+    @PutMapping("/s/api/company/application/{id}/bookmark")
+    public ResponseEntity<?> updateBookmark(@PathVariable("id") Integer applicationId) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        applicationService.updateBookmark(applicationId, sessionUser.getId());
+        return Resp.ok(null);
+    }
 }

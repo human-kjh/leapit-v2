@@ -3,16 +3,16 @@ package com.example.leapit.application;
 import com.example.leapit.common.enums.BookmarkStatus;
 import com.example.leapit.common.enums.PassStatus;
 import com.example.leapit.common.enums.ViewStatus;
+import com.example.leapit.jobposting.JobPosting;
+import com.example.leapit.resume.Resume;
 import jakarta.persistence.EntityManager;
-import com.example.leapit.companyinfo.CompanyInfoRepository;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Import(ApplicationRepository.class)
 @DataJpaTest
@@ -27,33 +27,32 @@ public class ApplicationRepositoryTest {
     @Test
     public void find_all_applicants_by_filter() {
         // given
-        Integer companyUserId = 7;
-        Integer jobPostingId = null;
-        PassStatus passStatus = null;
-        ViewStatus viewStatus = null;
-        BookmarkStatus bookmarkStatus = null;
+        Integer companyUserId = 7; // 테스트용 company 유저 ID (DB에 존재하는 값이어야 함)
+        Integer jobPostingId = null; // 전체 공고 대상으로 조회
+        PassStatus passStatus = null; // 합불 조건 없이 전체
+        ViewStatus viewStatus = null; // 열람 여부 전체
+        BookmarkStatus bookmarkStatus = null; // 북마크 여부 전체
 
         // when
-        List<ApplicationResponse.ApplicantListDTO> result =
-                applicationRepository.findApplicantsByFilter(
-                        companyUserId,
-                        jobPostingId,
-                        passStatus,
-                        viewStatus,
-                        bookmarkStatus
-                );
+        List<ApplicationResponse.ApplicantListDTO> result = applicationRepository.findApplicantsByFilter(
+                companyUserId,
+                jobPostingId,
+                passStatus,
+                viewStatus,
+                bookmarkStatus
+        );
 
-        // eye
-        System.out.println("===================================================");
+        // then
+        System.out.println("================= 지원자 목록 =================");
         for (ApplicationResponse.ApplicantListDTO dto : result) {
-            System.out.println("지원자 ID: " + dto.getApplicationId());
+            System.out.println("지원서 ID: " + dto.getApplicationId());
             System.out.println("이력서 ID: " + dto.getResumeId());
-            System.out.println("지원자명: " + dto.getApplicantName());
-            System.out.println("공고명: " + dto.getJobTitle());
-            System.out.println("지원일: " + dto.getAppliedDate());
-            System.out.println("열람 상태: " + dto.getViewStatus());
-            System.out.println("스크랩 상태: " + dto.getBookmarkStatus());
-            System.out.println("===================================================");
+            System.out.println("지원자 이름: " + dto.getApplicantName());
+            System.out.println("공고 제목: " + dto.getJobTitle());
+            System.out.println("지원일자: " + dto.getAppliedDate());
+            System.out.println("북마크 여부: " + dto.getBookmarkStatus());
+            System.out.println("평가 상태: " + dto.getEvaluationStatus());
+            System.out.println("--------------------------------------------");
         }
     }
 
@@ -110,14 +109,42 @@ public class ApplicationRepositoryTest {
     }
 
     @Test
-    public void find_by_id_join_application_bookmark(){
+    public void save_test() {
         // given
-        Integer applicationId = 3;
-        Integer sessionUserId = 6;
+        Integer resumeId = 2;
+        Integer jobPostingId = 3;
+
+        Resume resume = em.find(Resume.class, resumeId);
+        JobPosting jobPosting = em.find(JobPosting.class, jobPostingId);
+
+        Application application = Application.builder()
+                .resume(resume)
+                .jobPosting(jobPosting)
+                .bookmark(BookmarkStatus.NOT_BOOKMARKED)
+                .appliedDate(LocalDate.now())
+                .passStatus(PassStatus.WAITING)
+                .viewStatus(ViewStatus.UNVIEWED)
+                .build();
+
         // when
-        Optional<Application> application = applicationRepository.findByIdJoinApplicationBookmark(applicationId, sessionUserId);
+        Application saved = applicationRepository.save(application);
+
         // eye
-        System.out.println("=========지원내역+지원 북마크 Join 테스트=========");
-        System.out.println("" + application.get().getApplicationBookmarks().);
+        System.out.println("================= 지원 저장 결과 =================");
+        System.out.println("이력서 ID: " + saved.getResume().getId());
+        System.out.println("채용공고 ID: " + saved.getJobPosting().getId());
+        System.out.println("북마크 여부: "+saved.getBookmark());
+        System.out.println("지원일시: " + saved.getAppliedDate());
+        System.out.println("합격여부: " + saved.getPassStatus());
+        System.out.println("열람여부: " + saved.getViewStatus());
+        System.out.println("=================================================");
+        //================= 지원 저장 결과 =================
+        //이력서 ID: 2
+        //채용공고 ID: 3
+        //북마크 여부: NOT_BOOKMARKED
+        //지원일시: 2025-05-21
+        //합격여부: WAITING
+        //열람여부: UNVIEWED
+        //=================================================
     }
 }
