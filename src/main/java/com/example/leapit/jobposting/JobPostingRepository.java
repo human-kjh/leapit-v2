@@ -111,13 +111,7 @@ public class JobPostingRepository {
                 .setParameter("companyUserId", companyUserId)
                 .getResultList();
     }
-<<<<<<< HEAD
 
-
-
-=======
-  
->>>>>>> 8c76d152cd8132f1619f20c88631026f91cd01da
     public List<JobPostingResponse.ItemDTO> findAllByFilter(
             Integer regionId,
             Integer subRegionId,

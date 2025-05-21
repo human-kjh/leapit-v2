@@ -1,9 +1,5 @@
 package com.example.leapit.jobposting;
-<<<<<<< HEAD
-
-=======
 import com.example.leapit._core.error.ex.ExceptionApi400;
->>>>>>> 8c76d152cd8132f1619f20c88631026f91cd01da
 import com.example.leapit._core.error.ex.ExceptionApi403;
 import com.example.leapit._core.error.ex.ExceptionApi404;
 import com.example.leapit._core.util.Base64Util;
@@ -167,8 +163,6 @@ public class JobPostingService {
                 );
         return respDTO;
     }
-<<<<<<< HEAD
-=======
 
     // 채용공고 수정 화면에 필요한 데이터 불러오기
     public JobPostingResponse.UpdateDTO getUpdateForm(Integer id, Integer sessionUserId) {
@@ -350,5 +344,4 @@ public class JobPostingService {
 
         return popularList;
     }
->>>>>>> 8c76d152cd8132f1619f20c88631026f91cd01da
 }

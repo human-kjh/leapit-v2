@@ -60,16 +60,17 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public void companyUpdate(String newPassword, String contactNumber) {
-        this.password = newPassword;
-        this.contactNumber = contactNumber;
+    public void companyUpdate(UserRequest.CompanyUpdateDTO reqDTO) {
+        this.email= reqDTO.getEmail();
+        this.password = reqDTO.getNewPassword();
+        this.contactNumber = reqDTO.getContactNumber();
     }
 
-    public void personalUpdate(String name, String password, String email, String contactNumber) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.contactNumber = contactNumber;
+    public void personalUpdate(UserRequest.PersonalUpdateDTO reqDTO) {
+        this.name = reqDTO.getName();
+        this.password = reqDTO.getNewPassword();
+        this.email = reqDTO.getEmail();
+        this.contactNumber = reqDTO.getContactNumber();
     }
 
     @Builder(builderMethodName = "idBuilder")
