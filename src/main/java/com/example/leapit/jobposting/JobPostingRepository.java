@@ -111,7 +111,21 @@ public class JobPostingRepository {
                 .setParameter("companyUserId", companyUserId)
                 .getResultList();
     }
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+
+
+=======
+  
+>>>>>>> 8c76d152cd8132f1619f20c88631026f91cd01da
+=======
+
+>>>>>>> 2c297b48de9994e9494646bfc0a91c8f789c7ee3
+>>>>>>> master
     public List<JobPostingResponse.ItemDTO> findAllByFilter(
             Integer regionId,
             Integer subRegionId,
