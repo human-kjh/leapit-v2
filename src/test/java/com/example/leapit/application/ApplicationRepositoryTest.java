@@ -122,6 +122,8 @@ public class ApplicationRepositoryTest {
                 .resume(resume)
                 .jobPosting(jobPosting)
                 .appliedDate(LocalDate.now())
+                .passStatus(PassStatus.WAITING)
+                .viewStatus(ViewStatus.UNVIEWED)
                 .build();
 
         // when
@@ -132,11 +134,15 @@ public class ApplicationRepositoryTest {
         System.out.println("이력서 ID: " + saved.getResume().getId());
         System.out.println("채용공고 ID: " + saved.getJobPosting().getId());
         System.out.println("지원일시: " + saved.getAppliedDate());
+        System.out.println("지원일시: " + saved.getPassStatus());
+        System.out.println("지원일시: " + saved.getViewStatus());
         System.out.println("=================================================");
         //================= 지원 저장 결과 =================
-        // 이력서 ID: 2
-        // 채용공고 ID: 3
-        // 지원일시: 2025-05-21
+        //이력서 ID: 2
+        //채용공고 ID: 3
+        //지원일시: 2025-05-21
+        //지원일시: WAITING
+        //지원일시: UNVIEWED
         //=================================================
     }
 }
