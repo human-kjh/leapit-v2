@@ -7,6 +7,7 @@ import com.example.leapit.companyinfo.CompanyInfo;
 import com.example.leapit.jobposting.JobPosting;
 import com.example.leapit.jobposting.JobPostingResponse;
 import com.example.leapit.resume.Resume;
+import com.example.leapit.resume.ResumeResponse;
 import com.example.leapit.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -178,4 +179,12 @@ public class ApplicationResponse {
         }
     }
 
+    @Data
+    public static class DetailDTO {
+        private ResumeResponse.DTO resume;
+        private PassStatus passStatus;
+        private ViewStatus viewStatus;
+        private String jobPostingTitle;
+        private String companyName;
+    }
 }
