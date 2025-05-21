@@ -48,21 +48,6 @@ public class ResumeControllerTest extends MyRestDoc {
         // 테스트 후 정리할 코드
     }
 
-    /*
-    기본 세팅
-    @Test
-    public void _test() throws Exception{
-       // given
-
-       // when
-
-       // eye
-
-       // then
-       actions.andDo(MockMvcResultHandlers.print()).andDo(document);
-    }
-     */
-
     // 이력서 목록
     @Test
     public void get_list_test() throws Exception{
@@ -254,7 +239,7 @@ public class ResumeControllerTest extends MyRestDoc {
 
         // eye
         String responseBody = actions.andReturn().getResponse().getContentAsString();
-        System.out.println(responseBody);
+        //System.out.println(responseBody);
 
         // then
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
@@ -354,7 +339,7 @@ public class ResumeControllerTest extends MyRestDoc {
 
         // eye
         String responseBody = actions.andReturn().getResponse().getContentAsString();
-        System.out.println(responseBody);
+        //System.out.println(responseBody);
 
         // then
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
