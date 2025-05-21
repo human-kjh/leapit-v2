@@ -28,9 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 @Service
-public class jobPostingService {
+public class JobPostingService {
     private final JobPostingRepository jobPostingRepository;
-
     private final TechStackRepository techStackRepository;
     private final RegionRepository regionRepository;
     private final PositionTypeRepository positionTypeRepository;
@@ -113,6 +112,48 @@ public class jobPostingService {
         return popularList;
     }
 
+    // 구직자 - 메인페이지 최신공고 3개
+    public List<JobPostingResponse.MainDTO.RecentDTO> getRecent(Integer userId) {
+
+        // 1. 등록일 기준으로 최신 공고 3개 조회
+        List<JobPosting> recent = jobPostingRepository.findTop3Recent();
+
+        // 2. 공고 순서를 체크하기 위한 인덱스 (첫 번째 공고는 isActive=true 표시용)
+        AtomicInteger index = new AtomicInteger(0);
+
+        // 3. 각 JobPosting을 MainRecentJobPostingDTO로 변환하여 리스트로 반환
+        return recent.stream()
+                .map(jp -> {
+                    int i = index.getAndIncrement();   // 현재 공고의 순번
+
+                    // 3-1. 공고 작성자의 회사 정보 조회
+                    CompanyInfo companyInfo = companyInfoRepository.findByUserId(jp.getUser().getId())
+                            .orElseThrow(() -> new RuntimeException("회사 정보가 없습니다"));
+
+                    // 3-2. DB에 있는 image를 Base64 문자열로 변환
+                    String imageString = null;
+                    try {
+                        if (companyInfo.getImage() != null) {
+                            byte[] imageBytes = Base64Util.readImageAsByteArray(companyInfo.getImage());
+                            imageString = Base64Util.encodeAsString(imageBytes, "image/png");
+                        }
+                    } catch (Exception e) {
+                        throw new ExceptionApi400("파일 읽기 실패");
+                    }
+
+                    // 3-3. 북마크 여부 확인 (로그인한 유저인 경우만 체크)
+                    boolean isBookmarked = false;
+                    if (userId != null) {
+                        isBookmarked = jobPostingBookmarkRepository
+                                .findByUserIdAndJobPostingId(userId, jp.getId())
+                                .isPresent();
+                    }
+
+                    // 3-3. DTO 생성 (i == 0이면 첫 번째 공고 → isActive=true)
+                    return new JobPostingResponse.MainDTO.RecentDTO(jp, companyInfo, imageString, i == 0, isBookmarked);
+                })
+                .toList();
+    }
     // 채용공고 저장
     @Transactional
     public JobPostingResponse.DTO save(JobPostingRequest.SaveDTO reqDTO, User sessionUser) {
@@ -239,7 +280,6 @@ public class jobPostingService {
                 );
         return respDTO;
     }
-}
 
     // 채용공고 수정 화면에 필요한 데이터 불러오기
     public JobPostingResponse.UpdateDTO getUpdateForm(Integer id, Integer sessionUserId) {
@@ -283,7 +323,6 @@ public class jobPostingService {
 
         return new JobPostingResponse.UpdateDTO(positionTypes, techStacks, regionDTOs, careerLevels, educationLevels, detailDTO);
     }
-
     // 채용공고 수정
     @Transactional
     public JobPostingResponse.DTO update(Integer jobPostingId, Integer sessionUserId, JobPostingRequest.UpdateDTO reqDTO) {
@@ -301,50 +340,4 @@ public class jobPostingService {
 
         return new JobPostingResponse.DTO(jobPostingPS);
     }
-
-    // 구직자 - 메인페이지 최신공고 3개
-    public List<JobPostingResponse.MainDTO.RecentDTO> getRecent(Integer userId) {
-
-        // 1. 등록일 기준으로 최신 공고 3개 조회
-        List<JobPosting> recent = jobPostingRepository.findTop3Recent();
-
-        // 2. 공고 순서를 체크하기 위한 인덱스 (첫 번째 공고는 isActive=true 표시용)
-        AtomicInteger index = new AtomicInteger(0);
-
-        // 3. 각 JobPosting을 MainRecentJobPostingDTO로 변환하여 리스트로 반환
-        return recent.stream()
-                .map(jp -> {
-                    int i = index.getAndIncrement();   // 현재 공고의 순번
-
-                    // 3-1. 공고 작성자의 회사 정보 조회
-                    CompanyInfo companyInfo = companyInfoRepository.findByUserId(jp.getUser().getId())
-                            .orElseThrow(() -> new RuntimeException("회사 정보가 없습니다"));
-
-                    // 3-2. DB에 있는 image를 Base64 문자열로 변환
-                    String imageString = null;
-                    try {
-                        if (companyInfo.getImage() != null) {
-                            byte[] imageBytes = Base64Util.readImageAsByteArray(companyInfo.getImage());
-                            imageString = Base64Util.encodeAsString(imageBytes, "image/png");
-                        }
-                    } catch (Exception e) {
-                        throw new ExceptionApi400("파일 읽기 실패");
-                    }
-
-                    // 3-3. 북마크 여부 확인 (로그인한 유저인 경우만 체크)
-                    boolean isBookmarked = false;
-                    if (userId != null) {
-                        isBookmarked = jobPostingBookmarkRepository
-                                .findByUserIdAndJobPostingId(userId, jp.getId())
-                                .isPresent();
-                    }
-
-                    // 3-3. DTO 생성 (i == 0이면 첫 번째 공고 → isActive=true)
-                    return new JobPostingResponse.MainDTO.RecentDTO(jp, companyInfo, imageString, i == 0, isBookmarked);
-                })
-                .toList();
-    }
-
-
-
 }

@@ -3,6 +3,7 @@ package com.example.leapit.application;
 import com.example.leapit._core.error.ex.ExceptionApi400;
 import com.example.leapit._core.error.ex.ExceptionApi403;
 import com.example.leapit._core.error.ex.ExceptionApi404;
+import com.example.leapit.common.enums.BookmarkStatus;
 import com.example.leapit.common.enums.PassStatus;
 import com.example.leapit.common.enums.ViewStatus;
 import com.example.leapit.companyinfo.CompanyInfo;
@@ -120,7 +121,7 @@ public class ApplicationService {
         Resume resume = resumeRepository.findById(dto.getResumeId())
                 .orElseThrow(() -> new ExceptionApi404("이력서를 찾을 수 없습니다."));
         if (!resume.getUser().getId().equals(userId)) {
-            throw new ExceptionApi403("본인 이력서만 사용할 수 없습니다.");
+            throw new ExceptionApi403("본인 이력서만 사용할 수 있습니다.");
         }
 
         // 3. 채용공고 조회
@@ -131,6 +132,7 @@ public class ApplicationService {
         Application application = Application.builder()
                 .resume(resume)
                 .jobPosting(jobPosting)
+                .bookmark(BookmarkStatus.NOT_BOOKMARKED)
                 .appliedDate(LocalDate.now())
                 .passStatus(PassStatus.WAITING)
                 .viewStatus(ViewStatus.UNVIEWED)

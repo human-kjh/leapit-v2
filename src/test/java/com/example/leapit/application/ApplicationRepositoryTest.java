@@ -120,6 +120,7 @@ public class ApplicationRepositoryTest {
         Application application = Application.builder()
                 .resume(resume)
                 .jobPosting(jobPosting)
+                .bookmark(BookmarkStatus.NOT_BOOKMARKED)
                 .appliedDate(LocalDate.now())
                 .passStatus(PassStatus.WAITING)
                 .viewStatus(ViewStatus.UNVIEWED)
@@ -132,9 +133,10 @@ public class ApplicationRepositoryTest {
         System.out.println("================= 지원 저장 결과 =================");
         System.out.println("이력서 ID: " + saved.getResume().getId());
         System.out.println("채용공고 ID: " + saved.getJobPosting().getId());
+        System.out.println("북마크 여부: "+saved.getBookmark());
         System.out.println("지원일시: " + saved.getAppliedDate());
-        System.out.println("지원일시: " + saved.getPassStatus());
-        System.out.println("지원일시: " + saved.getViewStatus());
+        System.out.println("합격여부: " + saved.getPassStatus());
+        System.out.println("열람여부: " + saved.getViewStatus());
         System.out.println("=================================================");
         //================= 지원 저장 결과 =================
         //이력서 ID: 2

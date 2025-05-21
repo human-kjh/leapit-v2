@@ -59,11 +59,11 @@ public class ApplicationController {
         return Resp.ok(respDTO);
     }
 
+    // 공고 지원
     @PostMapping("/s/api/personal/application")
     public ResponseEntity<?> save (@Valid @RequestBody ApplicationRequest.SaveDTO reqDTO, Errors errors){
         User sessionUser = (User) session.getAttribute("sessionUser");
         ApplicationResponse.SaveDTO respDTO = applicationService.save(reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
-
     }
 }
