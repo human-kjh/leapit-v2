@@ -168,7 +168,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
     }
 
     @Test
-    public void getOne_test() throws Exception {
+    public void get_one_test() throws Exception {
         // given
         User user = userRepository.findByUsername("company01")
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
@@ -212,7 +212,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
     }
 
     @Test
-    public void getDetailCompany_test() throws Exception {
+    public void get_detail_company_test() throws Exception {
         // given
         User user = userRepository.findByUsername("company01")
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
@@ -287,7 +287,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
     }
 
     @Test
-    public void getDetailPersonal_test() throws Exception {
+    public void get_detail_personal_test() throws Exception {
         // given
         User user = userRepository.findByUsername("company01")
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));

@@ -132,23 +132,23 @@ include::{snippets}/{companyInfo}/update_test/http-response.adoc[]
 
 === 3. 기업정보 보기
 ===== Request Example
-include::{snippets}/{companyInfo}/getOne_test/http-request.adoc[]
+include::{snippets}/{companyInfo}/get_one_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{companyInfo}/getOne_test/http-response.adoc[]
+include::{snippets}/{companyInfo}/get_one_test/http-response.adoc[]
 
 === 4. 기업정보 상세보기
 ===== Request Example
-include::{snippets}/{companyInfo}/getDetailCompany_test/http-request.adoc[]
+include::{snippets}/{companyInfo}/get_detail_company_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{companyInfo}/getDetailCompany_test/http-response.adoc[]
+include::{snippets}/{companyInfo}/get_detail_company_test/http-response.adoc[]
 
 === 5. 기업정보 상세보기 - 구직자
 ===== Request Example
-include::{snippets}/{companyInfo}/getDetailPersonal_test/http-request.adoc[]
+include::{snippets}/{companyInfo}/get_detail_personal_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{companyInfo}/getDetailPersonal_test/http-response.adoc[]
+include::{snippets}/{companyInfo}/get_detail_personal_test/http-response.adoc[]
 
 
