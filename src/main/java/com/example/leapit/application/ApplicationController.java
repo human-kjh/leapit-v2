@@ -51,10 +51,19 @@ public class ApplicationController {
         return Resp.ok(respDTO);
     }
 
+    // 채용공고에 이력서를 지원
     @PostMapping("/s/api/personal/application")
     public ResponseEntity<?> save(@Valid @RequestBody ApplicationRequest.SaveDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         ApplicationResponse.SaveDTO respDTO = applicationService.save(reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
+    }
+
+    // 기업 지원 스크랩 application_bookmark
+    @PutMapping("/s/api/company/application/{id}/bookmark")
+    public ResponseEntity<?> updateBookmark(@PathVariable("id") Integer applicationId) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        applicationService.updateBookmark(applicationId, sessionUser.getId());
+        return Resp.ok(null);
     }
 }
