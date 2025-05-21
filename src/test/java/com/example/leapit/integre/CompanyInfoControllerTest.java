@@ -28,9 +28,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static org.hamcrest.Matchers.matchesPattern;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 @Transactional
 @AutoConfigureMockMvc
@@ -210,11 +207,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.image")
                 .value(matchesPattern("^data:image\\/png;base64,.+")));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.benefit").value("유연근무제, 점심 제공, 워케이션 제도"));
-        actions.andDo(document("{class-name}/{method-name}",
-                pathParameters(
-                        parameterWithName("id").description("조회할 회사의 ID")
-                )
-        ));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
     }
 
@@ -288,11 +281,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[0].name").value("Python"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[1].name").value("Java"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[2].name").value("React"));
-        actions.andDo(document("{class-name}/{method-name}",
-                pathParameters(
-                        parameterWithName("id").description("조회할 회사의 ID")
-                )
-        ));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
 
     }
@@ -363,11 +352,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[0].name").value("Python"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[1].name").value("Java"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[2].name").value("React"));
-        actions.andDo(document("{class-name}/{method-name}",
-                pathParameters(
-                        parameterWithName("id").description("조회할 회사의 ID")
-                )
-        ));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
     }
 
