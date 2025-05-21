@@ -1,6 +1,6 @@
-package com.example.leapit.jobposting.bookmark;
+package com.example.leapit.application.bookmark;
 
-import com.example.leapit.jobposting.JobPosting;
+import com.example.leapit.application.Application;
 import com.example.leapit.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -12,9 +12,9 @@ import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Getter
-@Table(name = "job_posting_bookmark_tb")
+@Table(name = "application_bookmark_tb")
 @Entity
-public class JobPostingBookmark {
+public class ApplicationBookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,16 +23,16 @@ public class JobPostingBookmark {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private JobPosting jobPosting;
+    private Application application;
 
     @CreationTimestamp
     private Timestamp createdAt;
 
     @Builder
-    public JobPostingBookmark(Integer id, User user, JobPosting jobPosting, Timestamp createdAt) {
+    public ApplicationBookmark(Integer id, User user, Application application, Timestamp createdAt) {
         this.id = id;
         this.user = user;
-        this.jobPosting = jobPosting;
+        this.application = application;
         this.createdAt = createdAt;
     }
 }
