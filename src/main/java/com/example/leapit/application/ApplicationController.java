@@ -44,7 +44,7 @@ public class ApplicationController {
     }
 
     // 기업 스크랩 등록 application_bookmark
-    @PutMapping("/s/api/company/applicationbookmark/{id}")
+    @PutMapping("/s/api/company/application/{id}/bookmark")
     public ResponseEntity<?> bookmark(@PathVariable("id") Integer applicationId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         applicationService.bookmark(applicationId, sessionUser.getId());
