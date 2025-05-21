@@ -1,4 +1,5 @@
 package com.example.leapit.jobposting;
+
 import com.example.leapit._core.error.ex.ExceptionApi400;
 import com.example.leapit._core.error.ex.ExceptionApi403;
 import com.example.leapit._core.error.ex.ExceptionApi404;
@@ -8,6 +9,7 @@ import com.example.leapit.common.enums.EducationLevel;
 import com.example.leapit.common.positiontype.PositionTypeRepository;
 import com.example.leapit.common.region.Region;
 import com.example.leapit.common.region.RegionRepository;
+import com.example.leapit.common.region.RegionResponse;
 import com.example.leapit.common.region.SubRegion;
 import com.example.leapit.common.techstack.TechStackRepository;
 import com.example.leapit.companyinfo.CompanyInfo;
@@ -18,7 +20,6 @@ import com.example.leapit.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.example.leapit.common.region.RegionResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,7 +121,7 @@ public class JobPostingService {
     }
 
     // 공고현황 페이지(필터)
-    public JobPostingResponse.FilteredListDTO getList(JobPostingRequest.FilterDTO reqDTO,Integer sessionUserId) {
+    public JobPostingResponse.FilteredListDTO getPersonalList(JobPostingRequest.FilterDTO reqDTO, Integer sessionUserId) {
 
         // 1. 포지션 타입 코드 리스트 (예: ["백엔드", "프론트엔드"])
         List<String> positionTypes = positionTypeRepository.findAll();
@@ -343,5 +344,15 @@ public class JobPostingService {
         }
 
         return popularList;
+    }
+
+    public JobPostingResponse.ListByStatusDTO getCompanyJobPostings(Integer userId) {
+        List<JobPostingResponse.companyListDTO> openList =
+                jobPostingRepository.findOpenJobPostingByCompanyUserId(userId);
+
+        List<JobPostingResponse.companyListDTO> closedList =
+                jobPostingRepository.findClosedJobPostingByCompanyUserId(userId);
+
+        return new JobPostingResponse.ListByStatusDTO(openList, closedList);
     }
 }
