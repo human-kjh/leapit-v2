@@ -1,5 +1,6 @@
 package com.example.leapit.integre;
 
+import com.example.leapit.MyRestDoc;
 import com.example.leapit._core.util.JwtUtil;
 import com.example.leapit.common.enums.Role;
 import com.example.leapit.companyinfo.CompanyInfo;
@@ -20,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
@@ -30,7 +32,7 @@ import static org.hamcrest.Matchers.matchesPattern;
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class CompanyInfoControllerTest {
+public class CompanyInfoControllerTest extends MyRestDoc {
 
     @Autowired
     private ObjectMapper om;
@@ -105,6 +107,7 @@ public class CompanyInfoControllerTest {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.image")
                 .value(matchesPattern("^data:image\\/png;base64,.+")));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.benefit").value("복리후생"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
 
     }
@@ -161,6 +164,7 @@ public class CompanyInfoControllerTest {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.image")
                 .value(matchesPattern("^data:image\\/png;base64,.+")));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.benefit").value("사내 카페, 식사 제공"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -200,6 +204,7 @@ public class CompanyInfoControllerTest {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.image")
                 .value(matchesPattern("^data:image\\/png;base64,.+")));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.benefit").value("유연근무제, 점심 제공, 워케이션 제도"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
     }
 
@@ -268,6 +273,7 @@ public class CompanyInfoControllerTest {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[0].name").value("Python"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[1].name").value("Java"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[2].name").value("React"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
 
     }
@@ -334,6 +340,7 @@ public class CompanyInfoControllerTest {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[0].name").value("Python"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[1].name").value("Java"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.jobPostings[0].techStacks[2].name").value("React"));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
 
