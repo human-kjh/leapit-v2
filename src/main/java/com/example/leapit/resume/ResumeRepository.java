@@ -32,7 +32,7 @@ public class ResumeRepository {
         return resume;
     }
 
-    public List<Resume> findAllByUserIdWithTechStacks(Integer userId) {
+    public List<Resume> findAllByUserIdJoinTechStacks(Integer userId) {
         String jpql = """
                     SELECT DISTINCT r
                     FROM Resume r

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @Import(ApplicationRepository.class)
@@ -121,7 +121,7 @@ public class ApplicationRepositoryTest {
         Application application = Application.builder()
                 .resume(resume)
                 .jobPosting(jobPosting)
-                .appliedDate(new Timestamp(System.currentTimeMillis()))
+                .appliedDate(LocalDate.now())
                 .build();
 
         // when
@@ -134,9 +134,9 @@ public class ApplicationRepositoryTest {
         System.out.println("지원일시: " + saved.getAppliedDate());
         System.out.println("=================================================");
         //================= 지원 저장 결과 =================
-        //이력서 ID: 2
-        //채용공고 ID: 3
-        //지원일시: 2025-05-20 20:22:40.925915
+        // 이력서 ID: 2
+        // 채용공고 ID: 3
+        // 지원일시: 2025-05-21
         //=================================================
     }
 }

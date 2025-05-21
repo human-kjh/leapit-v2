@@ -1,6 +1,5 @@
 package com.example.leapit.application;
 
-import com.example.leapit._core.error.ex.ExceptionApi401;
 import com.example.leapit._core.util.Resp;
 import com.example.leapit.user.User;
 import jakarta.servlet.http.HttpSession;
@@ -45,7 +44,7 @@ public class ApplicationController {
     }
 
     // 특정 채용공고에 대한 이력서 지원하기 화면
-    @GetMapping("/s/api/personal/jobposting/{id}/apply-form")
+    @GetMapping("/s/api/personal/jobposting/{id}/apply")
     public ResponseEntity<?> getApplyForm(@PathVariable Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         ApplicationResponse.ApplyDTO respDTO = applicationService.getApplyForm(id, sessionUser.getId());
@@ -53,9 +52,9 @@ public class ApplicationController {
     }
 
     @PostMapping("/s/api/personal/application")
-    public ResponseEntity<?> save(@Valid @RequestBody ApplicationRequest.ApplyReqDTO reqDTO, Errors errors) {
+    public ResponseEntity<?> save(@Valid @RequestBody ApplicationRequest.SaveDTO reqDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        ApplicationResponse.ApplyResultDTO respDTO = applicationService.save(reqDTO, sessionUser.getId());
+        ApplicationResponse.SaveDTO respDTO = applicationService.save(reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
     }
 }

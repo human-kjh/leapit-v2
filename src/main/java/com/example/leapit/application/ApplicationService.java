@@ -16,7 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -90,14 +90,14 @@ public class ApplicationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ExceptionApi404("사용자 정보를 찾을 수 없습니다."));
 
-        List<Resume> resumes = resumeRepository.findAllByUserIdWithTechStacks(userId);
+        List<Resume> resumes = resumeRepository.findAllByUserIdJoinTechStacks(userId);
 
         return new ApplicationResponse.ApplyDTO(jobPosting, companyInfo, user, resumes);
     }
 
     //
     @Transactional
-    public ApplicationResponse.ApplyResultDTO save(ApplicationRequest.ApplyReqDTO dto, Integer userId) {
+    public ApplicationResponse.SaveDTO save(ApplicationRequest.SaveDTO dto, Integer userId) {
         // 1. 중복 지원 방지
         if (applicationRepository.checkIfAlreadyApplied(userId, dto.getJobPostingId())) {
             throw new ExceptionApi400("이미 지원한 공고입니다.");
@@ -118,11 +118,11 @@ public class ApplicationService {
         Application application = Application.builder()
                 .resume(resume)
                 .jobPosting(jobPosting)
-                .appliedDate(new Timestamp(System.currentTimeMillis()))
+                .appliedDate(LocalDate.now())
                 .build();
 
         // 5. 저장 및 응답 DTO 리턴
         Application applicationPS = applicationRepository.save(application);
-        return new ApplicationResponse.ApplyResultDTO(applicationPS);
+        return new ApplicationResponse.SaveDTO(applicationPS);
     }
 }

@@ -25,7 +25,7 @@ public class ApplicationRequest {
     }
 
     @Data
-    public static class ApplyReqDTO {
+    public static class SaveDTO {
         @NotNull(message = "채용공고 ID는 필수입니다.")
         private Integer jobPostingId;
 

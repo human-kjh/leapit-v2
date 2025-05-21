@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -35,7 +35,7 @@ public class Application {
     private List<ApplicationBookmark> applicationBookmarks;
 
     @CreationTimestamp
-    private Timestamp appliedDate;
+    private LocalDate appliedDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -54,7 +54,7 @@ public class Application {
     }
 
     @Builder
-    public Application(Resume resume, JobPosting jobPosting, Timestamp appliedDate) {
+    public Application(Resume resume, JobPosting jobPosting, LocalDate appliedDate) {
         this.resume = resume;
         this.jobPosting = jobPosting;
         this.appliedDate = appliedDate;

@@ -166,12 +166,12 @@ public class ApplicationResponse {
     }
 
     @Data
-    public static class ApplyResultDTO {
+    public static class SaveDTO {
         private Integer resumeId;
         private Integer jobPostingId;
-        private Timestamp appliedDate;
+        private LocalDate appliedDate;
 
-        public ApplyResultDTO(Application application) {
+        public SaveDTO(Application application) {
             this.resumeId = application.getResume().getId();
             this.jobPostingId = application.getJobPosting().getId();
             this.appliedDate = application.getAppliedDate();
