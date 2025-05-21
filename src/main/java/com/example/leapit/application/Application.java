@@ -64,7 +64,7 @@ public class Application {
     }
 
 
-    public void bookmarkUpdate(String bookmark) {
+    public void updateBookmark(String bookmark) {
         this.bookmark = bookmark == "BOOKMARKED"? BookmarkStatus.NOT_BOOKMARKED : BookmarkStatus.BOOKMARKED;
     }
 }
