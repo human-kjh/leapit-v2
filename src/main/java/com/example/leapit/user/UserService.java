@@ -44,7 +44,6 @@ public class UserService {
         return new UserResponse.DTO(userPS);
     }
 
-
     // 유저네임 중복체크
     public Map<String, Object> checkUsernameAvailable(String username) {
         Optional<User> userOP = userRepository.findByUsername(username);
