@@ -66,4 +66,15 @@ public class ApplicationService {
 
         return new ApplicationResponse.UpdatePassDTO(applicationPS.getId(), applicationPS.getPassStatus());
     }
+
+    @Transactional
+    public void bookmark(Integer applicationId, Integer sessionUserId) {
+        // 1. 해당 applicationId 존재 확인
+        Application applicationPS = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new ExceptionApi404("해당 지원서는 존재하지 않습니다."));
+        // 2. 유저 권한 체크
+        if (!(applicationPS.getJobPosting().getUser().getId().equals(sessionUserId))) throw new ExceptionApi403("권한이 없습니다.");
+        // 3. update  BOOKMARKED -> NOT_BOOKMARKED, NOT_BOOKMARKED -> BOOKMARKED 로 바꿈
+        applicationPS.bookmarkUpdate(applicationPS.getBookmark().toString());
+    }
 }

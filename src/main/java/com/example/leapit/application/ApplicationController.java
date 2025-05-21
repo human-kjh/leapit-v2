@@ -1,6 +1,5 @@
 package com.example.leapit.application;
 
-import com.example.leapit._core.error.ex.ExceptionApi401;
 import com.example.leapit._core.util.Resp;
 import com.example.leapit.user.User;
 import jakarta.servlet.http.HttpSession;
@@ -40,5 +39,13 @@ public class ApplicationController {
 
         ApplicationResponse.UpdatePassDTO respDTO = applicationService.updatePass(id, reqDTO, sessionUser.getId());
         return Resp.ok(respDTO);
+    }
+
+    // 기업 스크랩 등록 application_bookmark
+    @PutMapping("/s/api/company/applicationbookmark/{id}")
+    public ResponseEntity<?> bookmark(@PathVariable("id") Integer applicationId) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        applicationService.bookmark(applicationId, sessionUser.getId());
+        return Resp.ok(null);
     }
 }
