@@ -4,8 +4,8 @@ endif::[]
 
 :user: user-controller-test
 :resume: resume-controller-test
-:jobposting: jobposting-controller-test
-:jobpostingBookmark: jobposting-bookmark-controller-test
+:jobposting: job-posting-controller-test
+:jobpostingBookmark: job-posting-bookmark-controller-test
 :application: application-controller-test
 :companyInfo: company-info-controller-test
 :board: board-controller-test
@@ -18,12 +18,12 @@ endif::[]
 :source-highlighter: highlightjs
 
 == 회원
-=== 1. 회원가입 유저네임 중복 실패
+=== 1. 개인 회원가입
 ===== Request Example
-include::{snippets}/{user}/join_username_uk_fail_test/http-request.adoc[]
+include::{snippets}/{user}/personal_join_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{user}/join_username_uk_fail_test/http-response.adoc[]
+include::{snippets}/{user}/personal_join_test/http-response.adoc[]
 
 === 2. 회원가입
 ===== Request Example
@@ -32,26 +32,47 @@ include::{snippets}/{user}/company_join_test/http-request.adoc[]
 ===== Response Example
 include::{snippets}/{user}/company_join_test/http-response.adoc[]
 
-=== 3. 로그인
+=== 3. 유저네임 중복체크
+===== Request Example
+include::{snippets}/{user}/check_username_available_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{user}/check_username_available_test/http-response.adoc[]
+
+=== 4. 로그인
 ===== Request Example
 include::{snippets}/{user}/login_test/http-request.adoc[]
 
 ===== Response Example
 include::{snippets}/{user}/login_test/http-response.adoc[]
 
-=== 4. 회원정보수정
+=== 5. 개인 회원정보 수정 화면
 ===== Request Example
-include::{snippets}/{user}/update_test/http-request.adoc[]
+include::{snippets}/{user}/get_personal_update_form_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{user}/update_test/http-response.adoc[]
+include::{snippets}/{user}/get_personal_update_form_test/http-response.adoc[]
 
-=== 5. 유저네임중복확인
+=== 6. 기업 회원정보 수정 화면
 ===== Request Example
-include::{snippets}/{user}/check_username_available_test/http-request.adoc[]
+include::{snippets}/{user}/get_company_update_form_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{user}/check_username_available_test/http-response.adoc[]
+include::{snippets}/{user}/get_company_update_form_test/http-response.adoc[]
+
+=== 7. 기업 회원정보 수정
+===== Request Example
+include::{snippets}/{user}/company_update_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{user}/company_update_test/http-response.adoc[]
+
+=== 8. 개인 회원정보 수정
+===== Request Example
+include::{snippets}/{user}/personal_update_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{user}/personal_update_test/http-response.adoc[]
 
 == 이력서
 === 1. 이력서 목록
@@ -174,6 +195,42 @@ include::{snippets}/{jobposting}/get_personal_list_test/http-request.adoc[]
 ===== Response Example
 include::{snippets}/{jobposting}/get_personal_list_test/http-response.adoc[]
 
+=== 11. 메인페이지 - 로그인 O
+===== Request Example
+include::{snippets}/{jobposting}/index_login_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{jobposting}/index_login_test/http-response.adoc[]
+
+=== 12. 메인페이지 - 로그인 X
+===== Request Example
+include::{snippets}/{jobposting}/index_logout_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{jobposting}/index_logout_test/http-response.adoc[]
+
+=== 공고 북마크(jobpostingBookmark)
+=== 1. 개인 마이페이지 공고 스크랩 현황 관리
+===== Request Example
+include::{snippets}/{jobpostingBookmark}/get_my_bookmark_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{jobpostingBookmark}/get_my_bookmark_test/http-response.adoc[]
+
+=== 2. 개인 스크랩 등록
+===== Request Example
+include::{snippets}/{jobpostingBookmark}/save_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{jobpostingBookmark}/save_test/http-response.adoc[]
+
+=== 3. 개인 스크랩 삭제
+===== Request Example
+include::{snippets}/{jobpostingBookmark}/delete_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{jobpostingBookmark}/delete_test/http-response.adoc[]
+
 == 지원
 === 1. 지원하기 화면 - 구직자
 ===== Request Example
@@ -189,19 +246,40 @@ include::{snippets}/{application}/save_test/http-request.adoc[]
 ===== Response Example
 include::{snippets}/{application}/save_test/http-response.adoc[]
 
-=== 3. 지원자 상세보기 - 기업
+=== 3. 지원자 합격/불합격 처리 - 기업
+===== Request Example
+include::{snippets}/{application}/update_pass_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{application}/update_pass_test/http-response.adoc[]
+
+=== 4. 지원자 상세보기 - 기업
 ===== Request Example
 include::{snippets}/{application}/get_detail_test/http-request.adoc[]
 
 ===== Response Example
 include::{snippets}/{application}/get_detail_test/http-response.adoc[]
 
-=== 4. 지원자 합격/불합격 처리 - 기업
+=== 5. 지원자 상세보기 - 기업
 ===== Request Example
-include::{snippets}/{application}/update_pass_test/http-request.adoc[]
+include::{snippets}/{application}/get_my_application_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{application}/update_pass_test/http-response.adoc[]
+include::{snippets}/{application}/get_my_application_test/http-response.adoc[]
+
+=== 6. 기업 지원자 현황 관리 - 기업
+===== Request Example
+include::{snippets}/{application}/get_applicant_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{application}/get_applicant_test/http-response.adoc[]
+
+=== 7. 기업 지원 스크랩 application_bookmark - 기업
+===== Request Example
+include::{snippets}/{application}/update_bookmark_test/http-request.adoc[]
+
+===== Response Example
+include::{snippets}/{application}/update_bookmark_test/http-response.adoc[]
 
 == 기업정보
 === 1. 기업정보 등록
@@ -304,25 +382,3 @@ include::{snippets}/{like}/delete_test/http-request.adoc[]
 
 ===== Response Example
 include::{snippets}/{like}/delete_test/http-response.adoc[]
-
-=== 공고 북마크(jobpostingBookmark)
-=== 1. 개인 마이페이지 공고 스크랩 현황 관리
-===== Request Example
-include::{snippets}/{jobpostingBookmark}/get_my_bookmark_test/http-request.adoc[]
-
-===== Response Example
-include::{snippets}/{jobpostingBookmark}/get_my_bookmark_test/http-response.adoc[]
-
-=== 2. 개인 스크랩 등록
-===== Request Example
-include::{snippets}/{jobpostingBookmark}/save_test/http-request.adoc[]
-
-===== Response Example
-include::{snippets}/{jobpostingBookmark}/save_test/http-response.adoc[]
-
-=== 3. 개인 스크랩 삭제
-===== Request Example
-include::{snippets}/{jobpostingBookmark}/delete_test/http-request.adoc[]
-
-===== Response Example
-include::{snippets}/{jobpostingBookmark}/delete_test/http-response.adoc[]
