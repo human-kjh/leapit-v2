@@ -352,7 +352,7 @@ public class ApplicationControllerTest extends MyRestDoc {
     }
 
     // 기업 지원 스크랩 application_bookmark
-    @Test // TODO 수정 예정
+    @Test // TODO 수정 예정(respDTO)
     public void update_bookmark_test() throws Exception{
         // given
         Integer applicationId = 4;
