@@ -7,24 +7,21 @@ import com.example.leapit.common.enums.Role;
 import com.example.leapit.user.User;
 import com.example.leapit.user.UserRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static org.hamcrest.Matchers.matchesPattern;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -36,13 +33,21 @@ public class UserControllerTest extends MyRestDoc {
     private String companyAccessToken;
 
     @BeforeEach
-    public void setUp(){
-        // 테스트 시작 전에 실행 할 코드
+    public void setUp() {
         System.out.println("setUp");
-        User ssar = User.builder().id(1).username("ssar").build();
-        User company02 = User.builder().id(7).username("company02").build();
+        User ssar = User.builder()
+                .id(1)
+                .username("ssar")
+                .role(Role.valueOf("PERSONAL"))
+                .build();
         personalAccessToken = JwtUtil.create(ssar);
-        companyAccessToken = JwtUtil.create(company02);
+
+        User company01 = User.builder()
+                .id(6)
+                .username("company01")
+                .role(Role.valueOf("COMPANY"))
+                .build();
+        companyAccessToken = JwtUtil.create(company01);
     }
 
     @AfterEach
