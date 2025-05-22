@@ -442,4 +442,79 @@ public class JobPostingControllerTest extends MyRestDoc {
 
     }
 
+    // 구직자 - 메인페이지 (로그인)
+    @Test
+    public void index_login_test() throws Exception {
+        // when
+        ResultActions actions = mvc.perform(
+                MockMvcRequestBuilders.get("/")
+                        .header("Authorization", "Bearer " + personalAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
+
+        // 최신공고 검증
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].title").value("QA 엔지니어 모집"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].companyName").value("랩핏테크"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].image")
+                .value(matchesPattern("^data:image\\/png;base64,.+")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].active").value(true));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].bookmarkStatus").value("NOT_BOOKMARKED"));
+
+        // 인기공고 검증
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].title").value("데이터 엔지니어 채용"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].companyName").value("랩핏테크"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].image").value(matchesPattern("^data:image\\/png;base64,.+")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].address").value(matchesPattern("서울특별시 서초구")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].career").value(matchesPattern("(신입, )?경력 \\d+-\\d+년")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].dday").isNumber());
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].viewCount").value(13));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].techStacks[0].name").value("SQL"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].techStacks[1].name").value("Node.js"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].techStacks[2].name").value("React"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].bookmarkStatus").value("BOOKMARKED"));
+
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+    }
+
+    // 구직자 - 메인페이지 (로그아웃)
+    @Test
+    public void index_logout_test() throws Exception {
+        // when
+        ResultActions actions = mvc.perform(
+                MockMvcRequestBuilders.get("/")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
+
+        // 최신공고 검증
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].title").value("QA 엔지니어 모집"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].companyName").value("랩핏테크"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].image")
+                .value(matchesPattern("^data:image\\/png;base64,.+")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].active").value(true));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].bookmarkStatus").value("NOT_BOOKMARKED"));
+
+        // 인기공고 검증
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].title").value("데이터 엔지니어 채용"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].companyName").value("랩핏테크"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.recent[0].image").value(matchesPattern("^data:image\\/png;base64,.+")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].address").value(matchesPattern("서울특별시 서초구")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].career").value(matchesPattern("(신입, )?경력 \\d+-\\d+년")));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].dday").isNumber());
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].viewCount").value(13));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].techStacks[0].name").value("SQL"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].techStacks[1].name").value("Node.js"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].techStacks[2].name").value("React"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.popular[0].bookmarkStatus").value("NOT_BOOKMARKED"));
+
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+    }
+
 }
