@@ -49,6 +49,7 @@ public class UserControllerTest extends MyRestDoc {
         System.out.println("tearDown");
     }
 
+    // 1. 개인 회원가입
     @Test
     public void personal_join_test() throws Exception {
         // given
@@ -90,6 +91,7 @@ public class UserControllerTest extends MyRestDoc {
     }
 
 
+    // 2. 기업 회원가입
     @Test
     public void company_join_test() throws Exception {
         // given
@@ -128,6 +130,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
+    // 3. 유저네임 중복체크
     @Test
     public void check_username_available_test() throws Exception {
         // given
@@ -153,6 +156,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
+    // 4. 로그인
     @Test
     public void login_test() throws Exception {
         // given
@@ -185,7 +189,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
-
+    // 5. 개인 회원정보 수정 화면
     @Test
     public void get_personal_update_form_test() throws Exception {
         // given
@@ -222,6 +226,7 @@ public class UserControllerTest extends MyRestDoc {
 
     }
 
+    // 6. 기업 회원정보 수정 화면
     @Test
     public void get_company_update_form_test() throws Exception {
         // given
@@ -256,6 +261,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
+    // 7. 기업 회원정보 수정
     @Test
     public void company_update_test() throws Exception {
         // given
@@ -296,6 +302,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
+    // 8. 개인 회원정보 수정
     @Test
     public void personal_update_test() throws Exception {
         // given
