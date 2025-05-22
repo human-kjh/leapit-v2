@@ -158,7 +158,7 @@ public class ApplicationService {
             applicationPS.updateViewStatus(ViewStatus.VIEWED);
         }
         // 3. 이력서 조회
-        ResumeResponse.DTO resumeDTO = resumeService.getDetail(applicationPS.getResume().getId(), sessionUser, applicationPS.getId());
+        ResumeResponse.DetailDTO resumeDTO = resumeService.getDetail(applicationPS.getResume().getId(), sessionUser, applicationPS.getId());
         // 4. 지원 내역 return
         return new ApplicationResponse.DetailDTO(applicationPS, resumeDTO);
     }

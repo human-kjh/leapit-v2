@@ -181,10 +181,20 @@ public class ApplicationResponse {
 
     @Data
     public static class DetailDTO {
-        private ResumeResponse.DTO resume;
+        private Integer id;
         private PassStatus passStatus;
         private ViewStatus viewStatus;
+        private BookmarkStatus bookmarkStatus;
         private String jobPostingTitle;
-        private String companyName;
+        private ResumeResponse.DetailDTO resumeDTO;
+
+        public DetailDTO(Application application, ResumeResponse.DetailDTO resume) {
+            this.id = application.getId();
+            this.passStatus = application.getPassStatus();
+            this.viewStatus = application.getViewStatus();
+            this.bookmarkStatus = application.getBookmark();
+            this.jobPostingTitle = application.getJobPosting().getTitle();
+            this.resumeDTO = resume;
+        }
     }
 }
