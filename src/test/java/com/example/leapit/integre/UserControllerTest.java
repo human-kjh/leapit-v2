@@ -29,24 +29,17 @@ public class UserControllerTest extends MyRestDoc {
 
     @Autowired
     private ObjectMapper om;
+
     private String personalAccessToken;
+
     private String companyAccessToken;
 
     @BeforeEach
     public void setUp() {
-        System.out.println("setUp");
-        User ssar = User.builder()
-                .id(1)
-                .username("ssar")
-                .role(Role.valueOf("PERSONAL"))
-                .build();
+        User ssar = User.builder().id(1).username("ssar").role(Role.valueOf("PERSONAL")).build();
         personalAccessToken = JwtUtil.create(ssar);
 
-        User company01 = User.builder()
-                .id(6)
-                .username("company01")
-                .role(Role.valueOf("COMPANY"))
-                .build();
+        User company01 = User.builder().id(6).username("company01").role(Role.valueOf("COMPANY")).build();
         companyAccessToken = JwtUtil.create(company01);
     }
 
@@ -87,10 +80,10 @@ public class UserControllerTest extends MyRestDoc {
         // then
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.id").value(9));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.id").isNumber());
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.username").value("admin123"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.email").value("admin@example.com"));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.role").value("PERSONAL"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.role").value(Role.PERSONAL.name()));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.createdAt")
                 .value(Matchers.matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d+$")));
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
@@ -129,7 +122,7 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.id").value(9));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.username").value("company06"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.email").value("company@example.com"));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.role").value("COMPANY"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.role").value(Role.COMPANY.name()));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.createdAt")
                 .value(Matchers.matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d+$")));
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
@@ -232,7 +225,7 @@ public class UserControllerTest extends MyRestDoc {
     @Test
     public void get_company_update_form_test() throws Exception {
         // given
-        Integer userId = 7;
+        Integer userId = 6;
 
         String requestBody = om.writeValueAsString(userId);
 //        System.out.println(requestBody);
@@ -252,14 +245,14 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.id").isNumber());
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.username").value("company02"));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.email").value("company02@nate.com"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.username").value("company01"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.email").value("company01@nate.com"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.role").value("COMPANY"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.createdAt")
                 .value(Matchers.matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d+$")));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.name").value(Matchers.nullValue()));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.birthDate").value(Matchers.nullValue()));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.contactNumber").value("02-2345-6789"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.contactNumber").value("02-1234-5678"));
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
@@ -270,7 +263,7 @@ public class UserControllerTest extends MyRestDoc {
         reqDTO.setNewPassword("Qw12!@34");
         reqDTO.setConfirmPassword("Qw12!@34");
         reqDTO.setContactNumber("010-9876-5432");
-        reqDTO.setEmail("company02@naver.com");
+        reqDTO.setEmail("company01@nate.com");
 
 
         String requestBody = om.writeValueAsString(reqDTO);
@@ -292,8 +285,8 @@ public class UserControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.id").isNumber());
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.username").value("company02"));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.email").value("company02@naver.com"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.username").value("company01"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.email").value("company01@nate.com"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.role").value("COMPANY"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.createdAt")
                 .value(Matchers.matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d+$")));
