@@ -36,6 +36,7 @@ public class CompanyInfoControllerTest extends MyRestDoc {
 
     private String accessToken;
 
+
     @BeforeEach
     public void setUp() {
         // 테스트 시작 전에 실행할 코드
@@ -158,7 +159,6 @@ public class CompanyInfoControllerTest extends MyRestDoc {
         // given
         Integer id = 1;
 
-
         // when
         ResultActions actions = mvc.perform(
                 MockMvcRequestBuilders
@@ -198,7 +198,6 @@ public class CompanyInfoControllerTest extends MyRestDoc {
     public void get_detail_company_test() throws Exception {
         // given
         Integer id = 1;
-
 
         // when
         ResultActions actions = mvc.perform(
