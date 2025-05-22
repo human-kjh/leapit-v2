@@ -193,10 +193,10 @@ include::{snippets}/{reply}/delete_test/http-response.adoc[]
 == 좋아요
 === 1. 좋아요 등록
 ===== Request Example
-include::{snippets}/{love}/save_test/http-request.adoc[]
+include::{snippets}/{like}/save_test/http-request.adoc[]
 
 ===== Response Example
-include::{snippets}/{love}/save_test/http-response.adoc[]
+include::{snippets}/{like}/save_test/http-response.adoc[]
 
 === 2. 좋아요 취소
 ===== Request Example
