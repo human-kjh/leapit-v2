@@ -220,7 +220,7 @@ include::{snippets}/{jobpostingBookmark}/save_test/http-request.adoc[]
 ===== Response Example
 include::{snippets}/{jobpostingBookmark}/save_test/http-response.adoc[]
 
-=== 3. 개인 스크랩 등록
+=== 3. 개인 스크랩 삭제
 ===== Request Example
 include::{snippets}/{jobpostingBookmark}/delete_test/http-request.adoc[]
 
