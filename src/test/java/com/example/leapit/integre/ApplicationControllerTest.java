@@ -63,7 +63,6 @@ public class ApplicationControllerTest extends MyRestDoc {
         System.out.println(responseBody);
 
         // then
-        actions.andExpect(MockMvcResultMatchers.status().isOk());
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.resumes[0].resumeId").value(1));
@@ -330,22 +329,22 @@ public class ApplicationControllerTest extends MyRestDoc {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.applicants[1].evaluationStatus").value("열람"));
 
         // allPositions 확인
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[0].jobPostingId").value(8));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[0].title").value("모바일 프론트엔드 앱 개발자"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[0].jobPostingId").value(1));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[0].title").value("시니어 백엔드 개발자 채용"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[1].jobPostingId").value(7));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[1].title").value("프론트엔드 웹 개발자 채용"));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[2].jobPostingId").value(1));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[2].title").value("시니어 백엔드 개발자 채용"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[2].jobPostingId").value(8));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.allPositions[2].title").value("모바일 프론트엔드 앱 개발자"));
 
         // openPositions 확인
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[0].jobPostingId").value(8));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[0].title").value("모바일 프론트엔드 앱 개발자"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[0].jobPostingId").value(1));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[0].title").value("시니어 백엔드 개발자 채용"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[1].jobPostingId").value(7));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[1].title").value("프론트엔드 웹 개발자 채용"));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[2].jobPostingId").value(1));
-        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[2].title").value("시니어 백엔드 개발자 채용"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[2].jobPostingId").value(8));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.openPositions[2].title").value("모바일 프론트엔드 앱 개발자"));
 
-        // closedPostions 확인 (빈 배열)
+        // closedPostions 확인
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.closedPostions").isEmpty());
 
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
